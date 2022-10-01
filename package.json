@@ -1,0 +1,51 @@
+{
+	"name": "app-02",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
+		"docker:start": "docker compose start",
+		"docker:stop": "docker compose stop ",
+		"pmdn": "npx prisma migrate dev --name",
+		"pg": "npx prisma generate",
+		"generate:offices": "npm run scripts ./scripts/db/generateOffices.ts",
+		"generate:all": "npm run generate:offices"
+	},
+	"dependencies": {
+		"@fontsource/fira-mono": "^4.5.0",
+		"@prisma/client": "^4.1.1",
+		"cookie": "^0.4.1",
+		"firebase": "^9.9.1",
+		"firebase-admin": "^11.0.1",
+		"redis": "^4.2.0"
+	},
+	"devDependencies": {
+		"@fontsource/fira-mono": "^4.5.0",
+		"@neoconfetti/svelte": "^1.0.0",
+		"@playwright/test": "^1.25.0",
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"@types/cookie": "^0.5.1",
+		"@typescript-eslint/eslint-plugin": "^5.27.0",
+		"@typescript-eslint/parser": "^5.27.0",
+		"eslint": "^8.16.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"prettier": "^2.6.2",
+		"prettier-plugin-svelte": "^2.7.0",
+		"prisma": "^4.1.1",
+		"svelte": "^3.46.0",
+		"svelte-check": "^2.7.1",
+		"svelte-preprocess": "^4.10.6",
+		"tslib": "^2.3.1",
+		"typescript": "^4.7.4",
+		"vite": "^3.1.0"
+	},
+	"type": "module"
+}

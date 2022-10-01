@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  ahs-redis:
+    image: redis:7.0.4-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass secret
+    volumes:
+      - ahs_redis_data:/data
+
+  ahs-postgres:
+    image: postgres:14.5-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ahs_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  ahs_redis_data:
+  ahs_postgres_data:
