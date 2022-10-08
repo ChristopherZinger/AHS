@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './styles.css';
-	import TopNav from './components/nav/TopNav.svelte';
-	import MobileSideNav from './components/nav/MobileSideNav.svelte';
+	import TopNav from '../components/nav/TopNav.svelte';
+	import MobileSideNav from '../components/nav/MobileSideNav.svelte';
 
 	$: isMobileMenuOpen = false;
 	const setIsMobileMenuOpen = (v: boolean) => {

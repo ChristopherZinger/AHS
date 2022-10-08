@@ -1,5 +1,5 @@
 <script>
-	import TestFetch from './components/TestFetch.svelte';
+	import TestFetch from '../components/TestFetch.svelte';
 </script>
 
 <svelte:head>
