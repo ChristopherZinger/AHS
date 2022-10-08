@@ -18,7 +18,7 @@
 {#if isOpen}
 	<div
 		transition:slide={{}}
-		class="mobile-side-nav flex items-center justify-center absolute w-full h-full"
+		class="mobile-side-nav flex items-center justify-center absolute w-full h-full z-10"
 	>
 		<div class="inline">
 			<ul class="text-4xl">
