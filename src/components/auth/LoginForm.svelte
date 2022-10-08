@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { auth } from '$lib/firebase';
 	import { signInWithEmailAndPassword } from 'firebase/auth';
+	import Button from '../Button.svelte';
+	import InputText from '../InputText.svelte';
+	import JumpingLabel from '../JumpingLabel.svelte';
 
 	let email = '';
 	let password: '';
@@ -10,23 +13,33 @@
 	}
 </script>
 
-<form on:submit|preventDefault={submit}>
-	<div>
-		<label for="email">Email</label>
-		<input type="text" id="email" name="email" bind:value={email} />
-	</div>
-
-	<div>
-		<label for="password">Password</label>
-		<input
-			type="password"
-			id="password"
-			name="password"
-			bind:value={password}
+<form class="flex flex-col gap-y-12" on:submit|preventDefault={submit}>
+	<JumpingLabel label="*Email" forHTML="email" isUp={!!email}>
+		<InputText
+			type={'text'}
+			name="email"
+			id="email"
+			onChange={({ target }) => {
+				email = target?.value;
+			}}
 		/>
-	</div>
+	</JumpingLabel>
 
-	<div>
-		<button type="submit">submit</button>
+	<JumpingLabel label="*Password" forHTML="password" isUp={!!password}>
+		<InputText
+			type={'password'}
+			name="password"
+			id="password"
+			onChange={({ target }) => {
+				password = target?.value;
+			}}
+		/>
+	</JumpingLabel>
+
+	<div class="flex justify-center mt-8">
+		<div>
+			<Button type="submit">login</Button>
+			<div class="flex mt-5 text-zinc-500">Forgot password? Reset.</div>
+		</div>
 	</div>
 </form>
