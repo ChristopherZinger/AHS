@@ -8,6 +8,9 @@
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
 	import InputErrors from './InputErrors.svelte';
+	import { FirebaseError } from 'firebase/app';
+	import { goto } from '$app/navigation';
+	import { getHomeUrl } from '$lib/utils/appUrls';
 
 	const values = {
 		email: '',
@@ -31,10 +34,19 @@
 				values.email,
 				values.password
 			);
+			goto(getHomeUrl());
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = parseValidationError(err))
-				: console.error(err);
+				: err instanceof FirebaseError
+				? err.code === 'auth/wrong-password'
+					? (inputErrors.email = ['wrong email or password'])
+					: err.code === 'auth/user-not-found'
+					? (inputErrors.email = ['wrong email or password'])
+					: null
+				: (inputErrors.email = [
+						'Oops, something went wrong. try again later.'
+				  ]);
 		}
 		isLoading = false;
 	}
@@ -68,7 +80,7 @@
 				inputErrors.password = [];
 			}}
 		/>
-		<InputErrors msgs={inputErrors.email || []} />
+		<InputErrors msgs={inputErrors.password || []} />
 	</JumpingLabel>
 
 	<div class="flex justify-center mt-8">
