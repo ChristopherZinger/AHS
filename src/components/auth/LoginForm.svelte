@@ -24,6 +24,9 @@
 		password: yup.string().min(MIN_PASSWORD_LENGTH).required()
 	});
 
+	const setUnknownError = () =>
+		(inputErrors.email = ['Oops! something went wrong, try again later']);
+
 	async function submit() {
 		inputErrors = {};
 		isLoading = true;
@@ -43,10 +46,8 @@
 					? (inputErrors.email = ['wrong email or password'])
 					: err.code === 'auth/user-not-found'
 					? (inputErrors.email = ['wrong email or password'])
-					: null
-				: (inputErrors.email = [
-						'Oops, something went wrong. try again later.'
-				  ]);
+					: setUnknownError()
+				: setUnknownError();
 		}
 		isLoading = false;
 	}

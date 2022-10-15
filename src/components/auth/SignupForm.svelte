@@ -9,6 +9,7 @@
 	import InputErrors from './InputErrors.svelte';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
+	import { FirebaseError } from 'firebase/app';
 
 	let values = {
 		email: '',
@@ -16,7 +17,7 @@
 		passwordRepeat: ''
 	};
 	const isLoading = false;
-	let inputToErrors: Record<string, string[]> = {};
+	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
 
 	const schema = yup.object({
 		email: yup.string().email().required(),
@@ -28,8 +29,11 @@
 			.oneOf([yup.ref('password'), null], 'Passwords must match')
 	});
 
+	const setUnknownError = () =>
+		(inputErrors.email = ['Oops! something went wrong, try again later']);
+
 	async function submit() {
-		inputToErrors = {};
+		inputErrors = {};
 		try {
 			await validate(values, schema);
 			await createUserWithEmailAndPassword(
@@ -39,8 +43,18 @@
 			);
 		} catch (err) {
 			err instanceof yup.ValidationError
-				? (inputToErrors = <typeof inputToErrors>parseValidationError(err))
-				: console.error(err);
+				? (inputErrors = <typeof inputErrors>parseValidationError(err))
+				: err instanceof FirebaseError
+				? err.code === 'auth/weak-password'
+					? (inputErrors.password = [
+							'passowrd must have at least 6 characters'
+					  ])
+					: err.code === 'auth/email-already-in-use'
+					? (inputErrors.email = ['email is already taken'])
+					: err.code === 'auth/invalid-email'
+					? (inputErrors.email = ['invalid email'])
+					: setUnknownError()
+				: setUnknownError();
 		}
 	}
 </script>
@@ -53,10 +67,10 @@
 			id="email"
 			onChange={({ target }) => {
 				values.email = target?.value;
-				inputToErrors.email = [];
+				inputErrors.email = [];
 			}}
 		/>
-		<InputErrors msgs={inputToErrors.email || []} />
+		<InputErrors msgs={inputErrors.email || []} />
 	</JumpingLabel>
 
 	<JumpingLabel
@@ -70,10 +84,10 @@
 			id="password"
 			onChange={({ target }) => {
 				values.password = target?.value;
-				inputToErrors.password = [];
+				inputErrors.password = [];
 			}}
 		/>
-		<InputErrors msgs={inputToErrors.password || []} />
+		<InputErrors msgs={inputErrors.password || []} />
 	</JumpingLabel>
 
 	<JumpingLabel
@@ -87,10 +101,10 @@
 			id="repeat-password"
 			onChange={({ target }) => {
 				values.passwordRepeat = target?.value;
-				inputToErrors.passwordRepeat = [];
+				inputErrors.passwordRepeat = [];
 			}}
 		/>
-		<InputErrors msgs={inputToErrors.passwordRepeat || []} />
+		<InputErrors msgs={inputErrors.passwordRepeat || []} />
 	</JumpingLabel>
 
 	<div class="flex justify-center mt-8">
@@ -99,7 +113,7 @@
 				type="submit"
 				{isLoading}
 				disabled={isLoading ||
-					!!Object.values(inputToErrors).some((arr) => arr.length)}
+					!!Object.values(inputErrors).some((arr) => arr.length)}
 				>Signup</Button
 			>
 			<div class="flex mt-5 text-zinc-500">
