@@ -75,6 +75,7 @@
 		<div>
 			<Button
 				type="submit"
+				{isLoading}
 				disabled={isLoading ||
 					!!Object.values(inputErrors).some((arr) => arr.length)}
 				>login</Button
