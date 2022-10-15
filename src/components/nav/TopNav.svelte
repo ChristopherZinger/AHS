@@ -3,7 +3,11 @@
 	import LinkStyle from '../LinkStyle.svelte';
 	import NavBtn from './NavBtn.svelte';
 	import NavLogo from './NavLogo.svelte';
-	import { getLoginUrl, getSigninUrl } from '$lib/utils/appUrls';
+	import {
+		getHomeUrl,
+		getLoginUrl,
+		getSigninUrl
+	} from '$lib/utils/appUrls';
 	import { auth } from '$lib/firebase';
 	import { signOut } from 'firebase/auth';
 
@@ -13,7 +17,7 @@
 
 <nav class="flex justify-between items-center">
 	<ul class="">
-		<li><NavLogo /></li>
+		<li><a href={getHomeUrl()}><NavLogo /></a></li>
 	</ul>
 
 	<ul class="justify-between gap-x-6 hidden lg:flex items-center ">
@@ -31,7 +35,7 @@
 		{/if}
 	</ul>
 
-	<ul class="lg:hidden">
+	<ul class="lg:hidden cursor-pointer">
 		<li on:click={onNavBtnClick}>
 			<NavBtn isMenuOpen={isMobileMenuOpen} />
 		</li>
