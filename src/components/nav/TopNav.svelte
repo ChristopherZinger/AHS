@@ -4,6 +4,8 @@
 	import NavBtn from './NavBtn.svelte';
 	import NavLogo from './NavLogo.svelte';
 	import { getLoginUrl, getSigninUrl } from '$lib/utils/appUrls';
+	import { auth } from '$lib/firebase';
+	import { signOut } from 'firebase/auth';
 
 	export let onNavBtnClick: () => void;
 	export let isMobileMenuOpen: boolean;
@@ -16,15 +18,15 @@
 
 	<ul class="justify-between gap-x-6 hidden lg:flex items-center ">
 		{#if $appUser}
+			<li class="cursor-pointer" on:click={() => signOut(auth)}>
+				<LinkStyle>logout</LinkStyle>
+			</li>
+		{:else}
 			<li>
 				<LinkStyle><a href={getLoginUrl()}>login</a></LinkStyle>
 			</li>
 			<li>
 				<LinkStyle><a href={getSigninUrl()}>signup</a></LinkStyle>
-			</li>
-		{:else}
-			<li>
-				<LinkStyle>logout</LinkStyle>
 			</li>
 		{/if}
 	</ul>
@@ -40,6 +42,8 @@
 	nav {
 		height: 65px;
 		border-bottom: 1px solid black;
+		max-width: 1200px;
+		margin: auto;
 	}
 
 	@media only screen and (min-width: 1024px) {
