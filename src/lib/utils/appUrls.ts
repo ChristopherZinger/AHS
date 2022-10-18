@@ -48,3 +48,13 @@ const signupUrlInfo: UrlInfo = {
 };
 export const getSigninUrl = () =>
 	composeUrl(signupUrlInfo.getBase(), signupUrlInfo.getChunk());
+
+const resetPasswordUrlInfo: UrlInfo = {
+	getBase: getAuthUrl,
+	getChunk: () => getChunk('reset-password')
+};
+export const getResetPasswordUrl = () =>
+	composeUrl(
+		resetPasswordUrlInfo.getBase(),
+		resetPasswordUrlInfo.getChunk()
+	);

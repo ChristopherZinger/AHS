@@ -10,7 +10,7 @@
 	import InputErrors from './InputErrors.svelte';
 	import { FirebaseError } from 'firebase/app';
 	import { goto } from '$app/navigation';
-	import { getHomeUrl } from '$lib/utils/appUrls';
+	import { getHomeUrl, getResetPasswordUrl } from '$lib/utils/appUrls';
 
 	const values = {
 		email: '',
@@ -94,7 +94,10 @@
 				>login</Button
 			>
 			<div class="flex mt-5 text-zinc-500">
-				Forgot password? &nbsp <span class="text-black">Reset.</span>
+				Forgot password? &nbsp <a
+					href={getResetPasswordUrl()}
+					class="text-black">Reset.</a
+				>
 			</div>
 		</div>
 	</div>
