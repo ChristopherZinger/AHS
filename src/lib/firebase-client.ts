@@ -1,11 +1,7 @@
-import { initializeApp, getApp } from 'firebase/app';
+import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import config from '../../firebase.config.json';
-
-enum FIREBASE_APPS {
-	CLIENT = 'CLIENT',
-	ADMIN = 'ADMIN'
-}
+import { FIREBASE_APPS } from './constants';
 
 initializeApp(config, FIREBASE_APPS.CLIENT);
 
