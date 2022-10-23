@@ -57,7 +57,7 @@ export async function DELETE(event: RequestEvent) {
 	return new Response(null, {
 		status: 200,
 		headers: {
-			'set-cookie': `session=_; Path=/; HttpOnly; Max-Age=0; ${secure};`
+			'set-cookie': `${SESSION_COOKIE_NAME}=_; Path=/; HttpOnly; Max-Age=0; ${secure};`
 		}
 	});
 }
