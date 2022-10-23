@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { auth } from '$lib/firebase-client';
-	import { getLoginUrl } from '$lib/utils/appUrls';
+	import { getHomeUrl, getLoginUrl } from '$lib/utils/appUrls';
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import Button from '../Button.svelte';
 	import InputText from '../InputText.svelte';
@@ -10,13 +10,14 @@
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
 	import { FirebaseError } from 'firebase/app';
+	import { goto } from '$app/navigation';
 
 	let values = {
 		email: '',
 		password: '',
 		passwordRepeat: ''
 	};
-	const isLoading = false;
+	let isLoading = false;
 	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
 
 	const schema = yup.object({
@@ -34,13 +35,29 @@
 
 	async function submit() {
 		inputErrors = {};
+		isLoading = true;
 		try {
 			await validate(values, schema);
-			await createUserWithEmailAndPassword(
+			const credentials = await createUserWithEmailAndPassword(
 				auth,
 				values.email,
 				values.password
 			);
+
+			const res = await fetch('/api/create-user-profile', {
+				method: 'POST',
+				body: JSON.stringify({
+					email: values.email,
+					firebaseId: credentials.user.uid
+				})
+			});
+
+			if (!res.ok) {
+				console.log('user profile creation failed.', res.text());
+				throw new Error();
+			}
+
+			goto(getHomeUrl());
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = <typeof inputErrors>parseValidationError(err))
@@ -56,6 +73,7 @@
 					: setUnknownError()
 				: setUnknownError();
 		}
+		isLoading = false;
 	}
 </script>
 
