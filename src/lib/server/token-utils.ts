@@ -10,6 +10,5 @@ export const verifyIdToken = async (
 	idToken: string
 ): Promise<CachedUser> => {
 	const verifiedToken = await firestoreAdminAuth.verifyIdToken(idToken);
-	console.log('token verifed with firebase: ', verifiedToken);
 	return parseCachedUser(verifiedToken);
 };
