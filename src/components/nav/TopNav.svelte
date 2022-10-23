@@ -8,8 +8,7 @@
 		getLoginUrl,
 		getSigninUrl
 	} from '$lib/utils/appUrls';
-	import { auth } from '$lib/firebase-client';
-	import { signOut } from 'firebase/auth';
+	import { logout } from '$lib/auth-client-utils';
 
 	export let onNavBtnClick: () => void;
 	export let isMobileMenuOpen: boolean;
@@ -22,7 +21,7 @@
 
 	<ul class="justify-between gap-x-6 hidden lg:flex items-center ">
 		{#if $appUser}
-			<li class="cursor-pointer" on:click={() => signOut(auth)}>
+			<li class="cursor-pointer" on:click={logout}>
 				<LinkStyle>logout</LinkStyle>
 			</li>
 		{:else}
