@@ -2,6 +2,10 @@
 	import './styles.css';
 	import TopNav from '../components/nav/TopNav.svelte';
 	import MobileSideNav from '../components/nav/MobileSideNav.svelte';
+	import { fs_token } from '$lib/stores/auth';
+
+	// initiate token observer
+	$fs_token;
 
 	$: isMobileMenuOpen = false;
 	const setIsMobileMenuOpen = (v: boolean) => {

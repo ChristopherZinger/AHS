@@ -6,7 +6,7 @@
 	import InputErrors from './InputErrors.svelte';
 	import * as yup from 'yup';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
-	import { auth } from '$lib/firebase';
+	import { auth } from '$lib/firebase-client';
 	import { sendPasswordResetEmail } from 'firebase/auth';
 
 	const values = { email: '' };

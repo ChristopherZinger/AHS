@@ -2,7 +2,8 @@
 	"name": "app-02",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
+		"export-google-credentials": "export GOOGLE_APPLICATION_CREDENTIALS=\"/home/chris/projects/ahs-svelte/firebase-admin-config.json\"",
+		"dev": "npm run export-google-credentials  && vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
@@ -14,18 +15,21 @@
 		"docker:stop": "docker compose stop ",
 		"pmdn": "npx prisma migrate dev --name",
 		"pg": "npx prisma generate",
+		"prisma:migrate": "npx prisma migrate dev --name",
 		"generate:offices": "npm run scripts ./scripts/db/generateOffices.ts",
 		"generate:all": "npm run generate:offices"
 	},
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
-		"@prisma/client": "^4.1.1",
+		"@prisma/client": "^4.5.0",
 		"cookie": "^0.4.1",
 		"firebase": "^9.9.1",
 		"firebase-admin": "^11.0.1",
 		"lodash": "^4.17.21",
 		"redis": "^4.2.0",
-		"yup": "^0.32.11"
+		"ts-node": "^10.9.1",
+		"yup": "^0.32.11",
+		"zod": "^3.19.1"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
@@ -35,6 +39,7 @@
 		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.5.1",
 		"@types/lodash": "^4.14.186",
+		"@types/node": "^18.11.0",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"autoprefixer": "^10.4.12",
@@ -44,7 +49,7 @@
 		"postcss": "^8.4.17",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
-		"prisma": "^4.1.1",
+		"prisma": "^4.5.0",
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.7",

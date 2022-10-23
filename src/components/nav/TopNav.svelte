@@ -8,7 +8,7 @@
 		getLoginUrl,
 		getSigninUrl
 	} from '$lib/utils/appUrls';
-	import { auth } from '$lib/firebase';
+	import { auth } from '$lib/firebase-client';
 	import { signOut } from 'firebase/auth';
 
 	export let onNavBtnClick: () => void;

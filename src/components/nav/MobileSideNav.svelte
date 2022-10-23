@@ -7,7 +7,7 @@
 		getHomeUrl
 	} from '$lib/utils/appUrls';
 	import { signOut } from 'firebase/auth';
-	import { auth } from '$lib/firebase';
+	import { auth } from '$lib/firebase-client';
 
 	export let isOpen: boolean;
 	export let setIsMobileMenuOpen: (v: boolean) => void;

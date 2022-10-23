@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { auth } from '$lib/firebase';
+	import { auth } from '$lib/firebase-client';
 	import { signInWithEmailAndPassword } from 'firebase/auth';
 	import Button from '../Button.svelte';
 	import InputText from '../InputText.svelte';
