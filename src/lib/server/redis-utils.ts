@@ -1,15 +1,18 @@
-import type { DecodedIdToken } from 'firebase-admin/auth';
 import { redis } from '$lib/redis';
 import { z } from 'zod';
 
 export type CachedUser = {
 	email: string;
 	exp: number;
+	firebaseUID: string;
+	id: string;
 };
 
-export const parseCachedUser = (user: unknown) => {
+export const parseCachedUser = (user: unknown): CachedUser => {
 	return z
 		.object({
+			id: z.string().min(1),
+			firebaseUID: z.string().min(1),
 			email: z.string().email(),
 			exp: z.number()
 		})
@@ -26,12 +29,12 @@ export const getRedisUserSessionTokenKey = (token: string): string =>
 
 export const saveUserSessionInCache = async (
 	token: string,
-	decodedToken: DecodedIdToken | CachedUser
+	cachedUser: CachedUser
 ): Promise<void> => {
-	const cachedUser = parseCachedUser(decodedToken);
+	const parsedCachedUser = parseCachedUser(cachedUser);
 	await redis.SET(
 		getRedisUserSessionTokenKey(token),
-		JSON.stringify(cachedUser),
+		JSON.stringify(parsedCachedUser),
 		{
 			EXAT: cachedUser.exp
 		}
@@ -45,7 +48,7 @@ export const getCachedUserSession = async (
 	return cachedUser ? parseCachedUser(JSON.parse(cachedUser)) : null;
 };
 
-export const clearAllUserSessions = async () => {
+export const clearAllUserSessions = async (): Promise<void> => {
 	const keys = (await redis.KEYS('*')).filter((k) =>
 		k.startsWith(RedisPrefix.USER_SESSION_TOKEN)
 	);

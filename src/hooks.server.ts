@@ -7,6 +7,7 @@ import { verifyIdToken } from '$lib/server/token-utils';
 import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import type { MaybePromise } from '@sveltejs/kit/types/private';
 import { SESSION_COOKIE_NAME } from './routes/api/handleTokenUpdate/+server';
+import { expectProfileForDecodedIdToken } from '$lib/server/models/profile';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
@@ -25,8 +26,22 @@ export async function handle({
 	if (sessionCookie) {
 		user = await getCachedUserSession(sessionCookie);
 		if (!user) {
-			user = await verifyIdToken(sessionCookie);
-			await saveUserSessionInCache(sessionCookie, user);
+			const {
+				exp,
+				email,
+				uid: firebaseUID
+			} = await verifyIdToken(sessionCookie);
+
+			let profile = await expectProfileForDecodedIdToken({
+				email,
+				uid: firebaseUID
+			});
+
+			await saveUserSessionInCache(sessionCookie, {
+				...profile,
+				exp,
+				firebaseUID
+			});
 		}
 	}
 

@@ -38,25 +38,11 @@
 		isLoading = true;
 		try {
 			await validate(values, schema);
-			const credentials = await createUserWithEmailAndPassword(
+			await createUserWithEmailAndPassword(
 				auth,
 				values.email,
 				values.password
 			);
-
-			const res = await fetch('/api/create-user-profile', {
-				method: 'POST',
-				body: JSON.stringify({
-					email: values.email,
-					firebaseId: credentials.user.uid
-				})
-			});
-
-			if (!res.ok) {
-				console.log('user profile creation failed.', res.text());
-				throw new Error();
-			}
-
 			goto(getHomeUrl());
 		} catch (err) {
 			err instanceof yup.ValidationError
