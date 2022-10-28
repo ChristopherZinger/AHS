@@ -9,6 +9,8 @@ import {
 	getMilisecondsUntilTokenExpires,
 	verifyIdToken
 } from '$lib/server/token-utils';
+import type { AppDecodedIdToken } from '$lib/server/token-utils';
+import { expectProfileForDecodedIdToken } from '$lib/server/models/profile';
 import type { RequestEvent } from '@sveltejs/kit';
 
 export const SESSION_COOKIE_NAME = 'sessionId';
@@ -21,20 +23,30 @@ export async function POST(event: RequestEvent) {
 
 	let cachedUser = await getCachedUserSession(tokenId);
 	if (!cachedUser) {
+		let decodedIdToken: undefined | AppDecodedIdToken = undefined;
 		try {
-			cachedUser = await verifyIdToken(tokenId);
+			decodedIdToken = await verifyIdToken(tokenId);
 		} catch (error) {
-			console.log('could not verify user', error); //  leave this log
+			console.log('could_not_verify_user', error); //  leave this log
 			return new Response(null, {
 				headers: {
 					'set-cookie': `session=_; Path=/; HttpOnly; Max-Age=0; ${secure};`
 				},
-				status: 401
+				status: 401,
+				statusText: 'could_not_verify_user'
 			});
 		}
-	}
 
-	await saveUserSessionInCache(tokenId, cachedUser);
+		const profile = await expectProfileForDecodedIdToken(decodedIdToken);
+
+		cachedUser = {
+			...profile,
+			exp: decodedIdToken.exp,
+			firebaseUID: decodedIdToken.uid
+		};
+
+		await saveUserSessionInCache(tokenId, cachedUser);
+	}
 
 	const nrOfMilisecondsUntilTokenExpires = getMilisecondsUntilTokenExpires(
 		cachedUser.exp

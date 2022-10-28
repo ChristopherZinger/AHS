@@ -1,6 +1,12 @@
 import { firestoreAdminAuth } from '$lib/server/firebase-admin';
 import { z } from 'zod';
 
+export type AppDecodedIdToken = {
+	email: string;
+	uid: string;
+	exp: number;
+};
+
 export const getMilisecondsUntilTokenExpires = (
 	expirationTimeInSeconds: number
 ): number =>
@@ -8,7 +14,7 @@ export const getMilisecondsUntilTokenExpires = (
 
 export const verifyIdToken = async (
 	idToken: string
-): Promise<{ email: string; uid: string; exp: number }> => {
+): Promise<AppDecodedIdToken> => {
 	const token = await firestoreAdminAuth.verifyIdToken(idToken);
 
 	return z
