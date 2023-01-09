@@ -3,10 +3,7 @@
 </script>
 
 <div class="feed-container flex flex-col gap-y-12">
-	<FeedReviewItem />
-	<FeedReviewItem />
-	<FeedReviewItem />
-	<FeedReviewItem />
+	<!-- <FeedReviewItem data={{}} /> -->
 </div>
 
 <style>

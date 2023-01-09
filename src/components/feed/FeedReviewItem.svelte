@@ -2,16 +2,23 @@
 	import FeedItem from './FeedItem.svelte';
 	import Arrow from '../Arrow.svelte';
 	import CommentIcon from '../icons/CommentIcon.svelte';
+
+	export let data: {
+		city: 'Rotterdam';
+		officeName: 'OMA';
+		title: 'Nice Job';
+		content: 'lorem ipsum';
+	};
 </script>
 
 <FeedItem>
 	<header class="flex justify-between">
 		<div>
 			<p class="flex gap-2 items-center text-s font-semibold underline">
-				OMA, Rotterdam <Arrow size="s" direction="right" />
+				{data.officeName}, {data.city}<Arrow size="s" direction="right" />
 			</p>
 			<p />
-			<h1 class="text-2xl font-bold">Horrible!!</h1>
+			<h1 class="text-2xl font-bold">{data.title}</h1>
 		</div>
 		<div class="flex gap-2">
 			<div class="flex gap-2 items-end">
@@ -24,10 +31,7 @@
 	</header>
 
 	<main>
-		Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem,
-		facere fugit quod magnam saepe non magni. Adipisci temporibus modi iure
-		ipsa ad in, illum, delectus beatae doloribus repellendus asperiores
-		accusantium.
+		{data.content}
 	</main>
 
 	<section class="flex justify-between">
