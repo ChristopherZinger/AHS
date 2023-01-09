@@ -9,11 +9,18 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
+		// "moduleResolution": "Node",
 
 		// prisma configuration:
 		"outDir": "dist",
-		"lib": ["esnext"]
+		"lib": ["esnext", "ES2017", "ES2020", "DOM"]
+	},
+	"ts-node": {
+		"esm": true,
+		"experimentalSpecifierResolution": "node"
 	}
+	// "include": ["src/**/*"],
+	// "exclude": ["node_modules/*"]
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes

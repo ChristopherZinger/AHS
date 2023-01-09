@@ -4,34 +4,53 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432"
+  url      = env("DATABASE_URL")
 }
 
+// USER
 model Profile {
   id                  String        @id @default(uuid())
   email               String        @unique
   firebase_id         String        @unique 
-  name                String?
 }
 
-model Office {
-  id               String        @id @default(uuid())
-  full_name        String   
-  short_name       String?
-  lookup_keywords  String[]
-  location         Location     @relation(fields: [locationId], references: [id])
-  locationId       String
+
+// ENTITIES - SCHOOL or OFFICE
+enum EntityType  {
+  SCHOOL
+  OFFICE
 }
 
-model Location {
-  id              String        @id   @default(uuid())
-  country_code    String
-  country         String
-  region          String
-  city            String
-  latitude        Float
-  longitude       Float
-  hash            String          // hash(country-city) // hash doesn't need to be unique 
-  offices         Office[]
+model Entity {
+  id                  String        @id @default(uuid())
+  type                EntityType
+  name                String   
+  lookup_keywords     String[]
+  isVerified          Boolean @default(false)
+  city                City  @relation(fields: [cityId], references: [id])
+  cityId              String
+}
+
+// LOCATION
+model City {
+    id              String      @id @default(uuid())
+		name            String     
+		countryAplha2   String
+		country         Country @relation(fields: [countryAplha2], references: [alpha2]) 
+    offices         Entity[]
+}
+
+model Country {
+    id                  String      @id @default(uuid())
+		name                String  
+    alpha2              String      @unique 
+    cities              City[]
+    region              Region @relation(fields: [regionName], references: [name])
+    regionName          String
+}
+
+model Region  {
+  name                  String        @id
+  countries             Country[]
 }
 
