@@ -1,0 +1,29 @@
+version: '3'
+services:
+  redis:
+    image: redis:7.0.4-alpine
+    ports:
+      - '127.0.0.1:6379:6379' # doesn't need to be exposed in production
+    # copy local config file inside container and run container using config file
+    # https://stackoverflow.com/questions/30547274/redis-in-docker-compose-any-way-to-specify-a-redis-conf-file
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - './redis.conf:/usr/local/etc/redis/redis.conf'
+      - redis-data:/data
+    container_name: ${REDIS_CONTAINER}
+    hostname: ${REDIS_HOST}
+
+  webapp:
+    image: 7c9a676af87f #chriswebdev1/ahs_test:1.0
+    container_name: webapp
+    hostname: webapp
+    depends_on:
+      - redis
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      - 'REDIS_PASSWORD=${REDIS_PASSWORD}'
+      - 'REDIS_HOST=${REDIS_HOST}'
+
+volumes:
+  redis-data:

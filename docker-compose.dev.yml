@@ -1,0 +1,30 @@
+version: '3'
+services:
+  redis:
+    image: redis:7.0.4-alpine
+    ports:
+      - '6379:6379'
+    # copy local config file inside container and run container using config file
+    # https://stackoverflow.com/questions/30547274/redis-in-docker-compose-any-way-to-specify-a-redis-conf-file
+    command: redis-server /usr/local/etc/redis/redis.conf --save 5 1 --loglevel warning
+    volumes:
+      - './redis.conf:/usr/local/etc/redis/redis.conf'
+      - redis-data:/data
+    container_name: ${REDIS_CONTAINER}
+    hostname: ${REDIS_HOST}
+  db:
+    image: postgres:15.1-alpine
+    ports:
+      - '8080:8080' # don't expose the port in production
+    restart: always
+    container_name: ${DB_CONTAINER}
+    hostname: ${DB_HOST}
+    environment:
+      - 'POSTGRES_PASSWORD=${DB_PASSWORD}'
+      - 'POSTGRES_USER=${DB_USER}'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  redis-data:
+  db-data:
