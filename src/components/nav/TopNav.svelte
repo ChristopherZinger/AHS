@@ -14,7 +14,7 @@
 	export let isMobileMenuOpen: boolean;
 </script>
 
-<nav class="flex justify-between items-center">
+<nav class="flex justify-between items-center app-section">
 	<ul class="">
 		<li><a href={getHomeUrl()}><NavLogo /></a></li>
 	</ul>
@@ -45,8 +45,6 @@
 	nav {
 		height: 65px;
 		border-bottom: 1px solid black;
-		max-width: 1200px;
-		margin: auto;
 	}
 
 	@media only screen and (min-width: 1024px) {
