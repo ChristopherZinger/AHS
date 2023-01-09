@@ -1,4 +1,4 @@
-import { redis } from '$lib/redis';
+import { getRedis } from '$lib/redis';
 import { z } from 'zod';
 
 export type CachedUser = {
@@ -32,6 +32,7 @@ export const saveUserSessionInCache = async (
 	cachedUser: CachedUser
 ): Promise<void> => {
 	const parsedCachedUser = parseCachedUser(cachedUser);
+	const redis = getRedis();
 	await redis.SET(
 		getRedisUserSessionTokenKey(token),
 		JSON.stringify(parsedCachedUser),
@@ -44,11 +45,13 @@ export const saveUserSessionInCache = async (
 export const getCachedUserSession = async (
 	token: string
 ): Promise<CachedUser | null> => {
+	const redis = getRedis();
 	const cachedUser = await redis.GET(getRedisUserSessionTokenKey(token));
 	return cachedUser ? parseCachedUser(JSON.parse(cachedUser)) : null;
 };
 
 export const clearAllUserSessions = async (): Promise<void> => {
+	const redis = getRedis();
 	const keys = (await redis.KEYS('*')).filter((k) =>
 		k.startsWith(RedisPrefix.USER_SESSION_TOKEN)
 	);

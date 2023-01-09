@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import { redis } from '$lib/redis';
+import { getRedis } from '$lib/redis';
 import {
 	getCachedUserSession,
 	getRedisUserSessionTokenKey,
@@ -63,6 +63,7 @@ export async function POST(event: RequestEvent) {
 /** @type {import('./$types').RequestHandler} */
 export async function DELETE(event: RequestEvent) {
 	const tokenId = await event.request.text();
+	const redis = getRedis();
 
 	await redis.DEL(getRedisUserSessionTokenKey(tokenId));
 

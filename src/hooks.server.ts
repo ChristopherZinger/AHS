@@ -3,11 +3,14 @@ import {
 	saveUserSessionInCache,
 	type CachedUser
 } from '$lib/server/redis-utils';
+import * as dotenv from 'dotenv';
 import { verifyIdToken } from '$lib/server/token-utils';
 import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import type { MaybePromise } from '@sveltejs/kit/types/private';
 import { SESSION_COOKIE_NAME } from './routes/api/handleTokenUpdate/+server';
 import { expectProfileForDecodedIdToken } from '$lib/server/models/profile';
+
+dotenv.config();
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
