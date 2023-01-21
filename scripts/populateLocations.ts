@@ -15,7 +15,7 @@ async function main() {
 
 	const regions = [...new Set(countries.map((c) => c.region))];
 
-	console.log('run transaction');
+	console.log('set_retions_countries_cities_offices');
 	await prisma.$transaction([
 		createRegions(regions),
 		createCountries(countries),
@@ -23,7 +23,29 @@ async function main() {
 		createOffices(offices)
 	]);
 
+	await createAliases();
+
 	console.log('finito');
+}
+
+async function createAliases() {
+	console.log('create_aliases');
+	console.log('getting_offices');
+	const offices = await prisma.entity.findMany();
+
+
+	console.log('start_setting_aliases');
+	await prisma.$transaction(
+		offices.map((o) => {
+			return prisma.alias.create({
+				data: {
+					entityType: EntityType.OFFICE,
+					name: o.name,
+					entityId: o.id
+				}
+			});
+		})
+	);
 }
 
 function createCountries(countries: Country[]) {
@@ -52,7 +74,6 @@ function createOffices(offices: Office[]) {
 			cityId: c.cityUUID,
 			name: c.author,
 			type: EntityType.OFFICE,
-			lookup_keywords: [c.author]
 		}))
 	});
 }
