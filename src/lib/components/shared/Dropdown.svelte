@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/actions/outclick';
 
+	export let doBeforeWrap: undefined | (() => void) = undefined;
+
 	let isFocused = false;
 </script>
 
@@ -9,6 +11,7 @@
 		isFocused = true;
 	}}
 	use:clickOutside={(hi) => {
+		doBeforeWrap && doBeforeWrap();
 		isFocused = false;
 	}}
 >
