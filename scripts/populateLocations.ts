@@ -62,7 +62,7 @@ function createCities(cities: City[]) {
 	return prisma.city.createMany({
 		data: cities.map((c) => ({
 			id: c.uuid,
-			countryAplha2: c['country-alpha-2'],
+			countryAlpha2: c['country-alpha-2'],
 			name: c.name
 		}))
 	});

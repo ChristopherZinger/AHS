@@ -35,8 +35,8 @@ model Entity {
 model City {
     id              String      @id @default(uuid())
 		name            String     
-		countryAplha2   String
-		country         Country @relation(fields: [countryAplha2], references: [alpha2]) 
+		countryAlpha2   String
+		country         Country @relation(fields: [countryAlpha2], references: [alpha2]) 
     offices         Entity[]
 }
 
