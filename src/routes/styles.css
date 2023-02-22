@@ -33,3 +33,16 @@ body {
 	margin: auto;
 	max-width: 1200px;
 }
+
+.app-section__narrow {
+	margin: auto;
+	max-width: 925px;
+}
+
+input,
+input:active,
+input:disabled {
+	border: none;
+	outline: none;
+	background-color: white;
+}
