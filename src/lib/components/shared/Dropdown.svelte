@@ -10,14 +10,14 @@
 	on:focusin={() => {
 		isFocused = true;
 	}}
-	use:clickOutside={(hi) => {
+	use:clickOutside={() => {
 		doBeforeWrap && doBeforeWrap();
 		isFocused = false;
 	}}
 >
 	<slot name="input" />
 
-	<div class="relative w-full" class:hidden={!isFocused}>
+	<div class="relative w-full drop-shadow-md" class:hidden={!isFocused}>
 		<div class="drop-down absolute">
 			<slot name="options" />
 		</div>
