@@ -1,11 +1,17 @@
-import { getAuth } from 'firebase-admin/auth';
+import { initializeApp } from 'firebase-admin';
+import { getApps } from 'firebase-admin/app';
 import admin from 'firebase-admin';
 
-const app = admin.initializeApp({
-	credential: admin.credential.applicationDefault()
-});
+const initializeFirebase = () => {
+	if (!getApps().length) {
+		console.log('initialize_firebase_admin');
+		initializeApp();
+	} else {
+		console.warn('firebase_admin_app_already_exist');
+	}
+};
 
-const auth = getAuth(app);
+initializeFirebase();
 
 export const firestoreAdmin = admin.firestore();
-export const firestoreAdminAuth = auth;
+export const firestoreAdminAuth = admin.auth();

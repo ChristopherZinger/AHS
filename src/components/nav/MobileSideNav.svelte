@@ -7,6 +7,7 @@
 		getHomeUrl
 	} from '$lib/utils/appUrls';
 	import { logout } from '$lib/auth-client-utils';
+	import { getAuth } from 'firebase/auth';
 
 	export let isOpen: boolean;
 	export let setIsMobileMenuOpen: (v: boolean) => void;
@@ -27,7 +28,7 @@
 				{#if $appUser}
 					<li
 						on:click={async () => {
-							await logout();
+							await logout(getAuth());
 							hideNav();
 						}}
 						class="mb-7 cursor-pointer"

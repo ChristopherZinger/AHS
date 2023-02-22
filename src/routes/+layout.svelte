@@ -2,10 +2,20 @@
 	import './styles.css';
 	import TopNav from '../components/nav/TopNav.svelte';
 	import MobileSideNav from '../components/nav/MobileSideNav.svelte';
-	import { fs_token } from '$lib/stores/auth';
+	import { getApps, initializeApp } from 'firebase/app';
+	import config from '../../firebase.config.json';
+	import { getAuth } from 'firebase/auth';
+	import { browser } from '$app/environment';
+	import { initializeUser, initFsToken } from '$lib/stores/auth';
 
-	// initiate token observer
-	$fs_token;
+	if (!getApps().length) {
+		initializeApp(config);
+	}
+
+	if (browser) {
+		initializeUser(getAuth());
+		initFsToken(getAuth());
+	}
 
 	$: isMobileMenuOpen = false;
 	const setIsMobileMenuOpen = (v: boolean) => {

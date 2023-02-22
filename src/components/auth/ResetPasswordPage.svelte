@@ -6,8 +6,7 @@
 	import InputErrors from './InputErrors.svelte';
 	import * as yup from 'yup';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
-	import { auth } from '$lib/firebase-client';
-	import { sendPasswordResetEmail } from 'firebase/auth';
+	import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 	const values = { email: '' };
 	const schema = yup.object({
@@ -23,7 +22,7 @@
 		isLoading = true;
 		try {
 			await validate(values, schema);
-			await sendPasswordResetEmail(auth, values.email);
+			await sendPasswordResetEmail(getAuth(), values.email);
 			showThankYouView = true;
 		} catch (error) {
 			error instanceof yup.ValidationError

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { auth } from '$lib/firebase-client';
-	import { signInWithEmailAndPassword } from 'firebase/auth';
+	import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 	import Button from '../Button.svelte';
 	import InputText from '../InputText.svelte';
 	import JumpingLabel from '../JumpingLabel.svelte';
@@ -33,7 +32,7 @@
 		try {
 			await validate(values, schema);
 			await signInWithEmailAndPassword(
-				auth,
+				getAuth(),
 				values.email,
 				values.password
 			);

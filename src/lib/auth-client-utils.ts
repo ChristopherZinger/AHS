@@ -1,14 +1,11 @@
-import { auth } from '$lib/firebase-client';
-import { signOut } from 'firebase/auth';
+import { signOut, type Auth } from 'firebase/auth';
+import { get } from 'svelte/store';
 import { fs_token } from './stores/auth';
 
-export const logout = async () => {
+export const logout = async (auth: Auth) => {
 	await signOut(auth);
 
-	let token;
-	const x = fs_token.subscribe((_token) => {
-		token = _token;
-	});
+	const token = get(fs_token);
 
 	await fetch('/api/handleTokenUpdate', {
 		method: 'DELETE',
