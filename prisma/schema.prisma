@@ -25,10 +25,18 @@ model Entity {
   id                  String        @id @default(uuid())
   type                EntityType
   name                String   
-  lookup_keywords     String[]
+  aliases             Alias[]
   isVerified          Boolean @default(false)
-  city                City  @relation(fields: [cityId], references: [id])
+  city                City  @relation(fields: [cityId], references: [id]) 
   cityId              String
+}
+
+model Alias {
+  id                String @id @default(uuid())
+  entityType        EntityType
+  name              String
+  entity            Entity @relation(fields: [entityId], references: [id]) 
+  entityId          String
 }
 
 // LOCATION
