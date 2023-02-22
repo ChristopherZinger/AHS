@@ -92,8 +92,6 @@ export async function GET({ url }) {
 			})
 		]);
 
-		console.log(startsWith)
-
 		return json(uniqBy( [...startsWith, ...contains], 'name'));
 	} catch (err) {
 		throw error(500, err as any);
