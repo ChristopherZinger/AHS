@@ -65,7 +65,7 @@
 							{isLoading}
 							disabled={isLoading ||
 								!!Object.values(inputErrors).some((arr) => arr.length)}
-							>login</Button
+							>Request New Password</Button
 						>
 					</div>
 				</form>

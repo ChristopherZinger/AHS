@@ -41,15 +41,16 @@
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = parseValidationError(err))
-				: err instanceof FirebaseError
-				? err.code === 'auth/wrong-password'
+				: (err as any).name === 'FirebaseError'
+				? (err as any).code === 'auth/wrong-password'
 					? (inputErrors.email = ['wrong email or password'])
-					: err.code === 'auth/user-not-found'
+					: (err as any).code === 'auth/user-not-found'
 					? (inputErrors.email = ['wrong email or password'])
 					: setUnknownError()
 				: setUnknownError();
+		} finally {
+			isLoading = false;
 		}
-		isLoading = false;
 	}
 </script>
 
