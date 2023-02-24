@@ -1,6 +1,7 @@
 export type OfficeAutocomplete = {
 	city: { name: string; country: { alpha2: string } };
 	name: string;
+	id: string;
 };
 
 export enum OFFICE_AUTOCOMPLETE_QUERY_PARAMS {
