@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '../Button.svelte';
+	import Button from '$lib/components/shared/Button.svelte';
 	import InputText from '../InputText.svelte';
 	import JumpingLabel from '../JumpingLabel.svelte';
 	import AuthBox from './AuthBox.svelte';

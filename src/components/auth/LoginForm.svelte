@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-	import Button from '../Button.svelte';
 	import InputText from '../InputText.svelte';
 	import JumpingLabel from '../JumpingLabel.svelte';
 	import * as yup from 'yup';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
 	import InputErrors from './InputErrors.svelte';
-	import { FirebaseError } from 'firebase/app';
 	import { goto } from '$app/navigation';
 	import { getHomeUrl, getResetPasswordUrl } from '$lib/utils/appUrls';
+	import Button from '$lib/components/shared/Button.svelte';
 
 	const values = {
 		email: '',

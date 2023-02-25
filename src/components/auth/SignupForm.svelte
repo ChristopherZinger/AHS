@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getHomeUrl, getLoginUrl } from '$lib/utils/appUrls';
 	import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-	import Button from '../Button.svelte';
+	import Button from '$lib/components/shared/Button.svelte';
 	import InputText from '../InputText.svelte';
 	import JumpingLabel from '../JumpingLabel.svelte';
 	import * as yup from 'yup';

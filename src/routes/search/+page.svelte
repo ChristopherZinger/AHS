@@ -6,7 +6,7 @@
 	import type { Country, City } from '@prisma/client';
 	import { groupBy } from 'lodash';
 	import Spinner from '../../components/Spinner.svelte';
-	import Button from '../../components/Button.svelte';
+	import Button from '$lib/components/shared/Button.svelte';
 	import { fetchOfficeAutocomplete } from '../api/autocomplete/fetchAutocompleteOffice';
 	import { fetchOffice, type Office } from '../api/office/fetchOffices';
 	import { goto } from '$app/navigation';
