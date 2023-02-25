@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-	import InputText from '../InputText.svelte';
-	import JumpingLabel from '../JumpingLabel.svelte';
+	import InputText from '$lib/components/shared/InputText.svelte';
+	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import * as yup from 'yup';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';

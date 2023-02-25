@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/shared/Button.svelte';
-	import InputText from '../InputText.svelte';
-	import JumpingLabel from '../JumpingLabel.svelte';
+	import InputText from '$lib/components/shared/InputText.svelte';
+	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import AuthBox from './AuthBox.svelte';
 	import InputErrors from './InputErrors.svelte';
 	import * as yup from 'yup';

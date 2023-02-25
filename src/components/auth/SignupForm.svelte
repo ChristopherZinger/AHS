@@ -2,8 +2,8 @@
 	import { getHomeUrl, getLoginUrl } from '$lib/utils/appUrls';
 	import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 	import Button from '$lib/components/shared/Button.svelte';
-	import InputText from '../InputText.svelte';
-	import JumpingLabel from '../JumpingLabel.svelte';
+	import InputText from '$lib/components/shared/InputText.svelte';
+	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import * as yup from 'yup';
 	import InputErrors from './InputErrors.svelte';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';

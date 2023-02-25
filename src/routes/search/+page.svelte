@@ -5,7 +5,7 @@
 	} from '$lib/components/shared/NewDropdown.svelte';
 	import type { Country, City } from '@prisma/client';
 	import { groupBy } from 'lodash';
-	import Spinner from '../../components/Spinner.svelte';
+	import Spinner from '$lib/components/shared/Spinner.svelte';
 	import Button from '$lib/components/shared/Button.svelte';
 	import { fetchOfficeAutocomplete } from '../api/autocomplete/fetchAutocompleteOffice';
 	import { fetchOffice, type Office } from '../api/office/fetchOffices';

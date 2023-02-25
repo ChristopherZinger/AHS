@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { appUser } from '$lib/stores/auth';
-	import LinkStyle from '../LinkStyle.svelte';
+	import LinkStyle from '$lib/components/shared/LinkStyle.svelte';
 	import NavBtn from './NavBtn.svelte';
 	import NavLogo from './NavLogo.svelte';
 	import {

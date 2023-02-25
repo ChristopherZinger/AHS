@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FeedItem from './FeedItem.svelte';
-	import Arrow from '../Arrow.svelte';
 	import CommentIcon from '../icons/CommentIcon.svelte';
+	import Arrow from '$lib/components/shared/Arrow.svelte';
 
 	export let data: {
 		city: 'Rotterdam';

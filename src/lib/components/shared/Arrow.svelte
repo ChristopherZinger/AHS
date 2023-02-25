@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ArrowIcon from './icons/ArrowIcon.svelte';
+	import ArrowIcon from '$lib/components/icons/ArrowIcon.svelte';
 
 	export let size: 's' | 'l' = 's';
 	export let hasBorder: boolean = false;

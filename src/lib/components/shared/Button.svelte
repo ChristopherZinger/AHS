@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Spinner from './Spinner.svelte';
+	import Spinner from '$lib/components/shared/Spinner.svelte';
 
 	export let type: 'submit' | 'button' | 'reset' | null | undefined =
 		undefined;
