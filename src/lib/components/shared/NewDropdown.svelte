@@ -21,8 +21,7 @@
 	export let onSelect: (v: LabeledValue) => void;
 	export let options: LabeledValue[];
 	export let value: string | null | undefined = undefined;
-
-	let filterText = '';
+	export let filterText: string = '';
 	$: {
 		filterText, onInputChange && onInputChange(filterText);
 	}
@@ -37,7 +36,7 @@
 			label: filterText
 		};
 		if (
-			filterText.length > 3 &&
+			filterText.length > 2 &&
 			allowExtraItem &&
 			(!detail[0]?.created || detail[0].label !== searchPhraseItem.label)
 		) {
@@ -53,7 +52,7 @@
 	}
 </script>
 
-<div class="border-b-2 border-black">
+<div class="border-b-2 border-black" class:border-slate-300={isDisabled}>
 	<Select
 		{value}
 		disabled={isDisabled}
@@ -69,6 +68,7 @@
 		--border="none"
 		--border-focused="none"
 		--border-hover="none"
+		--disabled-background="none"
 		--padding="0px"
 	>
 		<div slot="prepend"><div class="pr-2">{label}:</div></div>
