@@ -1,19 +1,24 @@
 <script lang="ts">
 	import Spinner from './Spinner.svelte';
 
-	export let type = '';
+	export let type: 'submit' | 'button' | 'reset' | null | undefined =
+		undefined;
 	export let disabled = false;
 	export let isLoading = false;
+	export let onClick: (() => void) | undefined = undefined;
+	export let size: 'm' | 'l' = 'l';
 
 	$: isGray = disabled || isLoading;
 </script>
 
 <button
 	{disabled}
+	on:click={() => onClick && onClick()}
 	class={`
+	${size}
     flex justify-center place-items-center align-middle   
     border-2  rounded-full
-    text-xl font-medium
+    font-medium
     duration-100
     ${
 			isGray
@@ -21,6 +26,8 @@
 				: 'border-black hover:text-white hover:bg-black'
 		}
     `}
+	class:text-base={size === 'm'}
+	class:text-xl={size === 'l'}
 	{type}
 >
 	{#if isLoading}
@@ -33,7 +40,12 @@
 </button>
 
 <style>
-	button {
+	.m {
+		width: 180px;
+		height: 35px;
+	}
+
+	.l {
 		width: 223px;
 		height: 51px;
 	}
