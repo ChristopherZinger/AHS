@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './styles.css';
-	import TopNav from '../components/nav/TopNav.svelte';
-	import MobileSideNav from '../components/nav/MobileSideNav.svelte';
+	import TopNav from '$lib/components/nav/TopNav.svelte';
+	import MobileSideNav from '$lib/components/nav/MobileSideNav.svelte';
 	import { getApps, initializeApp } from 'firebase/app';
 	import config from '../../firebase.config.json';
 	import { getAuth } from 'firebase/auth';
