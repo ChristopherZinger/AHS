@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FeedItem from './FeedItem.svelte';
-	import CommentIcon from '../icons/CommentIcon.svelte';
+	import CommentIcon from '$lib/components/icons/CommentIcon.svelte';
 	import Arrow from '$lib/components/shared/Arrow.svelte';
 
 	export let data: {
