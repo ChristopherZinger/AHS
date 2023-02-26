@@ -12,6 +12,8 @@ model Profile {
   id                  String        @id @default(uuid())
   email               String        @unique
   firebase_id         String        @unique 
+  comments            Comment[]
+  votes               Vote[]
 }
 
 
@@ -23,20 +25,50 @@ enum EntityType  {
 
 model Entity {
   id                  String        @id @default(uuid())
+  slug                String        @unique
   type                EntityType
   name                String   
   aliases             Alias[]
-  isVerified          Boolean @default(false)
-  city                City  @relation(fields: [cityId], references: [id]) 
+  isVerified          Boolean       @default(false)
+  city                City          @relation(fields: [cityId], references: [id]) 
   cityId              String
+  comments            Comment[]
 }
 
 model Alias {
-  id                String @id @default(uuid())
+  id                String      @id @default(uuid())
   entityType        EntityType
   name              String
-  entity            Entity @relation(fields: [entityId], references: [id]) 
+  entity            Entity      @relation(fields: [entityId], references: [id]) 
   entityId          String
+}
+
+// COMMENT
+model Comment {
+  id                String    @id @default(uuid()) 
+  author            Profile   @relation(fields: [authorId], references: [id])
+  authorId          String  
+  entity            Entity    @relation(fields:[entityId], references: [id])
+  entityId          String 
+  createdAt         DateTime  @default(now()) 
+  votes             Vote[]
+  content           String    @db.VarChar(3000)
+  title             String    @db.VarChar(150)
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
+
+model Vote {
+  id          String    @id @default(uuid())
+  comment     Comment   @relation(fields: [commentId], references: [id])
+  commentId   String
+  profile     Profile   @relation(fields: [profileId], references: [id])
+  profileId   String
+  type        VoteType
+  createdAt   DateTime  @default(now())
 }
 
 // LOCATION
@@ -44,7 +76,7 @@ model City {
     id              String      @id @default(uuid())
 		name            String     
 		countryAlpha2   String
-		country         Country @relation(fields: [countryAlpha2], references: [alpha2]) 
+		country         Country     @relation(fields: [countryAlpha2], references: [alpha2]) 
     offices         Entity[]
 }
 
@@ -53,7 +85,7 @@ model Country {
 		name                String  
     alpha2              String      @unique 
     cities              City[]
-    region              Region @relation(fields: [regionName], references: [name])
+    region              Region      @relation(fields: [regionName], references: [name])
     regionName          String
 }
 

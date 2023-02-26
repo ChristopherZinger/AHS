@@ -1,5 +1,7 @@
 import { EntityType } from '@prisma/client';
 import { prisma } from '../src/lib/prisma';
+import slugify from 'slugify';
+import { nanoid } from 'nanoid';
 
 import {
 	getCitiesFromFile,
@@ -32,7 +34,6 @@ async function createAliases() {
 	console.log('create_aliases');
 	console.log('getting_offices');
 	const offices = await prisma.entity.findMany();
-
 
 	console.log('start_setting_aliases');
 	await prisma.$transaction(
@@ -70,10 +71,11 @@ function createCities(cities: City[]) {
 
 function createOffices(offices: Office[]) {
 	return prisma.entity.createMany({
-		data: offices.map((c) => ({
-			cityId: c.cityUUID,
-			name: c.author,
+		data: offices.map((o) => ({
+			cityId: o.cityUUID,
+			name: o.author.trim(),
 			type: EntityType.OFFICE,
+			slug: slugify(`${o.author.trim()}_${nanoid(5)}`, { lower: true })
 		}))
 	});
 }
