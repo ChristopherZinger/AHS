@@ -45,7 +45,7 @@ export async function GET({ url }) {
 
 	const select = {
 		select: {
-			id: true,
+			slug: true,
 			name: true,
 			city: {
 				select: {

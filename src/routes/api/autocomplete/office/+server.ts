@@ -2,9 +2,7 @@ import { prisma } from '$lib/prisma';
 import { json, error } from '@sveltejs/kit';
 import { set, uniqBy } from 'lodash';
 import { z } from 'zod';
-import {
-	OFFICE_AUTOCOMPLETE_QUERY_PARAMS,
-} from '../fetchAutocompleteOffice';
+import { OFFICE_AUTOCOMPLETE_QUERY_PARAMS } from '../fetchAutocompleteOffice';
 
 const queryParamsSchema = z.object<
 	Record<OFFICE_AUTOCOMPLETE_QUERY_PARAMS, z.ZodTypeAny>
@@ -42,7 +40,7 @@ export async function GET({ url }) {
 
 	const select = {
 		select: {
-			id: true,
+			slug: true,
 			name: true,
 			city: {
 				select: {
@@ -72,10 +70,8 @@ export async function GET({ url }) {
 					}
 				},
 				...select,
-				take: 10 
-			})
-			,
-
+				take: 10
+			}),
 			await prisma.entity.findMany({
 				where: {
 					...locationQuery,
@@ -89,11 +85,11 @@ export async function GET({ url }) {
 					}
 				},
 				...select,
-				take: 10 
+				take: 10
 			})
 		]);
 
-		return json(uniqBy( [...startsWith, ...contains], 'name'));
+		return json(uniqBy([...startsWith, ...contains], 'name'));
 	} catch (err) {
 		throw error(500, err as any);
 	}

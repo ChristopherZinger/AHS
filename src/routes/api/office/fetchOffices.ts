@@ -1,5 +1,5 @@
 export type Office = {
-	id: string,
+	slug: string;
 	city: { name: string; country: { alpha2: string } };
 	name: string;
 };
@@ -31,7 +31,7 @@ export const fetchOffice = async (
 	}
 
 	if (options.startAt) {
-		params.append(OFFICE_QUERY_PARAMS.startAt,  options.startAt.toString());
+		params.append(OFFICE_QUERY_PARAMS.startAt, options.startAt.toString());
 	}
 
 	const url = 'api/office?' + params.toString();

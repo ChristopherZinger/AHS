@@ -87,7 +87,7 @@
 		})
 			.then((result) => {
 				selectableOffice = result.map((o) => ({
-					value: o.id,
+					value: o.slug,
 					label: o.name,
 					labelExtraInfo: `${o.city.name}, ${o.city.country.alpha2}`
 				}));
@@ -206,7 +206,7 @@
 							<li class="my-2">
 								<a
 									class="flex justify-between hover:underline"
-									href={`/office/${office.id}`}
+									href={`/office/${office.slug}`}
 								>
 									<div>
 										{@html getHighlightedSearchPhrase(
