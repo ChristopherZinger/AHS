@@ -36,7 +36,16 @@ export const load: PageServerLoad = async ({ params }) => {
 				content: true,
 				title: true,
 				createdAt: true,
-				id: true
+				id: true,
+				subcomments: {
+					select: {
+						content: true,
+						createdAt: true
+					},
+					orderBy: {
+						createdAt: 'desc'
+					}
+				}
 			},
 			orderBy: {
 				createdAt: 'desc'
@@ -50,10 +59,7 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	return {
 		office,
-		comments: comments.map((c) => ({
-			...c,
-			createdAt: c.createdAt.toString()
-		}))
+		comments
 	};
 };
 

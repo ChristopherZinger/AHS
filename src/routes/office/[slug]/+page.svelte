@@ -3,7 +3,6 @@
 	import FeedReviewItem from '$lib/components/feed/FeedReviewItem.svelte';
 	import CommentForm from './CommentForm.svelte';
 	import { appUser } from '$lib/stores/auth';
-	import dayjs from 'dayjs';
 
 	export let data: {
 		office: any;
@@ -11,7 +10,11 @@
 			id: string;
 			title: string;
 			content: string;
-			createdAt: string;
+			createdAt: Date;
+			subcomments: {
+				content: string;
+				createdAt: Date;
+			}[];
 		}[];
 	};
 </script>
@@ -51,7 +54,7 @@
 	{/if}
 
 	<div>
-		<div class="flex flex-col gap-y-12">
+		<div class="flex flex-col gap-y-20">
 			{#each data.comments as comment}
 				<FeedReviewItem
 					data={{
