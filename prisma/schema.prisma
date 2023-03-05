@@ -13,6 +13,7 @@ model Profile {
   email               String        @unique
   firebase_id         String        @unique 
   comments            Comment[]
+  subcomments         Subcomment[]
   votes               Vote[]
 }
 
@@ -52,8 +53,20 @@ model Comment {
   entityId          String 
   createdAt         DateTime  @default(now()) 
   votes             Vote[]
-  content           String    @db.VarChar(3000)
-  title             String    @db.VarChar(150)
+  content           String    @db.VarChar(4000)
+  title             String    @db.VarChar(90)
+  isReviewed        Boolean   @default(false) 
+  subcomments       Subcomment[]
+}
+
+model Subcomment {
+  id                String  @id @default(uuid())
+  author            Profile   @relation(fields: [authorId], references: [id])
+  authorId          String  
+  content           String   @db.VarChar(1500)
+  createdAt         DateTime  @default(now()) 
+  parentComment     Comment    @relation(fields:[parentCommentId], references: [id])
+  parentCommentId   String 
 }
 
 enum VoteType {
