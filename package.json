@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^4.8.1",
+		"dayjs": "^1.11.7",
 		"dotenv": "^16.0.3",
 		"firebase": "^9.17.1",
 		"firebase-admin": "^11.4.1",
