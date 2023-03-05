@@ -22,7 +22,7 @@
 <div class="app-section__narrow flex flex-col gap-10">
 	<div class="my-16">
 		<h1 class="text-4xl font-bold">
-			{data.office.name}: <span class="font-extralight">Feed</span>
+			{data.office.name}
 		</h1>
 		<b>{data.office.city.name}, {data.office.city.countryAlpha2}</b>
 	</div>
@@ -48,23 +48,24 @@
 	</div> -->
 
 	{#if $appUser}
-		<div>
+		<div class="bg-zinc-50 p-10">
+			{#if data.comments.length === 0}
+				<div class="text-center my-5">There are no reviews here yet.</div>
+			{/if}
 			<CommentForm officeSlug={$page.params.slug} />
 		</div>
 	{/if}
 
-	<div>
-		<div class="flex flex-col gap-y-20">
-			{#each data.comments as comment}
-				<FeedReviewItem
-					data={{
-						city: data.office.city.name,
-						officeName: data.office.name,
-						...comment,
-						commentId: comment.id
-					}}
-				/>
-			{/each}
-		</div>
+	<div class="flex flex-col gap-y-20">
+		{#each data.comments as comment}
+			<FeedReviewItem
+				data={{
+					city: data.office.city.name,
+					officeName: data.office.name,
+					...comment,
+					commentId: comment.id
+				}}
+			/>
+		{/each}
 	</div>
 </div>
