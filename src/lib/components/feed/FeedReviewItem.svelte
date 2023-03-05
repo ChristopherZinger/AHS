@@ -1,10 +1,12 @@
 <script lang="ts">
-	import FeedItem from './FeedItem.svelte';
 	// import CommentIcon from '$lib/components/icons/CommentIcon.svelte';
 	import Arrow from '$lib/components/shared/Arrow.svelte';
+	import { appUser } from '$lib/stores/auth';
 	import dayjs from 'dayjs';
+	import SubcommentForm from './SubcommentForm.svelte';
 
 	export let data: {
+		commentId: string;
 		city: string;
 		officeName: string;
 		title: string;
@@ -13,7 +15,9 @@
 	};
 </script>
 
-<FeedItem>
+<div
+	class="feed-review lg:px-16 lg:py-12 lg:border-2 lg:border-black lg:rounded-xl flex flex-col gap-y-12"
+>
 	<header class="flex justify-between">
 		<div>
 			<p class="flex gap-2 items-center text-s font-semibold underline">
@@ -64,5 +68,9 @@
 		</div>
 	</section>
 
-	<section />
-</FeedItem>
+	<section class="subcomments">
+		{#if $appUser}
+			<SubcommentForm commentId={data.commentId} />
+		{/if}
+	</section>
+</div>

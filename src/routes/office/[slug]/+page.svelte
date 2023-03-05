@@ -8,15 +8,12 @@
 	export let data: {
 		office: any;
 		comments: {
+			id: string;
 			title: string;
 			content: string;
-			createdAt: Date;
+			createdAt: string;
 		}[];
 	};
-
-	console.log(
-		data.comments.map((c) => dayjs(c.createdAt).format('D MMM YYYY'))
-	);
 </script>
 
 <div class="app-section__narrow flex flex-col gap-10">
@@ -61,8 +58,7 @@
 						city: data.office.city.name,
 						officeName: data.office.name,
 						...comment,
-						title:
-							'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolo'
+						commentId: comment.id
 					}}
 				/>
 			{/each}
