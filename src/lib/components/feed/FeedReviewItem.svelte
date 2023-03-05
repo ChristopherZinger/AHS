@@ -82,12 +82,14 @@
 	</div>
 
 	{#if showSubcomments}
-		<div class="grid grid-cols-5 gap-5">
+		<div class="flex flex-col gap-5">
 			{#each data.subcomments as subcomment}
-				<div class="justify-self-end font-medium">
-					{dayjs(subcomment.createdAt).format('D MMM YYYY')}
+				<div class="lg:grid lg:grid-cols-5 lg:gap-5">
+					<div class="justify-self-end font-medium">
+						{dayjs(subcomment.createdAt).format('D MMM YYYY')}
+					</div>
+					<div class="col-span-4">{subcomment.content}</div>
 				</div>
-				<div class="col-span-4">{subcomment.content}</div>
 			{/each}
 		</div>
 	{/if}

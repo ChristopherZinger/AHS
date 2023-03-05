@@ -25,7 +25,7 @@
 >
 	<input type="text" name="parentCommentId" hidden value={commentId} />
 
-	<div class="grid grid-cols-5 gap-5">
+	<div class="lg:grid lg:grid-cols-5 gap-5">
 		<textarea
 			placeholder="Respond to this comment ..."
 			name="content"
@@ -33,7 +33,7 @@
 			maxlength="1500"
 			minlength="2"
 			rows={nrOfColumns}
-			class="border-b-2 border-black w-full outline-none col-start-2 col-span-5"
+			class="border-b-2 border-black w-full outline-none lg:col-start-2 lg:col-span-5"
 			bind:value
 		/>
 	</div>
