@@ -20,7 +20,7 @@ export const redFlagToLabel: Record<RedFlag, string> = {
 	[RedFlag.TOO_LITTLE_RESPONSIBILITY]: 'Too little responsibility',
 	[RedFlag.NO_ROOM_FOR_DEVELOPMENT]: 'No room for developement',
 	[RedFlag.CANT_GET_MEANINGFUL_EXPERIENCE]:
-		"Can't get meaningfull experience",
+		"Can't get meaningful experience",
 	[RedFlag.GLASS_CEILING]: 'glass ceiling',
 
 	[RedFlag.MISSING_OR_STUDENTS_LICENSE]: 'Missing or student license',

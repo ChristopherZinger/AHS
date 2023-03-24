@@ -17,7 +17,7 @@
 				countryAlpha2: string;
 			};
 			redFlagCounters: {
-				redFalgName: RedFlag;
+				redFlagName: RedFlag;
 				counter: number;
 			}[];
 		};
@@ -62,7 +62,7 @@
 						<span class="font-semibold">
 							{counter.counter}
 						</span>
-						{redFlagToLabel[counter.redFalgName]}
+						{redFlagToLabel[counter.redFlagName]}
 					</li>
 				{/each}
 			</ul>
