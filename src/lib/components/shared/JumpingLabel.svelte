@@ -5,9 +5,6 @@
 
 	$: isMouseOver = false;
 	$: moveLabelUp = isMouseOver || isUp;
-	const setIsMouseOver = () => {
-		isMouseOver;
-	};
 </script>
 
 <div
