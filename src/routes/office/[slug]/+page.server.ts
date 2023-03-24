@@ -23,6 +23,16 @@ export const load: PageServerLoad = async ({ params }) => {
 						name: true,
 						countryAlpha2: true
 					}
+				},
+				redFlagCounters: {
+					select: {
+						counter: true,
+						redFlagName: true
+					},
+					take: 3,
+					orderBy: {
+						counter: 'desc'
+					}
 				}
 			}
 		}),

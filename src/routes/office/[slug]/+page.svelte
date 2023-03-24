@@ -3,9 +3,24 @@
 	import FeedReviewItem from '$lib/components/feed/FeedReviewItem.svelte';
 	import CommentForm from './CommentForm.svelte';
 	import { appUser } from '$lib/stores/auth';
+	import Arrow from '$lib/components/shared/Arrow.svelte';
+	import OfficePageTitle from '$lib/components/officePageTitle.svelte';
+	import { redFlagToLabel } from '$lib/utils/redFlagUtils';
+	import type { RedFlag } from '@prisma/client';
 
 	export let data: {
-		office: any;
+		office: {
+			name: string;
+			slug: string;
+			city: {
+				name: string;
+				countryAlpha2: string;
+			};
+			redFlagCounters: {
+				redFalgName: RedFlag;
+				counter: number;
+			}[];
+		};
 		comments: {
 			id: string;
 			title: string;
@@ -19,36 +34,45 @@
 	};
 </script>
 
-<div class="app-section__narrow flex flex-col gap-10">
-	<div class="my-16">
-		<h1 class="text-4xl font-bold">
-			{data.office.name}
-		</h1>
-		<b>{data.office.city.name}, {data.office.city.countryAlpha2}</b>
-	</div>
-	<!-- 
-		TODO: add flags stats functionality
-		
-		<div class="flags-container">
+<div class="app-section__narrow">
+	<OfficePageTitle
+		office={{
+			name: data.office.name,
+			city: data.office.city.name,
+			country: data.office.city.countryAlpha2,
+			subtitle: 'Reviews'
+		}}
+	/>
 
-		<div>
-			<div class="flex justify-between py-2 border-b-2 border-black my-5">
-				<h2 class="font-bold">Red Flags</h2>
-				<div class="flex gap-1">
-					<a class="font-bold" href="/">View All</a>
-					<Arrow direction="right" />
-				</div>
+	<div class="my-20">
+		<div class="flex justify-between py-2 border-b-2 border-black my-5">
+			<h2 class="font-bold">Red Flags</h2>
+			<div class="flex gap-1">
+				<a class="font-bold" href={`/office/${data.office.slug}/red-flags`}
+					>View All</a
+				>
+				<Arrow direction="right" />
 			</div>
-			<ul class="flex justify-between">
-				<li>flag: 1000</li>
-				<li>flag: 1000</li>
-				<li>flag: 1000</li>
-			</ul>
 		</div>
-	</div> -->
+
+		{#if data.office.redFlagCounters.length}
+			<ul class="flex justify-between">
+				{#each data.office.redFlagCounters as counter}
+					<li class="flex gap-2">
+						<span class="font-semibold">
+							{counter.counter}
+						</span>
+						{redFlagToLabel[counter.redFalgName]}
+					</li>
+				{/each}
+			</ul>
+		{:else}
+			<p class="text-center">No red flags raised yet.</p>
+		{/if}
+	</div>
 
 	{#if $appUser}
-		<div class="bg-zinc-50 p-10">
+		<div class="bg-zinc-50 p-10 my-20">
 			{#if data.comments.length === 0}
 				<div class="text-center my-5">There are no reviews here yet.</div>
 			{/if}
