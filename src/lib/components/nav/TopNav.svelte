@@ -21,9 +21,14 @@
 	</ul>
 
 	<ul class="justify-between gap-x-6 hidden lg:flex items-center ">
+		<li>
+			<LinkStyle><a href={'/search'}>search</a></LinkStyle>
+		</li>
 		{#if $appUser}
-			<li class="cursor-pointer" on:click={() => logout(getAuth())}>
-				<LinkStyle>logout</LinkStyle>
+			<li class="cursor-pointer">
+				<button on:click={() => logout(getAuth())}>
+					<LinkStyle>logout</LinkStyle>
+				</button>
 			</li>
 		{:else}
 			<li>
