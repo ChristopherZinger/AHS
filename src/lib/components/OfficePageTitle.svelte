@@ -3,13 +3,16 @@
 		name: string;
 		city: string;
 		country: string;
+		href: string;
 		subtitle?: string;
 	};
 </script>
 
 <div class="my-16">
 	<h1 class="text-4xl font-bold">
-		{office.name}
+		<a href={office.href}>
+			{office.name}
+		</a>
 		{#if office.subtitle}
 			<span class="font-thin"> / {office.subtitle}</span>
 		{/if}

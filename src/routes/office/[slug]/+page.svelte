@@ -4,7 +4,7 @@
 	import CommentForm from './CommentForm.svelte';
 	import { appUser } from '$lib/stores/auth';
 	import Arrow from '$lib/components/shared/Arrow.svelte';
-	import OfficePageTitle from '$lib/components/officePageTitle.svelte';
+	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
 	import { redFlagToLabel } from '$lib/utils/redFlagUtils';
 	import type { RedFlag } from '@prisma/client';
 
@@ -40,7 +40,8 @@
 			name: data.office.name,
 			city: data.office.city.name,
 			country: data.office.city.countryAlpha2,
-			subtitle: 'Reviews'
+			subtitle: 'Reviews',
+			href: `/office/${data.office.slug}`
 		}}
 	/>
 

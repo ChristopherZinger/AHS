@@ -1,5 +1,5 @@
 <script lang="ts">
-	import OfficePageTitle from '$lib/components/officePageTitle.svelte';
+	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
 	import Arrow from '$lib/components/shared/Arrow.svelte';
 	import {
 		redFlagSectionsInOrder,
@@ -54,7 +54,8 @@
 				name: data.office.name,
 				city: data.office.city.name,
 				country: data.office.city.countryAlpha2,
-				subtitle: 'Red Flags'
+				subtitle: 'Red Flags',
+				href: `/office/${data.office.slug}`
 			}}
 		/>
 		<div class="flex gap-2 items-center underline font-medium">

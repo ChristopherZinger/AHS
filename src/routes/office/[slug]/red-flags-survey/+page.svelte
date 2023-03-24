@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Checkbox from '$lib/components/inputs/Checkbox.svelte';
-	import OfficePageTitle from '$lib/components/officePageTitle.svelte';
+	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
 	import Button from '$lib/components/shared/Button.svelte';
 	import {
 		redFlagSectionsInOrder,
@@ -26,7 +26,8 @@
 			name: data.office.name,
 			city: data.office.city.name,
 			country: data.office.city.countryAlpha2,
-			subtitle: 'Survey'
+			subtitle: 'Survey',
+			href: `/office/${data.office.slug}`
 		}}
 	/>
 
