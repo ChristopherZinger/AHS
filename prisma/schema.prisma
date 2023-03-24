@@ -15,6 +15,7 @@ model Profile {
   comments            Comment[]
   subcomments         Subcomment[]
   votes               Vote[]
+  redFlagSurveys       RedFlagSurvey[]
 }
 
 
@@ -34,6 +35,8 @@ model Entity {
   city                City          @relation(fields: [cityId], references: [id]) 
   cityId              String
   comments            Comment[]
+  redFlagSurveys      RedFlagSurvey[]
+  redFlagCounters     RedFlagCounter[]
 }
 
 model Alias {
@@ -107,3 +110,70 @@ model Region  {
   countries             Country[]
 }
 
+model RedFlagCounter {
+  id                String    @id @default(uuid())
+  entity            Entity    @relation(fields:[entityId], references: [id])
+  entityId          String 
+  redFlagName       RedFlag 
+  counter           Int
+}
+
+model RedFlagSurvey {
+  id                String      @id @default(uuid())
+  redFlags          RedFlag[]
+  author            Profile     @relation(fields: [authorId], references: [id])
+  authorId          String  
+  entity            Entity      @relation(fields:[entityId], references: [id])
+  entityId          String 
+  createdAt         DateTime    @default(now()) 
+}
+
+enum RedFlag {
+  UNPAID_INTERNSHIP 
+  UNPAID_OVERTIME
+  STARVING_SALARY
+  OVERDUE_PAYOUT
+  PAYSLIP_LOWER_THEN_AGREED
+  GETTING_RAISE_IS_IMPOSSIBLE
+  UNPAID_EXPENSES
+
+  BORING_PROJECTS
+  UNREALISTIC_DEADLINES
+  TASK_DONT_MATCH_JOB_DESCRIPTION
+  MONOTONOUS_TASKS
+  CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN
+
+  TOO_MUCH_RESPONSIBILITY
+  TOO_LITTLE_RESPONSIBILITY
+  NO_ROOM_FOR_DEVELOPMENT
+  CANT_GET_MEANINGFUL_EXPERIENCE
+  GLASS_CEILING
+
+  MISSING_OR_STUDENTS_LICENSE
+  REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE
+  OFF_BRAND_OR_FREE_SOFTWARE  
+  OLD_HARDWARE_OUTDATED_SOFTWARE
+  BAD_WORKSPACE
+  MISSING_BASIC_MATERIALS
+
+  ABUSE_MOBBING
+  TOXIC_ATMOSPHERE
+  STRESS_PRESSURE
+  FAVORITISM
+  INTERNS_MAJORITY
+  NARCISSISTIC_MANAGEMENT
+
+  CASUAL_OVERTIME
+  SYSTEMATIC_OVERTIME
+  WEEKEND_WORK
+  DENIED_TIME_OFF
+
+  RACISM
+  HOMOPHOBIA
+  ABLEISM
+  XENOPHOBIA
+  TRANSPHOBIA
+  NEPOTISM
+  SEXISM
+  AGISM
+}
