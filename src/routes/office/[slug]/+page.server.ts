@@ -71,7 +71,7 @@ export const actions = {
 			- only allow limited nr of comments per user per time unit
 			- check for bad words - npm badword
 		*/
-		const { user } = locals;
+		const { user } = locals as any;
 		if (!user) {
 			throw error(401, 'unauthorized');
 		}
@@ -81,15 +81,17 @@ export const actions = {
 		const content = data.get('content');
 		const officeSlug = data.get('officeSlug');
 
-		z.object({
-			title: z.string().min(1),
-			content: z.string().min(4),
-			officeSlug: z.string().min(1)
-		}).parse({ title, content, officeSlug });
+		const parsedData = z
+			.object({
+				title: z.string().min(1),
+				content: z.string().min(4),
+				officeSlug: z.string().min(1)
+			})
+			.parse({ title, content, officeSlug });
 
 		const office = await prisma.entity.findUnique({
 			where: {
-				slug: officeSlug
+				slug: parsedData.officeSlug
 			}
 		});
 
@@ -101,8 +103,8 @@ export const actions = {
 
 		await prisma.comment.create({
 			data: {
-				content,
-				title,
+				content: parsedData.content,
+				title: parsedData.title,
 				authorId: user.id,
 				entityId: office.id
 			}
@@ -116,7 +118,7 @@ export const actions = {
 			- only allow limited nr of comments per user per time unit
 			- check for bad words - npm badword
 		*/
-		const { user } = locals;
+		const { user } = locals as any;
 		if (!user) {
 			throw error(401, 'unauthorized');
 		}
@@ -125,14 +127,16 @@ export const actions = {
 		const content = data.get('content');
 		const parentCommentId = data.get('parentCommentId');
 
-		z.object({
-			parentCommentId: z.string().min(1),
-			content: z.string().min(2)
-		}).parse({ content, parentCommentId });
+		const parsedData = z
+			.object({
+				parentCommentId: z.string().min(1),
+				content: z.string().min(2)
+			})
+			.parse({ content, parentCommentId });
 
 		const comment = await prisma.comment.findUnique({
 			where: {
-				id: parentCommentId
+				id: parsedData.parentCommentId
 			}
 		});
 
@@ -145,8 +149,8 @@ export const actions = {
 		await prisma.subcomment.create({
 			data: {
 				authorId: user.id,
-				content: content,
-				parentCommentId: parentCommentId
+				content: parsedData.content,
+				parentCommentId: parsedData.parentCommentId
 			}
 		});
 
