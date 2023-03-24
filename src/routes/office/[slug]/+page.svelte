@@ -52,7 +52,9 @@
 			{#if data.comments.length === 0}
 				<div class="text-center my-5">There are no reviews here yet.</div>
 			{/if}
-			<CommentForm officeSlug={$page.params.slug} />
+			<CommentForm
+				office={{ slug: $page.params.slug, name: data.office.name }}
+			/>
 		</div>
 	{/if}
 

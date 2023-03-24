@@ -2,7 +2,10 @@
 	import { clickOutside } from '$lib/actions/outclick';
 	import CancelIcon from '$lib/components/icons/CancelIcon.svelte';
 
-	export let officeSlug: string;
+	export let office: {
+		name: string;
+		slug: string;
+	};
 
 	let commentTitleInputValue = '';
 	const commentTitleMaxLength = 90;
@@ -33,7 +36,7 @@
 		type="text"
 		name="officeSlug"
 		id="officeSlug"
-		value={officeSlug}
+		value={office.slug}
 	/>
 
 	<div class="form-grid">
@@ -41,7 +44,7 @@
 			<label for="title" hidden>Title</label>
 			<input
 				type="text"
-				placeholder="Write your story ..."
+				placeholder={isOpen ? 'Story Title ...' : 'Write your story ...'}
 				name="title"
 				id="title"
 				maxlength={commentTitleMaxLength}
@@ -72,7 +75,7 @@
 				<label hidden for="comment">Comment</label>
 				<textarea
 					class="bg-transparent rounded mt-10 p-2 w-full"
-					placeholder="My story ..."
+					placeholder={`Describe your work experience in ${office.name} ...`}
 					name="content"
 					id="comment"
 					cols="30"
