@@ -63,6 +63,17 @@
 			<a href={`/office/${data.office.slug}`}>go back</a>
 		</div>
 	</div>
+
+	<div class="my-10">
+		<p>
+			This is red flag report page. Here you can see what kinds of
+			suspicious behaviour was noticed or experienced by people who worked
+			for <span class="font-medium underline">{data.office.name}</span>.
+			Always check this page before you apply for a new job. Be aware what
+			awaits you in new job.
+		</p>
+	</div>
+
 	<ul>
 		{#each existingRedFlagsInSectionsInOrder as section}
 			<div class="mb-10">
