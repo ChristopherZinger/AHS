@@ -32,10 +32,10 @@
 	/>
 
 	<p>
-		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto
-		quo necessitatibus laudantium sequi. Natus fugit aliquid hic, tempore
-		dolore, iusto labore magni doloremque dolores, distinctio aspernatur.
-		Provident, enim! Dicta, odio.
+		This is your red flag . You can fill this report every 6 months for
+		each company that you worked for. Let know other peole what they can
+		expect while working in
+		<span class="font-medium underline">{data.office.name}</span>.
 	</p>
 	{#if $page.form?.success !== true}
 		<form class="my-20" method="POST" action="?/submit-red-flag-survey">
