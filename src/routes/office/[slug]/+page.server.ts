@@ -1,9 +1,13 @@
 import { prisma } from '$lib/prisma';
+import type { CachedUser } from '$lib/server/redis-utils';
 import { error } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 import { z } from 'zod';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
+	const { user } = locals as { user: CachedUser | null };
+
 	const { slug } = params;
 
 	if (!slug) {
@@ -12,8 +16,8 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	const parsedSlug = z.string().parse(slug);
 
-	const [office, comments] = await Promise.all([
-		prisma.entity.findUnique({
+	const [office, comments, counters] = await Promise.all([
+		await prisma.entity.findUnique({
 			where: {
 				slug: parsedSlug
 			},
@@ -36,7 +40,7 @@ export const load: PageServerLoad = async ({ params }) => {
 				}
 			}
 		}),
-		prisma.comment.findMany({
+		await prisma.comment.findMany({
 			where: {
 				entity: {
 					slug
@@ -60,6 +64,13 @@ export const load: PageServerLoad = async ({ params }) => {
 			orderBy: {
 				createdAt: 'desc'
 			}
+		}),
+		await prisma.redFlagCounter.findMany({
+			where: {
+				entity: {
+					slug: parsedSlug
+				}
+			}
 		})
 	]);
 
@@ -67,9 +78,40 @@ export const load: PageServerLoad = async ({ params }) => {
 		throw error(404);
 	}
 
+	const userSurveys =
+		user &&
+		(await prisma.redFlagSurvey.findMany({
+			where: {
+				authorId: user.id,
+				entityId: office.id
+			},
+			take: 1,
+			orderBy: {
+				createdAt: 'desc'
+			}
+		}));
+	const didSubmitFlagsWithinPeriod = userSurveys?.reduce((acc, i) => {
+		const hasSubmitedWithinPeriod = dayjs(i.createdAt).isAfter(
+			dayjs().subtract(6, 'months')
+		);
+
+		if (hasSubmitedWithinPeriod) {
+			return true;
+		}
+
+		return acc;
+	}, false);
+
+	const allFlags = counters.reduce((acc, i) => {
+		acc += i.counter;
+		return acc;
+	}, 0);
+
 	return {
 		office,
-		comments
+		comments,
+		allFlags,
+		didSubmitFlagsWithinPeriod
 	};
 };
 

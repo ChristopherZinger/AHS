@@ -31,6 +31,8 @@
 				createdAt: Date;
 			}[];
 		}[];
+		allFlags: number;
+		didSubmitFlagsWithinPeriod: boolean;
 	};
 </script>
 
@@ -46,30 +48,44 @@
 	/>
 
 	<div class="my-20">
-		<div class="flex justify-between py-2 border-b-2 border-black my-5">
-			<h2 class="font-bold">Red Flags</h2>
-			<div class="flex gap-1">
-				<a class="font-bold" href={`/office/${data.office.slug}/red-flags`}
-					>View All</a
-				>
-				<Arrow direction="right" />
-			</div>
-		</div>
+		<div style="left" />
 
 		{#if data.office.redFlagCounters.length}
-			<ul class="flex justify-between">
+			<ul class="flex justify-between items-center">
+				<li class="flex flex-col gap-6 items-center  grow">
+					<div class="text-5xl font-medium">
+						{data.allFlags}
+					</div>
+					<p class="text-center">Red Flags in Total</p>
+				</li>
 				{#each data.office.redFlagCounters as counter}
-					<li class="flex gap-2">
-						<span class="font-semibold">
+					<li class="flex flex-col gap-6 items-center grow">
+						<div class="text-5xl font-thin">
 							{counter.counter}
-						</span>
-						{redFlagToLabel[counter.redFlagName]}
+						</div>
+						<p class="text-center">
+							{redFlagToLabel[counter.redFlagName]}
+						</p>
 					</li>
 				{/each}
 			</ul>
 		{:else}
 			<p class="text-center">No red flags raised yet.</p>
 		{/if}
+		<div class="flex justify-center gap-5 my-10 ">
+			{#if $appUser && !data.didSubmitFlagsWithinPeriod}
+				<a
+					href={`/office/${data.office.slug}/red-flags-survey`}
+					class="py-2 px-3 text-white bg-zinc-700 rounded flex items-center"
+					>Report Red Flags</a
+				>
+			{/if}
+			<a
+				href={`/office/${data.office.slug}/red-flags`}
+				class="py-2 px-3 text-zinc-700 border-2 border-zinc-700 no  rounded flex items-center"
+				>View All Red Flags</a
+			>
+		</div>
 	</div>
 
 	{#if $appUser}
