@@ -1,12 +1,11 @@
 import { prisma } from '$lib/prisma';
-import type { CachedUser } from '$lib/server/redis-utils';
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 import { z } from 'zod';
+import type { PageServerLoad } from './$types';
 
-/** @type {import('./$types').PageServerLoad} */
 export const load: PageServerLoad = async ({ params, locals }) => {
-	const { user } = locals as { user: CachedUser | null };
+	const { user } = locals;
 
 	const { slug } = params;
 
