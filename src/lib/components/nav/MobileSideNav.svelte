@@ -6,8 +6,7 @@
 		getSigninUrl,
 		getHomeUrl
 	} from '$lib/utils/appUrls';
-	import { logout } from '$lib/auth-client-utils';
-	import { getAuth } from 'firebase/auth';
+	import { logout } from '$lib/utils/logout';
 
 	export let isOpen: boolean;
 	export let setIsMobileMenuOpen: (v: boolean) => void;
@@ -22,26 +21,26 @@
 	>
 		<div class="inline">
 			<ul class="text-4xl">
-				<li on:click={hideNav} class="mb-7">
+				<button on:click={hideNav} class="mb-7">
 					<a href={getHomeUrl()}>home</a>
-				</li>
+				</button>
 				{#if $appUser}
-					<li
+					<button
 						on:click={async () => {
-							await logout(getAuth());
+							await logout(() => appUser.set(null));
 							hideNav();
 						}}
 						class="mb-7 cursor-pointer"
 					>
 						logout
-					</li>
+					</button>
 				{:else}
-					<li on:click={hideNav} class="mb-7 cursor-pointer">
+					<button on:click={hideNav} class="mb-7 cursor-pointer">
 						<a href={getLoginUrl()}>login</a>
-					</li>
-					<li on:click={hideNav} class="mb-7 cursor-pointer">
+					</button>
+					<button on:click={hideNav} class="mb-7 cursor-pointer">
 						<a href={getSigninUrl()}> signup </a>
-					</li>
+					</button>
 				{/if}
 			</ul>
 		</div>

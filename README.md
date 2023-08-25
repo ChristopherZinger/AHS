@@ -1,10 +1,5 @@
 # architecturehorrorstory
 
-## Firebase Admin
-
-remember to export GOOGLE_APPLICATION_CREDENTIALS - point to correct json file
-`npm run export-google-credentials`
-
 ## Hosting info
 
 This is sveltekit app that runs on custom node server. It uses @sveltejs/node-adapter to build the app. Webapp is dockerized and communicates with 2 dockerized databases - redis and postgres. Webapp connect to postgress with prisma.

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { getHomeUrl, getLoginUrl } from '$lib/utils/appUrls';
-	import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 	import Button from '$lib/components/shared/Button.svelte';
 	import InputText from '$lib/components/shared/InputText.svelte';
 	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
@@ -8,16 +7,25 @@
 	import InputErrors from './InputErrors.svelte';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
-	import { FirebaseError } from 'firebase/app';
 	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+	import { appUser } from '$lib/stores/auth';
 
-	let values = {
+	type SignupFormData = {
+		email: string;
+		password: string;
+		passwordRepeat: string;
+	};
+
+	// ! this is only for stupid labels to jump up
+	// TODO remove jumping label thing all together later
+	const values: SignupFormData = {
 		email: '',
 		password: '',
 		passwordRepeat: ''
 	};
 	let isLoading = false;
-	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
+	let inputErrors: Partial<Record<keyof SignupFormData, string[]>> = {};
 
 	const schema = yup.object({
 		email: yup.string().email().required(),
@@ -32,37 +40,67 @@
 	const setUnknownError = () =>
 		(inputErrors.email = ['Oops! something went wrong, try again later']);
 
-	async function submit() {
+	async function beforeSubmit(
+		formData: {
+			email: unknown;
+			password: unknown;
+			passwordRepeat: unknown;
+		},
+		cancelSubmission: () => void
+	) {
 		inputErrors = {};
 		isLoading = true;
 		try {
-			await validate(values, schema);
-			await createUserWithEmailAndPassword(
-				getAuth(),
-				values.email,
-				values.password
-			);
-			goto(getHomeUrl());
+			await validate(formData, schema);
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = <typeof inputErrors>parseValidationError(err))
-				: err instanceof FirebaseError
-				? err.code === 'auth/weak-password'
-					? (inputErrors.password = [
-							'passowrd must have at least 6 characters'
-					  ])
-					: err.code === 'auth/email-already-in-use'
-					? (inputErrors.email = ['email is already taken'])
-					: err.code === 'auth/invalid-email'
-					? (inputErrors.email = ['invalid email'])
-					: setUnknownError()
 				: setUnknownError();
+
+			cancelSubmission();
+			isLoading = false;
 		}
-		isLoading = false;
 	}
 </script>
 
-<form class="flex flex-col gap-y-12" on:submit|preventDefault={submit}>
+<form
+	method="POST"
+	class="flex flex-col gap-y-12"
+	action="?/signup"
+	use:enhance={async ({ data, cancel }) => {
+		const email = data.get('email');
+		const password = data.get('password');
+		const passwordRepeat = data.get('repeat-password');
+
+		await beforeSubmit(
+			{
+				email,
+				password,
+				passwordRepeat
+			},
+			cancel
+		);
+
+		return async ({ result }) => {
+			isLoading = false;
+
+			if (
+				result.type === 'success' &&
+				result.data &&
+				result.data.user !== null
+			) {
+				appUser.set({
+					email: result.data.user.email,
+					id: result.data.id,
+					role: result.data.role
+				});
+				goto(getHomeUrl());
+			} else {
+				setUnknownError();
+			}
+		};
+	}}
+>
 	<JumpingLabel label="*Email" forHTML="email" isUp={!!values.email}>
 		<InputText
 			type={'text'}

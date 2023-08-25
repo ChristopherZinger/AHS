@@ -1,18 +1,12 @@
-import {
-	getCachedUserSession,
-	saveUserSessionInCache,
-	type CachedUser
-} from '$lib/server/redis-utils';
 import * as dotenv from 'dotenv';
-import { verifyIdToken } from '$lib/server/token-utils';
 import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import type { MaybePromise } from '@sveltejs/kit/types/private';
-import { SESSION_COOKIE_NAME } from './routes/api/handleTokenUpdate/+server';
-import { expectProfileForDecodedIdToken } from '$lib/server/models/profile';
+import jwt from 'jsonwebtoken';
+import { expectSessionCookieNameFromEnv } from '$lib/server/envUtils';
+import { parseTokenUser } from '$lib/server/TokenUserUtils';
 
 dotenv.config();
 
-/** @type {import('@sveltejs/kit').Handle} */
 export async function handle({
 	event,
 	resolve
@@ -23,32 +17,14 @@ export async function handle({
 		opts?: ResolveOptions
 	): MaybePromise<Response>;
 }) {
-	const sessionCookie = event.cookies.get(SESSION_COOKIE_NAME);
+	const sessionCookieName = expectSessionCookieNameFromEnv();
+	const sessionCookie = event.cookies.get(sessionCookieName);
 
-	let user: null | CachedUser = null;
 	if (sessionCookie) {
-		user = await getCachedUserSession(sessionCookie);
-		if (!user) {
-			const {
-				exp,
-				email,
-				uid: firebaseUID
-			} = await verifyIdToken(sessionCookie);
-
-			let profile = await expectProfileForDecodedIdToken({
-				email,
-				uid: firebaseUID
-			});
-
-			await saveUserSessionInCache(sessionCookie, {
-				...profile,
-				exp,
-				firebaseUID
-			});
-		}
+		const decodedToken = jwt.decode(sessionCookie, {});
+		const user = parseTokenUser(decodedToken);
+		event.locals.user = user;
 	}
-
-	event.locals['user'] = user;
 
 	return await resolve(event);
 }

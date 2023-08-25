@@ -1,11 +1,10 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import type { CachedUser } from '$lib/server/redis-utils';
+import type { TokenUser } from '$lib/server/TokenUserUtils';
 
-// and what to do when importing types
 declare namespace App {
 	interface Locals {
-		user: CachedUser | null;
+		user: TokenUser | null;
 	}
 }

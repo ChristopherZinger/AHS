@@ -2,20 +2,11 @@
 	import './styles.css';
 	import TopNav from '$lib/components/nav/TopNav.svelte';
 	import MobileSideNav from '$lib/components/nav/MobileSideNav.svelte';
-	import { getApps, initializeApp } from 'firebase/app';
-	import config from '../../firebase.config.json';
-	import { getAuth } from 'firebase/auth';
-	import { browser } from '$app/environment';
-	import { initializeUser, initFsToken } from '$lib/stores/auth';
+	import { appUser, type AppUser } from '$lib/stores/auth';
 
-	if (!getApps().length) {
-		initializeApp(config);
-	}
+	export let data: { user: null | AppUser };
 
-	if (browser) {
-		initializeUser(getAuth());
-		initFsToken(getAuth());
-	}
+	appUser.set(data.user);
 
 	$: isMobileMenuOpen = false;
 	const setIsMobileMenuOpen = (v: boolean) => {

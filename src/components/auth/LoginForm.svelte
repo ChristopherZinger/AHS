@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 	import InputText from '$lib/components/shared/InputText.svelte';
 	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import * as yup from 'yup';
@@ -9,7 +8,10 @@
 	import { goto } from '$app/navigation';
 	import { getHomeUrl, getResetPasswordUrl } from '$lib/utils/appUrls';
 	import Button from '$lib/components/shared/Button.svelte';
+	import { enhance } from '$app/forms';
+	import { appUser } from '$lib/stores/auth';
 
+	// ! this is just for jumping labels and should be removed
 	const values = {
 		email: '',
 		password: ''
@@ -25,34 +27,71 @@
 	const setUnknownError = () =>
 		(inputErrors.email = ['Oops! something went wrong, try again later']);
 
-	async function submit() {
+	async function beforeSubmit(
+		data: {
+			email: unknown;
+			password: unknown;
+		},
+		cancelSubmission: () => void
+	) {
 		inputErrors = {};
 		isLoading = true;
 		try {
-			await validate(values, schema);
-			await signInWithEmailAndPassword(
-				getAuth(),
-				values.email,
-				values.password
-			);
-			goto(getHomeUrl());
+			await validate(data, schema);
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = parseValidationError(err))
-				: (err as any).name === 'FirebaseError'
-				? (err as any).code === 'auth/wrong-password'
-					? (inputErrors.email = ['wrong email or password'])
-					: (err as any).code === 'auth/user-not-found'
-					? (inputErrors.email = ['wrong email or password'])
-					: setUnknownError()
 				: setUnknownError();
-		} finally {
 			isLoading = false;
+			cancelSubmission();
 		}
 	}
 </script>
 
-<form class="flex flex-col gap-y-12" on:submit|preventDefault={submit}>
+<form
+	class="flex flex-col gap-y-12"
+	method="POST"
+	action="?/login"
+	use:enhance={async ({ data, cancel }) => {
+		const email = data.get('email');
+		const password = data.get('password');
+
+		await beforeSubmit(
+			{
+				email,
+				password
+			},
+			cancel
+		);
+
+		return async ({ result }) => {
+			isLoading = false;
+			if (
+				result.type === 'success' &&
+				result.data &&
+				result.data.user.email === 'string'
+			) {
+				appUser.set({
+					email: result.data.user.email,
+					id: result.data.id,
+					role: result.data.role
+				});
+				goto(getHomeUrl());
+			} else if (result.type === 'error') {
+				if (
+					['wrong_password', 'no_user_with_this_email'].includes(
+						result.error.message
+					)
+				) {
+					inputErrors.password = ['wrong password or email'];
+					inputErrors.email = ['wrong password or email'];
+				} else {
+					setUnknownError();
+				}
+			}
+		};
+	}}
+>
 	<JumpingLabel label="*Email" forHTML="email" isUp={!!values.email}>
 		<InputText
 			type={'text'}
