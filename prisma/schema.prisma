@@ -24,8 +24,16 @@ enum USER_ROLE {
 model AnonymousSession {
   id              String      @id @default(uuid())
   createdAt       DateTime    @default(now())
-  expiredAt       DateTime  
-  redFlagSurveys      RedFlagSurvey[]
+  expirationDate  DateTime  
+  surveys         Survey[]
+}
+
+model Survey {
+  id                  String            @id @default(uuid())
+  createdAt           DateTime          @default(now())
+  data                Json
+  anonymousSession    AnonymousSession  @relation(fields: [anonymousSessionId], references: [id]) 
+  anonymousSessionId  String
 }
 
 model User {
@@ -45,7 +53,7 @@ enum EntityType  {
 
 model Entity {
   id                  String        @id @default(uuid())
-  slug                String        @unique
+  slug                String        
   type                EntityType
   name                String   
   aliases             Alias[]
@@ -110,6 +118,7 @@ model City {
     id              String      @id @default(uuid())
     isVerified      Boolean     
 		name            String     
+    slug            String
 		countryAlpha2   String
 		country         Country     @relation(fields: [countryAlpha2], references: [alpha2]) 
     offices         Entity[]
@@ -120,12 +129,13 @@ model Country {
 	name                String  
   alpha2              String      @unique 
   cities              City[]
-  region              Region      @relation(fields: [regionName], references: [name])
-  regionName          String
+  region              Region      @relation(fields: [regionSlug], references: [slug])
+  regionSlug          String
 }
 
 model Region  {
-  name                  String        @id
+  slug                  String        @id
+  name                  String
   countries             Country[]
 }
 
@@ -138,13 +148,11 @@ model RedFlagCounter {
 }
 
 model RedFlagSurvey {
-  id                  String              @id @default(uuid())
+  id                  String       @id @default(uuid())
   redFlags            RedFlag[]
-  entity              Entity              @relation(fields:[entityId], references: [id])
+  entity              Entity        @relation(fields:[entityId], references: [id])
   entityId            String 
-  createdAt           DateTime            @default(now()) 
-  anonymousSession    AnonymousSession?   @relation(fields: [anonymousSessionId], references: [id])
-  anonymousSessionId  String
+  createdAt           DateTime      @default(now()) 
 }
 
 enum RedFlag {
@@ -181,6 +189,8 @@ enum RedFlag {
   FAVORITISM
   INTERNS_MAJORITY
   NARCISSISTIC_MANAGEMENT
+  MICROMANAGEMENT
+  TRASH_CONTRACTS
 
   CASUAL_OVERTIME
   SYSTEMATIC_OVERTIME

@@ -37,6 +37,10 @@
 				<LinkStyle><a href={getSigninUrl()}>signup</a></LinkStyle>
 			</li>
 		{/if}
+
+		<li>
+			<LinkStyle><a href="/survey">survey</a></LinkStyle>
+		</li>
 	</ul>
 
 	<ul class="lg:hidden cursor-pointer">

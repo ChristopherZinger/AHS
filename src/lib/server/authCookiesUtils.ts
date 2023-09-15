@@ -14,25 +14,34 @@ export function setSessionCookie(
 		id: string;
 	}
 ): void {
-	const jwtHash = expectJwtHashFromEnv();
 	const sessionCookieName = expectSessionCookieNameFromEnv();
-
-	const token = jwt.sign(
+	setCookieWithExpTimeInSec(
+		sessionCookieName,
 		{
 			email: user.email,
 			role: user.role,
 			id: user.id
 		},
-		jwtHash,
-		{
-			expiresIn: 60 * 60 * 24 * 7 // a week
-		}
+		60 * 60 * 24 * 7, //week
+		cookies
 	);
+}
 
+export function setCookieWithExpTimeInSec(
+	cookieName: string,
+	payload: Record<string, unknown>,
+	expirationInSeconds: number,
+	cookies: Cookies
+) {
+	const jwtHash = expectJwtHashFromEnv();
 	const expDate = new Date();
-	expDate.setDate(new Date().getDate() + 7); /* a week */
+	expDate.setSeconds(new Date().getSeconds() + expirationInSeconds);
 
-	cookies.set(sessionCookieName, token, {
+	const token = jwt.sign(payload, jwtHash, {
+		expiresIn: expirationInSeconds
+	});
+
+	cookies.set(cookieName, token, {
 		path: '/',
 		expires: expDate
 	});

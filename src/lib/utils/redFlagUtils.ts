@@ -57,12 +57,22 @@ export const redFlagToLabel: Record<RedFlag, string> = {
 	[RedFlag.AGISM]: 'Agism'
 };
 
+export enum RedFlagSectionName {
+	PAYROLL = 'payroll',
+	PROJECTS = 'projects',
+	CAREER = 'career',
+	TOOLS = 'tools',
+	MANAGEMENT = 'management',
+	TIME_MANAGEMENT = 'time_management',
+	DISCRIMINATION = 'discrimination'
+}
+
 export const redFlagSectionsInOrder: {
-	label: string;
+	label: RedFlagSectionName;
 	flags: RedFlag[];
 }[] = [
 	{
-		label: 'Payment',
+		label: RedFlagSectionName.PAYROLL,
 		flags: [
 			RedFlag.UNPAID_INTERNSHIP,
 			RedFlag.UNPAID_OVERTIME,
@@ -74,7 +84,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: 'Projects',
+		label: RedFlagSectionName.PROJECTS,
 		flags: [
 			RedFlag.BORING_PROJECTS,
 			RedFlag.UNREALISTIC_DEADLINES,
@@ -84,7 +94,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: 'Career',
+		label: RedFlagSectionName.CAREER,
 		flags: [
 			RedFlag.TOO_MUCH_RESPONSIBILITY,
 			RedFlag.TOO_LITTLE_RESPONSIBILITY,
@@ -94,7 +104,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: 'Tools',
+		label: RedFlagSectionName.TOOLS,
 		flags: [
 			RedFlag.MISSING_OR_STUDENTS_LICENSE,
 			RedFlag.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE,
@@ -105,7 +115,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: 'Management and Team',
+		label: RedFlagSectionName.MANAGEMENT,
 		flags: [
 			RedFlag.ABUSE_MOBBING,
 			RedFlag.TOXIC_ATMOSPHERE,
@@ -116,7 +126,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: 'Time management',
+		label: RedFlagSectionName.TIME_MANAGEMENT,
 		flags: [
 			RedFlag.CASUAL_OVERTIME,
 			RedFlag.SYSTEMATIC_OVERTIME,
@@ -125,7 +135,7 @@ export const redFlagSectionsInOrder: {
 		]
 	},
 	{
-		label: '~isms',
+		label: RedFlagSectionName.DISCRIMINATION,
 		flags: [
 			RedFlag.RACISM,
 			RedFlag.HOMOPHOBIA,

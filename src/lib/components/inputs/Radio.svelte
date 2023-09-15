@@ -1,20 +1,29 @@
 <script lang="ts">
-	export let label: string;
+	export let options: {
+		label: string;
+		value: string;
+	}[];
 	export let name: string;
-	export let value = false;
+	export let group: string | number | undefined;
 </script>
 
-<label
-	for={name}
-	class="flex gap-2 items-center cursor-pointer"
-	class:font-medium={value}
-	class:underline={value}
->
-	<div class="app-checkbox" class:isSelected={value} />
-	{label}
-</label>
-
-<input type="checkbox" {name} id={name} bind:checked={value} hidden />
+{#each options as option}
+	<label
+		for={`${name}-${option.value}`}
+		class="flex gap-2 items-center cursor-pointer"
+	>
+		<div class="app-checkbox" class:isSelected={group === option.value} />
+		{option.label}
+		<input
+			type="radio"
+			{name}
+			id={`${name}-${option.value}`}
+			bind:group
+			value={option.value}
+			hidden
+		/>
+	</label>
+{/each}
 
 <style>
 	label {
@@ -23,7 +32,6 @@
 
 	.app-checkbox {
 		width: 22px;
-		min-width: 22px;
 		height: 16px;
 		border-radius: 8px;
 		background-color: gray;

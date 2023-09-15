@@ -25,6 +25,7 @@ export async function GET({ params }) {
 			cities
 		});
 	} catch (err) {
+		console.error(err);
 		throw error(500, err as any);
 	}
 }

@@ -4,7 +4,7 @@
 	import InputText from '$lib/components/shared/InputText.svelte';
 	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import * as yup from 'yup';
-	import InputErrors from './InputErrors.svelte';
+	import InputErrors from '$lib/components/inputs/InputErrors.svelte';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
 	import { goto } from '$app/navigation';
@@ -101,47 +101,39 @@
 		};
 	}}
 >
-	<JumpingLabel label="*Email" forHTML="email" isUp={!!values.email}>
+	<JumpingLabel label="*Email" forHTML="email">
 		<InputText
 			type={'text'}
 			name="email"
 			id="email"
-			onChange={({ target }) => {
-				values.email = target?.value;
+			onChange={(v) => {
+				values.email = v;
 				inputErrors.email = [];
 			}}
 		/>
 		<InputErrors msgs={inputErrors.email || []} />
 	</JumpingLabel>
 
-	<JumpingLabel
-		label="*Password"
-		forHTML="password"
-		isUp={!!values.password}
-	>
+	<JumpingLabel label="*Password" forHTML="password">
 		<InputText
 			type={'password'}
 			name="password"
 			id="password"
-			onChange={({ target }) => {
-				values.password = target?.value;
+			onChange={(v) => {
+				values.password = v;
 				inputErrors.password = [];
 			}}
 		/>
 		<InputErrors msgs={inputErrors.password || []} />
 	</JumpingLabel>
 
-	<JumpingLabel
-		label="*Repeat Password"
-		forHTML="repeat-password"
-		isUp={!!values.passwordRepeat}
-	>
+	<JumpingLabel label="*Repeat Password" forHTML="repeat-password">
 		<InputText
 			type={'password'}
 			name="repeat-password"
 			id="repeat-password"
-			onChange={({ target }) => {
-				values.passwordRepeat = target?.value;
+			onChange={(v) => {
+				values.passwordRepeat = v;
 				inputErrors.passwordRepeat = [];
 			}}
 		/>

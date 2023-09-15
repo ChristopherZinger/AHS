@@ -42,7 +42,6 @@ body {
 input,
 input:active,
 input:disabled {
-	border: none;
 	outline: none;
 	background-color: white;
 }

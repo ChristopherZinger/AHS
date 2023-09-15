@@ -3,7 +3,7 @@
 	export let id: string;
 	export let name: string;
 	export let value = '';
-	export let onChange: (v: { target: any | null }) => void;
+	export let onChange: (v: string) => void;
 </script>
 
 <input
@@ -16,7 +16,7 @@
 	{id}
 	{name}
 	{value}
-	on:input={onChange}
+	on:input={({ currentTarget: { value } }) => onChange(value)}
 />
 
 <style>
