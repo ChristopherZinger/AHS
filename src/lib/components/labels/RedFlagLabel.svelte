@@ -2,7 +2,7 @@
 	const flagToMsg: Record<RedFlag, string> = {
 		[RedFlag.ABLEISM]: 'dyskryminacja niepełnosprawnych',
 		[RedFlag.ABUSE_MOBBING]: 'mobbing, nękanie',
-		[RedFlag.AGISM]: 'agism - dyskryminacja ze względu na wiek',
+		[RedFlag.AGISM]: 'dyskryminacja ze względu na wiek',
 		[RedFlag.BAD_WORKSPACE]: 'zła kondycja stanowiska pracy',
 		[RedFlag.BORING_PROJECTS]: 'nudne projekty',
 		[RedFlag.CANT_GET_MEANINGFUL_EXPERIENCE]:
@@ -14,7 +14,7 @@
 		[RedFlag.FAVORITISM]: 'faworytowanie wybranych pracowników',
 		[RedFlag.GETTING_RAISE_IS_IMPOSSIBLE]: 'brak podwyżek lub bonusów',
 		[RedFlag.GLASS_CEILING]: 'szklany sufit, brak możliwości awansu',
-		[RedFlag.HOMOPHOBIA]: 'Homofobia',
+		[RedFlag.HOMOPHOBIA]: 'homofobia',
 		[RedFlag.INTERNS_MAJORITY]: 'poleganie bezpłatnych stażystach',
 		[RedFlag.MISSING_BASIC_MATERIALS]: 'brak materiałów biurowch',
 		[RedFlag.MISSING_OR_STUDENTS_LICENSE]:

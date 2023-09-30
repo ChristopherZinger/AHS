@@ -4,8 +4,8 @@
 	const flagToMsg: Record<RedFlagSectionName, string> = {
 		[RedFlagSectionName.CAREER]: 'Kariera',
 		[RedFlagSectionName.DISCRIMINATION]: 'Dyskryminacja',
-		[RedFlagSectionName.MANAGEMENT]: 'Kierownictwo',
-		[RedFlagSectionName.PAYROLL]: 'Pensja',
+		[RedFlagSectionName.MANAGEMENT]: 'Zarząd',
+		[RedFlagSectionName.PAYROLL]: 'Wynagrodzenie',
 		[RedFlagSectionName.PROJECTS]: 'Projekty',
 		[RedFlagSectionName.TOOLS]: 'Nażędzia',
 		[RedFlagSectionName.TIME_MANAGEMENT]: 'Czas'
