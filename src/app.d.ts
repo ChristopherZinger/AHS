@@ -3,8 +3,16 @@
 
 import type { TokenUser } from '$lib/server/TokenUserUtils';
 
-declare namespace App {
-	interface Locals {
-		user: TokenUser | null;
+declare global {
+	namespace App {
+		interface Locals {
+			user: TokenUser | null;
+		}
+		interface Error {
+			code: number;
+			name: string;
+			message: string;
+		}
 	}
 }
+export {};
