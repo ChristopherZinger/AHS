@@ -1,17 +1,9 @@
 <script lang="ts">
-	import { appUser } from '$lib/stores/auth';
-	import LinkStyle from '$lib/components/shared/LinkStyle.svelte';
-	import NavBtn from './NavBtn.svelte';
 	import NavLogo from './NavLogo.svelte';
-	import {
-		getHomeUrl,
-		getLoginUrl,
-		getSigninUrl
-	} from '$lib/utils/appUrls';
-	import { logout } from '$lib/utils/logout';
+	import { getHomeUrl } from '$lib/utils/appUrls';
 
-	export let onNavBtnClick: () => void;
-	export let isMobileMenuOpen: boolean;
+	// export let onNavBtnClick: () => void;
+	// export let isMobileMenuOpen: boolean;
 </script>
 
 <nav class="flex justify-between items-center app-section">
@@ -19,37 +11,16 @@
 		<li><a href={getHomeUrl()}><NavLogo /></a></li>
 	</ul>
 
-	<ul class="justify-between gap-x-6 hidden lg:flex items-center ">
-		<li>
-			<LinkStyle><a href={'/search'}>search</a></LinkStyle>
-		</li>
-		{#if $appUser}
-			<li class="cursor-pointer">
-				<button on:click={() => logout(() => appUser.set(null))}>
-					<LinkStyle>logout</LinkStyle>
-				</button>
-			</li>
-		{:else}
-			<li>
-				<LinkStyle><a href={getLoginUrl()}>login</a></LinkStyle>
-			</li>
-			<li>
-				<LinkStyle><a href={getSigninUrl()}>signup</a></LinkStyle>
-			</li>
-		{/if}
+	<!-- <TopNavLeftSide /> -->
 
-		<li>
-			<LinkStyle><a href="/survey">survey</a></LinkStyle>
-		</li>
-	</ul>
-
-	<ul class="lg:hidden cursor-pointer">
+	<!-- phone main menu button -->
+	<!-- <ul class="lg:hidden cursor-pointer">
 		<li>
 			<button on:click={onNavBtnClick}>
 				<NavBtn isMenuOpen={isMobileMenuOpen} />
 			</button>
 		</li>
-	</ul>
+	</ul> -->
 </nav>
 
 <style>

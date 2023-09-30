@@ -17,10 +17,11 @@
 <div class="app">
 	<main>
 		<header class="mx-3">
-			<TopNav
+			<!-- <TopNav
 				onNavBtnClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 				{isMobileMenuOpen}
-			/>
+			/> -->
+			<TopNav />
 		</header>
 
 		<MobileSideNav isOpen={isMobileMenuOpen} {setIsMobileMenuOpen} />
