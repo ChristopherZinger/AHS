@@ -26,6 +26,13 @@ export async function getAnonymousSessionCookiePayload(
 	);
 }
 
+export function clearAnonymousSessionCookie(cookies: Cookies) {
+	cookies.set(expectAnonymousSessionCookieNameFromEnv(), '', {
+		path: '/',
+		expires: new Date('2000-01-01')
+	});
+}
+
 export function setAnonymousSessionCookie(
 	data: AnonymousSessionCookie,
 	cookies: Cookies

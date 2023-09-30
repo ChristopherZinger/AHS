@@ -1,5 +1,6 @@
-import { prisma, usePrisma } from '$lib/prisma.js';
+import { getPrismaClient } from '$lib/prisma.js';
 import {
+	clearAnonymousSessionCookie,
 	createAnonymousSessionRecord,
 	getAnonymousSessionCookiePayload,
 	setAnonymousSessionCookie
@@ -20,149 +21,165 @@ import {
 	SurveyEducation,
 	SurveyAgeOption
 } from '../../lib/utils/surveyTypes.js';
+import { ServerErrorName } from '$lib/utils/appError.js';
 
 export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
-	const anonymousSessionCookie = await getAnonymousSessionCookiePayload(
-		cookies
-	);
-
-	let anonymousSession: undefined | AnonymousSession;
-	if (!anonymousSessionCookie) {
-		anonymousSession = await createAnonymousSessionRecord(prisma);
-		setAnonymousSessionCookie(
-			{
-				id: anonymousSession.id,
-				expirationDate: anonymousSession.expirationDate,
-				createdAt: anonymousSession.createdAt
-			},
+	const prisma = getPrismaClient();
+	try {
+		const anonymousSessionCookie = await getAnonymousSessionCookiePayload(
 			cookies
 		);
-	} else {
-		const _anonymousSession = await prisma.anonymousSession.findUnique({
-			where: {
-				id: anonymousSessionCookie.id
-			}
-		});
 
-		if (!_anonymousSession) {
-			throw error(404, 'missing_session_for_id');
-		}
-		anonymousSession = _anonymousSession;
-	}
-
-	const surveyCookie = await getSurveySessionCookiePayload(cookies);
-	let survey: undefined | Survey;
-	if (!surveyCookie) {
-		survey = await prisma.survey.create({
-			data: {
-				data: EMPTY_SURVEY_BLUEPRINT,
-				anonymousSession: {
-					connect: {
-						id: anonymousSession.id
-					}
+		let anonymousSession: undefined | AnonymousSession;
+		if (!anonymousSessionCookie) {
+			anonymousSession = await createAnonymousSessionRecord(prisma);
+			setAnonymousSessionCookie(
+				{
+					id: anonymousSession.id,
+					expirationDate: anonymousSession.expirationDate,
+					createdAt: anonymousSession.createdAt
+				},
+				cookies
+			);
+		} else {
+			const _anonymousSession = await prisma.anonymousSession.findUnique({
+				where: {
+					id: anonymousSessionCookie.id
 				}
-			}
-		});
+			});
 
-		setSurveyCookie(
-			{
-				anonymousSessionId: anonymousSession.id,
-				createdAt: survey.createdAt,
-				id: survey.id
-			},
-			60 * 60, // 1h
-			cookies
-		);
-	} else {
-		const _survey = await prisma.survey.findUnique({
-			where: {
-				id: surveyCookie.id
+			if (!_anonymousSession) {
+				throw error(
+					400,
+					ServerErrorName.MISSING_OR_INVALID_ANONYMOUS_SESSION_COOKIE
+				);
 			}
-		});
-
-		if (!_survey) {
-			throw error(404, 'missing_survey_for_id');
+			anonymousSession = _anonymousSession;
 		}
-		survey = _survey;
+
+		const surveyCookie = await getSurveySessionCookiePayload(cookies);
+		let survey: undefined | Survey;
+		if (!surveyCookie) {
+			survey = await prisma.survey.create({
+				data: {
+					data: EMPTY_SURVEY_BLUEPRINT,
+					anonymousSessionId: anonymousSession.id
+				}
+			});
+
+			setSurveyCookie(
+				{
+					anonymousSessionId: anonymousSession.id,
+					createdAt: survey.createdAt,
+					id: survey.id
+				},
+				60 * 60, // 1h
+				cookies
+			);
+		} else {
+			const _survey = await prisma.survey.findUnique({
+				where: {
+					id: surveyCookie.id
+				}
+			});
+
+			if (!_survey) {
+				throw error(400, ServerErrorName.MISSING_OR_INVALID_SURVEY_COOKIE);
+			}
+			survey = _survey;
+		}
+
+		// ! todo - ensure "flags" object isn't empty - otherwise error in flag form
+		// ensure this on the backend
+		return { survey };
+	} catch (e) {
+		prisma.$disconnect();
+
+		if (e instanceof error) {
+			throw e;
+		} else {
+			throw new Error('unknown_error');
+		}
 	}
-
-	prisma.$disconnect();
-
-	// ! todo - ensure "flags" object isn't empty - otherwise error in flag form
-	// ensure this on the backend
-	return { survey };
 }
 
 export const actions = {
 	'update-survey-office': async function ({ cookies, request }) {
-		const [sessionCookie, surveyCookie, form] = await Promise.all([
-			getAnonymousSessionCookiePayload(cookies),
-			getSurveySessionCookiePayload(cookies),
-			request.formData()
-		]);
+		const prisma = getPrismaClient();
+		try {
+			const [sessionCookie, surveyCookie, form] = await Promise.all([
+				getAnonymousSessionCookiePayload(cookies),
+				getSurveySessionCookiePayload(cookies),
+				request.formData()
+			]);
 
-		if (!sessionCookie) {
-			throw error(403, 'unknown_session');
-		}
+			if (!sessionCookie) {
+				clearAnonymousSessionCookie(cookies);
+				clearSurveyCookie(cookies);
+				throw error(
+					403,
+					ServerErrorName.MISSING_OR_INVALID_ANONYMOUS_SESSION_COOKIE
+				);
+			}
 
-		if (!surveyCookie) {
-			throw error(403, 'unknown_survey');
-		}
+			if (!surveyCookie) {
+				clearSurveyCookie(cookies);
+				throw error(403, ServerErrorName.MISSING_OR_INVALID_SURVEY_COOKIE);
+			}
 
-		const shouldGoStepBackParsingResult = z
-			.literal('on')
-			.safeParse(form.get('should-go-back')).success;
+			const shouldGoStepBackParsingResult = z
+				.literal('on')
+				.safeParse(form.get('should-go-back')).success;
 
-		const rawData = form.get('data');
-		const stringifiedData = z.string().min(1).parse(rawData);
-		const unsafeData = JSON.parse(stringifiedData);
+			const rawData = form.get('data');
+			const stringifiedData = z.string().min(1).parse(rawData);
+			const unsafeData = JSON.parse(stringifiedData);
 
-		const parsingResult = z
-			.object({
-				office: z
-					.object({
-						officeName: z.string().min(1),
-						city: z.string().min(1)
-						// numOfEmployes: z.nativeEnum(OfficeSize)
-					})
-					.optional(),
-				flags: z.record(z.string(), z.boolean()),
-				story: z
-					.object({
-						title: z.string().min(1),
-						body: z.string().min(1)
-					})
-					.optional(),
-				profile: z
-					.object({
-						sex: z.nativeEnum(SurveySexOption).optional(),
-						isLicensed: z.boolean().optional(),
-						numYearsExperience: z
-							.nativeEnum(SurveyNumYearsExperience)
-							.optional(),
-						age: z.nativeEnum(SurveyAgeOption).optional(),
-						education: z.nativeEnum(SurveyEducation).optional()
-					})
-					.optional(),
-				currentStep: z.number().min(0).max(5)
-			})
-			.safeParse(unsafeData);
+			const parsingResult = z
+				.object({
+					office: z
+						.object({
+							officeName: z.string().min(1),
+							city: z.string().min(1)
+							// numOfEmployes: z.nativeEnum(OfficeSize)
+						})
+						.optional(),
+					flags: z.record(z.string(), z.boolean()),
+					story: z
+						.object({
+							title: z.string().min(1),
+							body: z.string().min(1)
+						})
+						.optional(),
+					profile: z
+						.object({
+							sex: z.nativeEnum(SurveySexOption).optional(),
+							isLicensed: z.boolean().optional(),
+							numYearsExperience: z
+								.nativeEnum(SurveyNumYearsExperience)
+								.optional(),
+							age: z.nativeEnum(SurveyAgeOption).optional(),
+							education: z.nativeEnum(SurveyEducation).optional()
+						})
+						.optional(),
+					currentStep: z.number().min(0).max(5)
+				})
+				.safeParse(unsafeData);
 
-		if (!parsingResult.success) {
-			console.error(parsingResult.error);
-			throw error(400, 'bad_input');
-		}
+			if (!parsingResult.success) {
+				console.error(parsingResult.error);
+				throw error(400, 'bad_input');
+			}
 
-		const { data: safeInput } = parsingResult;
+			const { data: safeInput } = parsingResult;
 
-		safeInput.currentStep =
-			safeInput.currentStep + (shouldGoStepBackParsingResult ? -1 : 1);
-		if (safeInput.currentStep > 4) {
-			clearSurveyCookie(cookies);
-		}
+			safeInput.currentStep =
+				safeInput.currentStep + (shouldGoStepBackParsingResult ? -1 : 1);
+			if (safeInput.currentStep > 4) {
+				clearSurveyCookie(cookies);
+			}
 
-		let surveyData: any;
-		await usePrisma(async (prisma) => {
+			let surveyData: any;
 			const survey = await prisma.survey.findUnique({
 				where: {
 					id: surveyCookie.id
@@ -181,8 +198,11 @@ export const actions = {
 					data: safeInput
 				}
 			});
-		});
 
-		return { data: surveyData };
+			return { data: surveyData };
+		} catch (err) {
+			prisma.$disconnect;
+			throw err;
+		}
 	}
 };

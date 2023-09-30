@@ -21,6 +21,7 @@
 
 	export let data: SurveyData;
 	export let currentStep: number;
+	export let onFormServerError: (msg: string) => void;
 
 	const requiredFieldMsg = 'Pole jest wymagene';
 
@@ -90,8 +91,8 @@
 			if (result.type === 'success') {
 				const surveyDataResponse = result.data?.data.data;
 				data = surveyDataResponse;
-			} else {
-				setUnknownError();
+			} else if (result.type === 'error') {
+				onFormServerError(result.error.message);
 			}
 		};
 	}}

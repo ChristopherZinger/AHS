@@ -5,12 +5,12 @@
 		SurveyData,
 		SurveyForm
 	} from '../../lib/utils/surveyTypes';
+	import Button from '$lib/components/shared/Button.svelte';
+	import { ServerErrorName } from '$lib/utils/appError';
 
 	export let data: {
 		survey: SurveyForm;
 	};
-
-	$: console.log(data.survey.data);
 
 	function handleCompletedSurvey(step: number) {
 		if (step > 4) {
@@ -19,6 +19,8 @@
 	}
 	$: handleCompletedSurvey(currentStep);
 	$: currentStep = data.survey.data.currentStep;
+
+	let formServerErrorMsg: string | undefined;
 
 	function getHeaderForCurrentStep(
 		step: number,
@@ -60,10 +62,36 @@
 </script>
 
 <div class="app-section__narrow">
-	{#if headingInfo}
-		<h1 class="text-4xl font-bold my-10">{headingInfo.heading}</h1>
-		<p>{@html headingInfo.body}</p>
-	{/if}
+	{#if !formServerErrorMsg}
+		{#if headingInfo}
+			<h1 class="text-4xl font-bold my-10">{headingInfo.heading}</h1>
+			<p>{@html headingInfo.body}</p>
+		{/if}
 
-	<SurveyFormWrapper {currentStep} bind:data={data.survey.data} />
+		<SurveyFormWrapper
+			onFormServerError={(msg) => {
+				formServerErrorMsg = msg;
+			}}
+			{currentStep}
+			bind:data={data.survey.data}
+		/>
+	{:else}
+		<h1 class="text-4xl font-bold my-10">
+			{#if [ServerErrorName.MISSING_OR_INVALID_ANONYMOUS_SESSION_COOKIE, ServerErrorName.MISSING_OR_INVALID_SURVEY_COOKIE].includes(formServerErrorMsg)}
+				Sesja wygasła.
+			{:else}
+				Ups! Coś poszło nie tak.
+			{/if}
+		</h1>
+		<p class="my-10">Kliknij przycisk poniżej aby rozpocząć ponownie.</p>
+		<div class="flex justify-center lg:justify-start">
+			<Button
+				onClick={() => {
+					window.location.reload();
+				}}
+			>
+				Rozpocznij
+			</Button>
+		</div>
+	{/if}
 </div>
