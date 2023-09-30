@@ -14,7 +14,7 @@
 
 	function handleCompletedSurvey(step: number) {
 		if (step > 4) {
-			goto('/newsletter-signup');
+			goto('/survey/subscribe');
 		}
 	}
 	$: handleCompletedSurvey(currentStep);
@@ -56,15 +56,14 @@
 
 		return headersInOrderOfSteps[step];
 	}
+	$: headingInfo = getHeaderForCurrentStep(currentStep, data.survey.data);
 </script>
 
 <div class="app-section__narrow">
-	<h1 class="text-4xl font-bold my-10">
-		{getHeaderForCurrentStep(currentStep, data.survey.data).heading}
-	</h1>
-	<p>
-		{@html getHeaderForCurrentStep(currentStep, data.survey.data).body}
-	</p>
+	{#if headingInfo}
+		<h1 class="text-4xl font-bold my-10">{headingInfo.heading}</h1>
+		<p>{@html headingInfo.body}</p>
+	{/if}
 
 	<SurveyFormWrapper {currentStep} bind:data={data.survey.data} />
 </div>
