@@ -8,11 +8,6 @@ declare global {
 		interface Locals {
 			user: TokenUser | null;
 		}
-		interface Error {
-			code: number;
-			name: string;
-			message: string;
-		}
 	}
 }
 export {};
