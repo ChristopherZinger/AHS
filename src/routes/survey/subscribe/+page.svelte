@@ -63,11 +63,15 @@
 		{/if}
 
 		<div class="grid grid-cols-3">
-			<div />
-			<Button disabled={isLoading} {isLoading} type="submit">
-				Subskrybuj
-			</Button>
-			<div class="flex justify-end items-center">
+			<div class="hidden lg:block" />
+			<div class="m-auto col-span-3 lg:col-span-1">
+				<Button disabled={isLoading} {isLoading} type="submit">
+					Subskrybuj
+				</Button>
+			</div>
+			<div
+				class="flex justify-center lg:justify-end items-center col-span-3 lg:col-span-1 my-5 lg:my-0"
+			>
 				<a href="/survey/thanks">Pomiń &gt</a>
 			</div>
 		</div>
