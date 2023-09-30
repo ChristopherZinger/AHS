@@ -193,8 +193,10 @@
 		/>
 	{/if}
 
-	<div class="flex justify-between items-center my-10">
-		<div>
+	<div
+		class="grid grid-cols-2 lg:grid-cols-3 grid-row-2 lg:grid-row-1 lg:my-10"
+	>
+		<div class="row-start-2 lg:row-start-1 mt-5 lg:mt-0">
 			<button
 				hidden={currentStep < 2}
 				on:click={() => {
@@ -208,16 +210,18 @@
 			</button>
 		</div>
 
-		<Button
-			type="submit"
-			{isLoading}
-			disabled={isLoading ||
-				!!Object.values(inputErrors).some((arr) => arr.length)}
-		>
-			{stepToButtonText[currentStep]}
-		</Button>
+		<div class="col-span-2 lg:col-span-1 flex justify-center">
+			<Button
+				type="submit"
+				{isLoading}
+				disabled={isLoading ||
+					!!Object.values(inputErrors).some((arr) => arr.length)}
+			>
+				{stepToButtonText[currentStep]}
+			</Button>
+		</div>
 
-		<div>
+		<div class="flex justify-end mt-5 lg:mt-0">
 			<button
 				hidden={currentStep < 2}
 				type="submit"
