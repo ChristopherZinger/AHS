@@ -1,9 +1,10 @@
 import { prisma } from '$lib/prisma';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load: PageServerLoad = async ({ params }) => {
+export const load = async ({ params }) => {
+	throw redirect(307, '/survey');
 	const { slug } = params;
 
 	if (!slug) {

@@ -1,11 +1,13 @@
 import { prisma } from '$lib/prisma';
+import { redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load: PageServerLoad = async () => {
+export async function load() {
 	const countries = await prisma.country.findMany();
+
+	throw redirect(307, '/survey');
 
 	return {
 		data: countries
 	};
-};
-
+}

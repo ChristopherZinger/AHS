@@ -1,10 +1,10 @@
 import { prisma } from '$lib/prisma';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import dayjs from 'dayjs';
 import { z } from 'zod';
-import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, locals }) => {
+export const load = async ({ params, locals }) => {
+	throw redirect(307, '/survey');
 	const { user } = locals;
 
 	const { slug } = params;

@@ -1,11 +1,12 @@
 import { prisma } from '$lib/prisma';
 import { RedFlag } from '@prisma/client';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { uniq } from 'lodash';
 import { z } from 'zod';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load: PageServerLoad = async ({ params }) => {
+	throw redirect(307, '/survey');
 	const { slug } = params;
 
 	if (!slug) {

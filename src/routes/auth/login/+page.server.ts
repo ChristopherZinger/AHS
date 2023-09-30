@@ -1,9 +1,13 @@
 import { prisma } from '$lib/prisma.js';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import { compareSync } from 'bcrypt';
 import { setSessionCookie } from '$lib/server/authCookiesUtils';
 import type { TokenUser } from '$lib/server/TokenUserUtils';
+
+export async function load() {
+	throw redirect(307, '/survey');
+}
 
 export const actions = {
 	login: async ({
