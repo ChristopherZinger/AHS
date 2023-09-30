@@ -26,6 +26,7 @@ model AnonymousSession {
   createdAt       DateTime    @default(now())
   expirationDate  DateTime  
   surveys         Survey[]
+  Subscriber      Subscriber[]
 }
 
 model Survey {
@@ -35,6 +36,13 @@ model Survey {
   anonymousSession    AnonymousSession  @relation(fields: [anonymousSessionId], references: [id]) 
   anonymousSessionId  String
 }
+
+model Subscriber {
+  createdAt           DateTime          @default(now())
+  email               String            @id  
+  anonymousSession    AnonymousSession @relation(fields: [sessionId], references: [id])
+  sessionId           String
+} 
 
 model User {
   id                  String        @id @default(uuid())
