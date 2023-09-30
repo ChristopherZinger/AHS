@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { expectAnonymousSessionCookieNameFromEnv } from '../envUtils';
 import { getParsedJwtFromCookie } from './cookiesUtils';
 import { setCookieWithExpTimeInSec } from '../authCookiesUtils';
+import type { AppPrisma } from '$lib/prisma';
+import type { AnonymousSession } from '@prisma/client';
 
 type AnonymousSessionCookie = {
 	id: string;
@@ -36,4 +38,15 @@ export function setAnonymousSessionCookie(
 		),
 		cookies
 	);
+}
+
+export async function createAnonymousSessionRecord(
+	prisma: AppPrisma
+): Promise<AnonymousSession> {
+	const expDate = new Date();
+	expDate.setDate(new Date().getDate() + 30); // 30 days
+
+	return await prisma.anonymousSession.create({
+		data: { expirationDate: expDate }
+	});
 }

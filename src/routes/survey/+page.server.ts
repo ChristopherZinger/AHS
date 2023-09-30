@@ -1,5 +1,6 @@
 import { prisma, usePrisma } from '$lib/prisma.js';
 import {
+	createAnonymousSessionRecord,
 	getAnonymousSessionCookiePayload,
 	setAnonymousSessionCookie
 } from '$lib/server/cookiesUtils/AnonymousSessionCookieUtils.js';
@@ -20,15 +21,6 @@ import {
 	SurveyAgeOption
 } from '../../lib/utils/surveyTypes.js';
 
-async function createAnonymousSessionRecord(): Promise<AnonymousSession> {
-	const expDate = new Date();
-	expDate.setDate(new Date().getDate() + 30); // 30 days
-
-	return await prisma.anonymousSession.create({
-		data: { expirationDate: expDate }
-	});
-}
-
 export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
 	const anonymousSessionCookie = await getAnonymousSessionCookiePayload(
 		cookies
@@ -36,7 +28,7 @@ export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
 
 	let anonymousSession: undefined | AnonymousSession;
 	if (!anonymousSessionCookie) {
-		anonymousSession = await createAnonymousSessionRecord();
+		anonymousSession = await createAnonymousSessionRecord(prisma);
 		setAnonymousSessionCookie(
 			{
 				id: anonymousSession.id,
