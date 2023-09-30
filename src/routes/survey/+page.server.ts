@@ -96,8 +96,6 @@ export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
 
 	prisma.$disconnect();
 
-	console.log('RETURN SRUEY', survey);
-
 	// ! todo - ensure "flags" object isn't empty - otherwise error in flag form
 	// ensure this on the backend
 	return { survey };
@@ -172,8 +170,8 @@ export const actions = {
 		}
 
 		let surveyData: any;
-		await usePrisma(async (pri) => {
-			const survey = await pri.survey.findUnique({
+		await usePrisma(async (prisma) => {
+			const survey = await prisma.survey.findUnique({
 				where: {
 					id: surveyCookie.id
 				}
@@ -183,7 +181,7 @@ export const actions = {
 				throw error(400, 'missin_survey_for_id');
 			}
 
-			surveyData = await pri.survey.update({
+			surveyData = await prisma.survey.update({
 				where: {
 					id: surveyCookie.id
 				},
