@@ -1,9 +1,8 @@
-<span class="lg:hidden">AHS</span>
+<span class="lg:hidden">CA</span>
 
 <div class="hidden lg:flex flex-col">
-	<span>ARCHITECTURE</span>
-	<span>HORROR</span>
-	<span>STORY</span>
+	<span>CIĘŻAR</span>
+	<span>ARCHITEKTURY</span>
 </div>
 
 <style>
