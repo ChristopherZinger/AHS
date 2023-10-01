@@ -4,6 +4,7 @@
 	export let name: string;
 	export let value = '';
 	export let onChange: (v: string) => void;
+	export let placeholder: string = '';
 </script>
 
 <input
@@ -17,6 +18,7 @@
 	{name}
 	{value}
 	on:input={({ currentTarget: { value } }) => onChange(value)}
+	{placeholder}
 />
 
 <style>
