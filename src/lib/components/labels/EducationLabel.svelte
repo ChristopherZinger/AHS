@@ -1,10 +1,11 @@
 <script context="module" lang="ts">
 	const educationDegreeToMsg: Record<SurveyEducation, string> = {
 		[SurveyEducation.HIGHSCHOOL]: 'Brak wyższego wykształcenia',
-		[SurveyEducation.BACHELOR]: 'Licencjat',
-		[SurveyEducation.MASTER]: 'Magister',
-		[SurveyEducation.PHD]: 'Doktor',
-		[SurveyEducation.PROFESSOR]: 'Profesor'
+		[SurveyEducation.TECHNICAL_SCHOOL]: 'Wykształcenie zawodowe',
+		[SurveyEducation.BACHELOR]: 'Licencjat / Inżynier',
+		[SurveyEducation.MASTER]: 'Tytył magister',
+		[SurveyEducation.PHD]: 'Tytuł doktora',
+		[SurveyEducation.PROFESSOR]: 'Tytuł profesora'
 	};
 
 	export function getEducationDegreeLabel(
