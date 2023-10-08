@@ -1,10 +1,7 @@
 <script lang="ts">
 	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
 	import Arrow from '$lib/components/shared/Arrow.svelte';
-	import {
-		redFlagSectionsInOrder,
-		redFlagToLabel
-	} from '$lib/utils/redFlagUtils';
+	import { redFlagSectionsInOrder } from '$lib/utils/redFlagUtils';
 	import type { RedFlag } from '@prisma/client';
 
 	export let data: {
@@ -36,7 +33,7 @@
 
 			if (redFlagCounters.length) {
 				acc.push({
-					label: section.label,
+					label: section.section,
 					flags: redFlagCounters
 				});
 			}
@@ -84,7 +81,7 @@
 							<span class="font-bold">
 								{flag.counter}
 							</span>
-							{redFlagToLabel[flag.redFlagName]}
+							<!-- {redFlagToLabel[flag.redFlagName]} -->
 						</li>
 					{/each}
 				</div>

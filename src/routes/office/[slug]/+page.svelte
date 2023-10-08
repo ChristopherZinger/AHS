@@ -3,9 +3,8 @@
 	import FeedReviewItem from '$lib/components/feed/FeedReviewItem.svelte';
 	import CommentForm from './CommentForm.svelte';
 	import { appUser } from '$lib/stores/auth';
-	import Arrow from '$lib/components/shared/Arrow.svelte';
 	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
-	import { redFlagToLabel } from '$lib/utils/redFlagUtils';
+	// import { redFlagToLabel } from '$lib/utils/redFlagUtils';
 	import type { RedFlag } from '@prisma/client';
 
 	export let data: {
@@ -64,7 +63,7 @@
 							{counter.counter}
 						</div>
 						<p class="text-center">
-							{redFlagToLabel[counter.redFlagName]}
+							<!-- {redFlagToLabel[counter.redFlagName]} -->
 						</p>
 					</li>
 				{/each}

@@ -1,150 +1,109 @@
-import { RedFlag } from '@prisma/client';
-
-export const redFlagToLabel: Record<RedFlag, string> = {
-	[RedFlag.UNPAID_INTERNSHIP]: 'Unpaid internship',
-	[RedFlag.UNPAID_OVERTIME]: 'Unpaid overtime',
-	[RedFlag.STARVING_SALARY]: 'Starving salary',
-	[RedFlag.OVERDUE_PAYOUT]: 'Overdue salary',
-	[RedFlag.PAYSLIP_LOWER_THEN_AGREED]: 'Payslip lower then agreed',
-	[RedFlag.GETTING_RAISE_IS_IMPOSSIBLE]: 'Getting raise is impossible',
-	[RedFlag.UNPAID_EXPENSES]: 'Unpaid Expenses',
-
-	[RedFlag.BORING_PROJECTS]: 'Boring projects',
-	[RedFlag.UNREALISTIC_DEADLINES]: 'Unrealistic Deadlines',
-	[RedFlag.TASK_DONT_MATCH_JOB_DESCRIPTION]:
-		"Job doesn't match description",
-	[RedFlag.MONOTONOUS_TASKS]: 'Monotonous Tasks',
-	[RedFlag.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN]: 'Cheapest solutions',
-
-	[RedFlag.TOO_MUCH_RESPONSIBILITY]: 'Too much responsibility',
-	[RedFlag.TOO_LITTLE_RESPONSIBILITY]: 'Too little responsibility',
-	[RedFlag.NO_ROOM_FOR_DEVELOPMENT]: 'No room for developement',
-	[RedFlag.CANT_GET_MEANINGFUL_EXPERIENCE]:
-		"Can't get meaningful experience",
-	[RedFlag.GLASS_CEILING]: 'glass ceiling',
-
-	[RedFlag.MISSING_OR_STUDENTS_LICENSE]: 'Missing or student license',
-	[RedFlag.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE]:
-		'Private software or hardware required',
-	[RedFlag.OFF_BRAND_OR_FREE_SOFTWARE]: 'Off brand or free software',
-	[RedFlag.OLD_HARDWARE_OUTDATED_SOFTWARE]:
-		'Old hardware or outdated software',
-	[RedFlag.BAD_WORKSPACE]: 'Bad workspace',
-	[RedFlag.MISSING_BASIC_MATERIALS]:
-		'Missing basic design materials and equipement',
-
-	[RedFlag.ABUSE_MOBBING]: 'Abuse or mobbing',
-	[RedFlag.TOXIC_ATMOSPHERE]: 'Toxic atmosphere',
-	[RedFlag.STRESS_PRESSURE]:
-		'Stressfull atmosphere, unsustainable pressure',
-	[RedFlag.FAVORITISM]: 'Favoritism or ass kissing mentality',
-	[RedFlag.INTERNS_MAJORITY]: 'Interns make up majority of workforce',
-	[RedFlag.NARCISSISTIC_MANAGEMENT]:
-		'Delusional, egocentric, narcissistic boss',
-
-	[RedFlag.CASUAL_OVERTIME]: 'Casual overtime (less then 5h/week)',
-	[RedFlag.SYSTEMATIC_OVERTIME]: 'Systematic overtime (over 5h/week)',
-	[RedFlag.WEEKEND_WORK]: 'Work on weekends and public hollidays',
-	[RedFlag.DENIED_TIME_OFF]: 'Denied time off',
-
-	[RedFlag.RACISM]: 'Racism',
-	[RedFlag.HOMOPHOBIA]: 'Homophobia',
-	[RedFlag.ABLEISM]: 'Ableism',
-	[RedFlag.XENOPHOBIA]: 'Xenophobia',
-	[RedFlag.TRANSPHOBIA]: 'Transphobia',
-	[RedFlag.NEPOTISM]: 'Nepotism',
-	[RedFlag.SEXISM]: 'Sexism',
-	[RedFlag.AGISM]: 'Agism'
-};
+import { APP_RED_FLAG, type AppRedFlag } from './dbEnums';
 
 export enum RedFlagSectionName {
-	PAYROLL = 'payroll',
-	PROJECTS = 'projects',
+	SALARY = 'salary',
+	JOB_SATISFACTION = 'job_satisfaction',
 	CAREER = 'career',
 	TOOLS = 'tools',
-	MANAGEMENT = 'management',
-	TIME_MANAGEMENT = 'time_management',
+	MANAGEMENT_AND_BUISNESS = 'management_and_buisness',
+	TIME_MANAGEMENT_AND_WORKLOAD = 'time_management_and_workload',
+	VIBE = 'vibe',
 	DISCRIMINATION = 'discrimination'
 }
 
 export const redFlagSectionsInOrder: {
-	label: RedFlagSectionName;
-	flags: RedFlag[];
+	section: RedFlagSectionName;
+	flags: AppRedFlag[];
 }[] = [
 	{
-		label: RedFlagSectionName.PAYROLL,
+		section: RedFlagSectionName.SALARY,
 		flags: [
-			RedFlag.UNPAID_INTERNSHIP,
-			RedFlag.UNPAID_OVERTIME,
-			RedFlag.STARVING_SALARY,
-			RedFlag.OVERDUE_PAYOUT,
-			RedFlag.PAYSLIP_LOWER_THEN_AGREED,
-			RedFlag.GETTING_RAISE_IS_IMPOSSIBLE,
-			RedFlag.UNPAID_EXPENSES
+			APP_RED_FLAG.UNPAID_INTERNSHIP,
+			APP_RED_FLAG.UNPAID_OVERTIME,
+			APP_RED_FLAG.STARVING_SALARY,
+			APP_RED_FLAG.UNEQUAL_SALARIES,
+			APP_RED_FLAG.CHANGES_IN_EMPLOYMENT_CONDITIONS,
+			APP_RED_FLAG.DELAYED_PAYSLIPS,
+			APP_RED_FLAG.PAYCHECK_LOWER_THEN_AGREED,
+			APP_RED_FLAG.NO_SALARY_INCREASES_OR_BONUSES,
+			APP_RED_FLAG.UNPAID_OR_DEDUCTED_EXPENSES,
+			APP_RED_FLAG.UNCLEAR_SALARY_CALCULATION,
+			APP_RED_FLAG.TRASH_CONTRACTS
 		]
 	},
 	{
-		label: RedFlagSectionName.PROJECTS,
+		section: RedFlagSectionName.JOB_SATISFACTION,
 		flags: [
-			RedFlag.BORING_PROJECTS,
-			RedFlag.UNREALISTIC_DEADLINES,
-			RedFlag.TASK_DONT_MATCH_JOB_DESCRIPTION,
-			RedFlag.MONOTONOUS_TASKS,
-			RedFlag.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN
+			APP_RED_FLAG.BORING_PROJECTS,
+			APP_RED_FLAG.INSIGNIFICANT_MONOTONOUS_TASKS,
+			APP_RED_FLAG.TASKS_DONT_MATCH_JOB_DESCRIPTION,
+			APP_RED_FLAG.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN
 		]
 	},
 	{
-		label: RedFlagSectionName.CAREER,
+		section: RedFlagSectionName.CAREER,
 		flags: [
-			RedFlag.TOO_MUCH_RESPONSIBILITY,
-			RedFlag.TOO_LITTLE_RESPONSIBILITY,
-			RedFlag.NO_ROOM_FOR_DEVELOPMENT,
-			RedFlag.CANT_GET_MEANINGFUL_EXPERIENCE,
-			RedFlag.GLASS_CEILING
+			APP_RED_FLAG.CANT_GET_MEANINGFUL_EXPERIENCE,
+			APP_RED_FLAG.GLASS_CEILING,
+			APP_RED_FLAG.LACK_OF_MENTORING,
+			APP_RED_FLAG.NO_VARIETY_IN_RESPONSIBILITIES,
+			APP_RED_FLAG.NO_PERSONAL_DEVELOPMENT_PLAN_OR_EDUCATION_BUDGET,
+			APP_RED_FLAG.NOT_POSSIBLE_TO_INFLUENCE_COMPANY_STRATEGY
 		]
 	},
 	{
-		label: RedFlagSectionName.TOOLS,
+		section: RedFlagSectionName.TOOLS,
 		flags: [
-			RedFlag.MISSING_OR_STUDENTS_LICENSE,
-			RedFlag.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE,
-			RedFlag.OFF_BRAND_OR_FREE_SOFTWARE,
-			RedFlag.OLD_HARDWARE_OUTDATED_SOFTWARE,
-			RedFlag.BAD_WORKSPACE,
-			RedFlag.MISSING_BASIC_MATERIALS
+			APP_RED_FLAG.MISSING_OR_STUDENTS_LICENSE,
+			APP_RED_FLAG.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE,
+			APP_RED_FLAG.OFFBRAND_OR_FREE_SOFTWARE,
+			APP_RED_FLAG.OLD_HARDWARE_OUTDATED_SOFTWARE,
+			APP_RED_FLAG.BAD_WORKSTATION_BAD_OFFICE,
+			APP_RED_FLAG.MISSING_BASIC_OFFICE_SUPPLIES
 		]
 	},
 	{
-		label: RedFlagSectionName.MANAGEMENT,
+		section: RedFlagSectionName.MANAGEMENT_AND_BUISNESS,
 		flags: [
-			RedFlag.ABUSE_MOBBING,
-			RedFlag.TOXIC_ATMOSPHERE,
-			RedFlag.STRESS_PRESSURE,
-			RedFlag.FAVORITISM,
-			RedFlag.INTERNS_MAJORITY,
-			RedFlag.NARCISSISTIC_MANAGEMENT
+			APP_RED_FLAG.MICROMANAGEMENT,
+			APP_RED_FLAG.INCOMPETENT_MANAGEMENT,
+			APP_RED_FLAG.INABILITY_TO_GET_PROFITABLE_ASSIGNMENTS,
+			APP_RED_FLAG.FINANCIAL_PROBLEMS,
+			APP_RED_FLAG.OVERLY_RELYING_ON_INTERNS_OR_FREE_LABOUR,
+			APP_RED_FLAG.ILLEGAL_OR_IMMORAL
 		]
 	},
 	{
-		label: RedFlagSectionName.TIME_MANAGEMENT,
+		section: RedFlagSectionName.VIBE,
 		flags: [
-			RedFlag.CASUAL_OVERTIME,
-			RedFlag.SYSTEMATIC_OVERTIME,
-			RedFlag.WEEKEND_WORK,
-			RedFlag.DENIED_TIME_OFF
+			APP_RED_FLAG.TOXIC_ATMOSPHERE,
+			APP_RED_FLAG.FAVORITISM,
+			APP_RED_FLAG.ABUSE_MOBBING,
+			APP_RED_FLAG.STRESS_PRESSURE
 		]
 	},
 	{
-		label: RedFlagSectionName.DISCRIMINATION,
+		section: RedFlagSectionName.TIME_MANAGEMENT_AND_WORKLOAD,
 		flags: [
-			RedFlag.RACISM,
-			RedFlag.HOMOPHOBIA,
-			RedFlag.ABLEISM,
-			RedFlag.XENOPHOBIA,
-			RedFlag.TRANSPHOBIA,
-			RedFlag.NEPOTISM,
-			RedFlag.SEXISM,
-			RedFlag.AGISM
+			APP_RED_FLAG.UNREALISTIC_DEADLINES,
+			APP_RED_FLAG.CASUAL_OVERTIME,
+			APP_RED_FLAG.SYSTEMATIC_OVERTIME,
+			APP_RED_FLAG.WORK_ON_WEEKEND_AND_HOLIDAYS,
+			APP_RED_FLAG.DENIED_TIME_OFF,
+			APP_RED_FLAG.OVERWHELMING_RESPONSIBILITY
+		]
+	},
+	{
+		section: RedFlagSectionName.DISCRIMINATION,
+		flags: [
+			APP_RED_FLAG.RACISM,
+			APP_RED_FLAG.HOMOPHOBIA,
+			APP_RED_FLAG.ABLEISM,
+			APP_RED_FLAG.XENOPHOBIA,
+			APP_RED_FLAG.TRANSPHOBIA,
+			APP_RED_FLAG.NEPOTISM,
+			APP_RED_FLAG.SEXISM,
+			APP_RED_FLAG.AGISM
 		]
 	}
 ];

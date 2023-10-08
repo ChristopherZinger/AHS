@@ -12,7 +12,7 @@
 	{#each redFlagSectionsInOrder as section}
 		<div>
 			<h1 class="text-lg font-semibold mb-5">
-				{getRedFlagSectionNameLabel(section.label)}
+				{getRedFlagSectionNameLabel(section.section)}
 			</h1>
 			<div class="grid md:grid-cols-3 gap-5">
 				{#each section.flags as flag}

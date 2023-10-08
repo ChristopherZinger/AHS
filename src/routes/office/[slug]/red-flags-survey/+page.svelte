@@ -1,12 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Checkbox from '$lib/components/inputs/Checkbox.svelte';
 	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
 	import Button from '$lib/components/shared/Button.svelte';
-	import {
-		redFlagSectionsInOrder,
-		redFlagToLabel
-	} from '$lib/utils/redFlagUtils';
+	import { redFlagSectionsInOrder } from '$lib/utils/redFlagUtils';
 
 	export let data: {
 		office: {
@@ -41,10 +37,10 @@
 		<form class="my-20" method="POST" action="?/submit-red-flag-survey">
 			{#each redFlagSectionsInOrder as section}
 				<div class="my-14">
-					<h1 class="text-lg font-semibold mb-5">{section.label}</h1>
+					<h1 class="text-lg font-semibold mb-5">{section.section}</h1>
 					<div class="grid grid-cols-3 gap-5">
 						{#each section.flags as flag}
-							<Checkbox name={flag} label={redFlagToLabel[flag]} />
+							<!-- <Checkbox name={flag} label={redFlagToLabel[flag]} /> -->
 						{/each}
 					</div>
 				</div>
