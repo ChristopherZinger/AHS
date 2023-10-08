@@ -4,12 +4,14 @@
 		type LabeledValue
 	} from '$lib/components/shared/NewDropdown.svelte';
 	import type { Country, City } from '@prisma/client';
-	import { groupBy } from 'lodash';
+	import lodash from 'lodash';
 	import Spinner from '$lib/components/shared/Spinner.svelte';
 	import Button from '$lib/components/shared/Button.svelte';
 	import { fetchOfficeAutocomplete } from '../api/autocomplete/fetchAutocompleteOffice';
 	import { fetchOffice, type Office } from '../api/office/fetchOffices';
 	import { goto } from '$app/navigation';
+
+	const { groupBy } = lodash;
 
 	export let data: {
 		data: Country[];

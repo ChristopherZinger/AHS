@@ -1,4 +1,5 @@
-import { compact } from 'lodash';
+import lodash from 'lodash';
+const { compact } = lodash;
 
 type UrlInfo<T = null, R = null> = {
 	getBase: T extends null ? () => string : (p: T) => string;
