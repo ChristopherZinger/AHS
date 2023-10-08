@@ -7,6 +7,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"dev": "vite dev",
 		"format": "prettier --plugin-search-dir . --write .",
+		"local:up": "docker compose -f docker-compose.local.yml up -d",
+		"local:down": "docker compose -f docker-compose.local.yml down",
 		"dev:images": "docker compose -f docker-compose.dev.yml up -d",
 		"dev:images:down": "docker compose -f docker-compose.dev.yml down",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -15,7 +17,8 @@
 		"pmdn": "npx prisma migrate dev --name",
 		"prisma-gen": "npx prisma generate",
 		"prisma:migrate": "npx prisma migrate dev --name",
-		"prisma:push": "npx prisma db push"
+		"prisma:push": "npx prisma db push",
+		"serve-production": "node -r dotenv/config index.js"
 	},
 	"dependencies": {
 		"@prisma/client": "^4.8.1",
@@ -24,7 +27,6 @@
 		"dotenv": "^16.0.3",
 		"jsonwebtoken": "^9.0.1",
 		"lodash": "^4.17.21",
-		"redis": "^4.5.1",
 		"svelte-preprocess": "^5.0.0",
 		"svelte-select": "^5.3.1",
 		"yup": "^0.32.11",
