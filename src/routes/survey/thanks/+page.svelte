@@ -6,7 +6,7 @@
 	</p>
 
 	<p>
-		Masz ciekawe doświadczenia z innch biur?
+		Masz ciekawe doświadczenia z innch pracowni?
 		<a href="/survey" class="font-semibold underline">
 			wypełnij ponownie
 		</a>

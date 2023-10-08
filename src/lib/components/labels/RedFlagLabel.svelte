@@ -1,64 +1,120 @@
 <script context="module" lang="ts">
-	const flagToMsg: Record<RedFlag, string> = {
-		[RedFlag.ABLEISM]: 'dyskryminacja niepełnosprawnych',
-		[RedFlag.ABUSE_MOBBING]: 'mobbing, nękanie',
-		[RedFlag.AGISM]: 'dyskryminacja ze względu na wiek',
-		[RedFlag.BAD_WORKSPACE]: 'zła kondycja stanowiska pracy',
-		[RedFlag.BORING_PROJECTS]: 'nudne projekty',
-		[RedFlag.CANT_GET_MEANINGFUL_EXPERIENCE]:
-			'brak zdobycia wartościowego doświadczenia',
-		[RedFlag.CASUAL_OVERTIME]: 'nieregularne nadgodziny',
-		[RedFlag.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN]:
-			'promowanie najtańszych rozwiązań',
-		[RedFlag.DENIED_TIME_OFF]: 'odmowa wakacji albo dni wolych',
-		[RedFlag.FAVORITISM]: 'faworytowanie wybranych pracowników',
-		[RedFlag.GETTING_RAISE_IS_IMPOSSIBLE]: 'brak podwyżek lub bonusów',
-		[RedFlag.GLASS_CEILING]: 'szklany sufit, brak możliwości awansu',
-		[RedFlag.HOMOPHOBIA]: 'homofobia',
-		[RedFlag.INTERNS_MAJORITY]: 'poleganie bezpłatnych stażystach',
-		[RedFlag.MISSING_BASIC_MATERIALS]: 'brak materiałów biurowch',
-		[RedFlag.MISSING_OR_STUDENTS_LICENSE]:
-			'brakująca lub studencka licencja na oprogramowanie',
-		[RedFlag.MONOTONOUS_TASKS]: 'monotonne obowiązki',
-		[RedFlag.NARCISSISTIC_MANAGEMENT]: 'narcy',
-		[RedFlag.NEPOTISM]: 'nepotyzm',
-		[RedFlag.NO_ROOM_FOR_DEVELOPMENT]: 'brak możliwości rozwoju',
-		[RedFlag.OFF_BRAND_OR_FREE_SOFTWARE]:
-			'zamienniki oprogramowania ( Photopea, BlocksCad3d )',
-		[RedFlag.OLD_HARDWARE_OUTDATED_SOFTWARE]: '',
-		[RedFlag.OVERDUE_PAYOUT]: 'nie wypłacanie pensji na czas',
-		[RedFlag.PAYSLIP_LOWER_THEN_AGREED]: 'pensija niższ niż co ustalono',
-		[RedFlag.RACISM]: 'rasizm',
-		[RedFlag.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE]:
-			'wymóg własnego sprzętu albo oprogramowania',
-		[RedFlag.SEXISM]: 'seksizm',
-		[RedFlag.STARVING_SALARY]: 'głodowa pensja',
-		[RedFlag.STRESS_PRESSURE]: 'stres',
-		[RedFlag.SYSTEMATIC_OVERTIME]: 'regularne nadgodziny',
-		[RedFlag.TASK_DONT_MATCH_JOB_DESCRIPTION]:
-			'obowiązki niepokrywające się z umową lub zawodem architekta',
-		[RedFlag.TOO_LITTLE_RESPONSIBILITY]:
-			'brak możliwości przejęcia odpowiedzialności za pracę',
-		[RedFlag.TOO_MUCH_RESPONSIBILITY]:
-			'odpowiedzialności wiecej niż dla danego stanowiska',
-		[RedFlag.TOXIC_ATMOSPHERE]: 'toksyczna atmosfera',
-		[RedFlag.TRANSPHOBIA]: 'transfobia',
-		[RedFlag.UNPAID_EXPENSES]: 'niepokrywanie wydadków',
-		[RedFlag.UNPAID_INTERNSHIP]: 'niepłatny staż',
-		[RedFlag.UNPAID_OVERTIME]: 'niepłatne nadgodziny',
-		[RedFlag.UNREALISTIC_DEADLINES]: 'nierealistyczne terminy',
-		[RedFlag.WEEKEND_WORK]: 'wmóg pracy w weekendy lub święta',
-		[RedFlag.XENOPHOBIA]: 'ksenofobia'
+	const flagToMsg: Record<AppRedFlag, string> = {
+		// -----------------------------------------------------------------------------------
+		// Money
+		[APP_RED_FLAG.UNPAID_INTERNSHIP]: 'bezpłatny staż',
+		[APP_RED_FLAG.UNPAID_OVERTIME]: 'bezpłatne nadgodziny',
+		[APP_RED_FLAG.STARVING_SALARY]: 'wyjątkowo niskie wynagrodzenie',
+		[APP_RED_FLAG.UNEQUAL_SALARIES]:
+			'dyskryminacja finansowa - wynagrodzenie uwarunkowane płcią, pochodzeniem etc.',
+		[APP_RED_FLAG.CHANGES_IN_EMPLOYMENT_CONDITIONS]:
+			'wymuszona zmiana warunków np. wynagrodzenie albo stanowisko',
+		[APP_RED_FLAG.DELAYED_PAYSLIPS]: 'opóźnione wypłaty',
+		[APP_RED_FLAG.PAYCHECK_LOWER_THEN_AGREED]:
+			'wypłacanie niepełnej lub niżej niż ustalono pensji.',
+		[APP_RED_FLAG.NO_SALARY_INCREASES_OR_BONUSES]:
+			'brak podwyżek, bonusów lub premii',
+		[APP_RED_FLAG.UNPAID_OR_DEDUCTED_EXPENSES]:
+			'potrącanie lub niezwracanie kosztów związanych z pracą',
+		[APP_RED_FLAG.UNCLEAR_SALARY_CALCULATION]:
+			'niejasne warunki obliczania wysokości wynagrodzenia',
+		[APP_RED_FLAG.TRASH_CONTRACTS]:
+			'umowy śmieciowe lub oferowanie pracy na czarno',
+
+		// -----------------------------------------------------------------------------------
+		// Projects - Job satisfaction
+		[APP_RED_FLAG.BORING_PROJECTS]: 'nudne, nie inspirujące projekty',
+		[APP_RED_FLAG.INSIGNIFICANT_MONOTONOUS_TASKS]:
+			'redukcja obowiązków do jednego, monotonnego, nie istotnego zadania jak np. retuszowanie wizualizacji',
+		[APP_RED_FLAG.TASKS_DONT_MATCH_JOB_DESCRIPTION]:
+			'obarczanie obowiązkami nie związanymi z zawodem architekta',
+		[APP_RED_FLAG.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN]:
+			'nastawienie na tanie, powtarzalne lub niskiej jakości rozwiązania projektowe',
+
+		// -----------------------------------------------------------------------------------
+		// Career
+		[APP_RED_FLAG.CANT_GET_MEANINGFUL_EXPERIENCE]:
+			'brak możliwości zdobycia wartościowego doświadczenia np. ze względu na zakres obowiązków lub typ wykonywanych przez firmę projektów',
+		[APP_RED_FLAG.GLASS_CEILING]:
+			'brak możliwości awansu na wyższe stanowisko',
+		[APP_RED_FLAG.LACK_OF_MENTORING]:
+			'brak mentoringu lub okazji nauki od bardziej doświadczonych architektów',
+		[APP_RED_FLAG.NO_VARIETY_IN_RESPONSIBILITIES]:
+			'brak mentoringu lub okazji nauki od bardziej doświadczonych architektów',
+		[APP_RED_FLAG.NO_PERSONAL_DEVELOPMENT_PLAN_OR_EDUCATION_BUDGET]:
+			'brak inwestycji w szkolenia dla pracowników',
+		[APP_RED_FLAG.NOT_POSSIBLE_TO_INFLUENCE_COMPANY_STRATEGY]:
+			'brak wpływu na strategię czy działania firmy',
+
+		// -----------------------------------------------------------------------------------
+		// TOOLS
+		[APP_RED_FLAG.MISSING_OR_STUDENTS_LICENSE]:
+			'używanie pirackiego oprogramowania lub studenckich licencji',
+		[APP_RED_FLAG.REQUIRED_PRIVATE_HARDWARE_OR_SOFTWARE]:
+			'wymaganie prywatnego komputera, oprogramowania lub innego sprzętu',
+		[APP_RED_FLAG.OFFBRAND_OR_FREE_SOFTWARE]:
+			'używanie darmowych zamienników oprogramowania ( Photopea, BlocksCad3d )',
+		[APP_RED_FLAG.OLD_HARDWARE_OUTDATED_SOFTWARE]:
+			'brakujące lub przestarzałe narzędzia pracy np. komputery, monitory, plotery etc',
+		[APP_RED_FLAG.BAD_WORKSTATION_BAD_OFFICE]:
+			'złe warunki biurowe: temperatura, oświetlenie, hałas, ergonomia, bezpieczeństwo i higiena',
+		[APP_RED_FLAG.MISSING_BASIC_OFFICE_SUPPLIES]:
+			'brak materiałów biurowych, materiałów do rysowania lub budowania modeli',
+
+		// -----------------------------------------------------------------------------------
+		// MANAGEMENT & BUISNESS
+		[APP_RED_FLAG.MICROMANAGEMENT]: 'mikrozarządzanie ( micromanagement )',
+		[APP_RED_FLAG.INCOMPETENT_MANAGEMENT]: 'niekompetentny zarząd',
+		[APP_RED_FLAG.INABILITY_TO_GET_PROFITABLE_ASSIGNMENTS]:
+			'nieudolność w znajdowaniu dobrych, zyskownych zleceń lub klientów',
+		[APP_RED_FLAG.FINANCIAL_PROBLEMS]: 'problemy finansowe firmy',
+		[APP_RED_FLAG.OVERLY_RELYING_ON_INTERNS_OR_FREE_LABOUR]:
+			'nadmierne poleganie na bezpłatnych stażystach',
+		[APP_RED_FLAG.ILLEGAL_OR_IMMORAL]:
+			'nielegalne lub niemoralne praktyki zawodowe lub biznesowe.',
+
+		// -----------------------------------------------------------------------------------
+		// General vibe check
+		[APP_RED_FLAG.TOXIC_ATMOSPHERE]:
+			'toksyczna atmosfera lub konflikty w zespole',
+		[APP_RED_FLAG.FAVORITISM]: 'faworyzowanie wybranych pracowników',
+		[APP_RED_FLAG.ABUSE_MOBBING]: 'mobbing, nękanie',
+		[APP_RED_FLAG.STRESS_PRESSURE]: 'wysoki poziom stresu',
+
+		// -----------------------------------------------------------------------------------
+		// TIME and WORKLOAD
+		[APP_RED_FLAG.UNREALISTIC_DEADLINES]: 'nierealistyczne terminy',
+		[APP_RED_FLAG.CASUAL_OVERTIME]:
+			'nieregularne nadgodziny (poniżej 5h w tygodniu)',
+		[APP_RED_FLAG.SYSTEMATIC_OVERTIME]:
+			'regularne nadgodziny (ponad 5h w tygodniu)',
+		[APP_RED_FLAG.WORK_ON_WEEKEND_AND_HOLIDAYS]:
+			'przypadki wymagania pracy w weekendy lub święta',
+		[APP_RED_FLAG.DENIED_TIME_OFF]:
+			'odmowa wzięcia wakacji albo dni wolych',
+		[APP_RED_FLAG.OVERWHELMING_RESPONSIBILITY]:
+			'obciążanie pracowników nadmierną odpowiedzialnością i konsekwencjami',
+
+		// -----------------------------------------------------------------------------------
+		// DISCRIMINATION
+		[APP_RED_FLAG.ABLEISM]: 'dyskryminacja niepełnosprawnych',
+		[APP_RED_FLAG.AGISM]: 'dyskryminacja ze względu na wiek',
+		[APP_RED_FLAG.HOMOPHOBIA]: 'homofobia',
+		[APP_RED_FLAG.NEPOTISM]: 'nepotyzm',
+		[APP_RED_FLAG.RACISM]: 'rasizm',
+		[APP_RED_FLAG.SEXISM]: 'seksizm',
+		[APP_RED_FLAG.TRANSPHOBIA]: 'transfobia',
+		[APP_RED_FLAG.XENOPHOBIA]: 'ksenofobia'
 	};
 
-	export function getRedFlagNameLabel(flag: RedFlag): string {
+	export function getRedFlagNameLabel(flag: AppRedFlag): string {
 		return flagToMsg[flag];
 	}
 </script>
 
 <script lang="ts">
-	import { RedFlag } from '@prisma/client';
-	export let flag: RedFlag;
+	import { type AppRedFlag, APP_RED_FLAG } from '$lib/utils/dbEnums';
+	export let flag: AppRedFlag;
 
 	$: label = getRedFlagNameLabel(flag);
 </script>

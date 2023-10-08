@@ -4,11 +4,14 @@
 	const flagToMsg: Record<RedFlagSectionName, string> = {
 		[RedFlagSectionName.CAREER]: 'Kariera',
 		[RedFlagSectionName.DISCRIMINATION]: 'Dyskryminacja',
-		[RedFlagSectionName.MANAGEMENT]: 'Zarząd',
-		[RedFlagSectionName.PAYROLL]: 'Wynagrodzenie',
-		[RedFlagSectionName.PROJECTS]: 'Projekty',
-		[RedFlagSectionName.TOOLS]: 'Nażędzia',
-		[RedFlagSectionName.TIME_MANAGEMENT]: 'Czas'
+		[RedFlagSectionName.MANAGEMENT_AND_BUISNESS]: 'Kierownictwo i Biznes',
+		[RedFlagSectionName.SALARY]: 'Wynagrodzenie',
+		[RedFlagSectionName.JOB_SATISFACTION]:
+			'Projekty i satysfakcja zawodowa',
+		[RedFlagSectionName.TOOLS]: 'Narzędzia',
+		[RedFlagSectionName.TIME_MANAGEMENT_AND_WORKLOAD]:
+			'Zarządzanie czasem i nakład pracy',
+		[RedFlagSectionName.VIBE]: 'Atmosfera'
 	};
 
 	export function getRedFlagSectionNameLabel(

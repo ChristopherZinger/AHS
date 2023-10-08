@@ -3,7 +3,7 @@
 		[SurveyEducation.HIGHSCHOOL]: 'Brak wyższego wykształcenia',
 		[SurveyEducation.TECHNICAL_SCHOOL]: 'Wykształcenie zawodowe',
 		[SurveyEducation.BACHELOR]: 'Licencjat / Inżynier',
-		[SurveyEducation.MASTER]: 'Tytył magister',
+		[SurveyEducation.MASTER]: 'Tytył magistra',
 		[SurveyEducation.PHD]: 'Tytuł doktora',
 		[SurveyEducation.PROFESSOR]: 'Tytuł profesora'
 	};

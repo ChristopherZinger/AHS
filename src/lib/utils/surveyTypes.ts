@@ -16,8 +16,8 @@ export let isSurveySexOptions = getIsEnum(SurveySexOption);
 
 export enum SurveyAgeOption {
 	'<20' = '<20',
-	'20-26' = '20-26',
-	'27-30' = '27-30',
+	'20-24' = '20-24',
+	'25-29' = '25-29',
 	'30-34' = '30-34',
 	'35-39' = '35-39',
 	'40-49' = '40-49',
@@ -28,6 +28,7 @@ export let isSurveyAgeOptons = getIsEnum(SurveyAgeOption);
 
 export enum SurveyEducation {
 	HIGHSCHOOL = 'highshool',
+	TECHNICAL_SCHOOL = 'technical_school',
 	BACHELOR = 'bachelor',
 	MASTER = 'master',
 	PHD = 'phd',
@@ -37,12 +38,28 @@ export let isSurveyEducation = getIsEnum(SurveyEducation);
 
 export enum SurveyNumYearsExperience {
 	'0-1' = '0-1',
-	'2-5' = '2-5',
-	'6-9' = '6-9',
-	'10-15' = '10-15',
-	'16-25' = '16-25',
-	'26+' = '25+y'
+	'2-4' = '2-4',
+	'5-9' = '5-9',
+	'10-14' = '10-14',
+	'15-24' = '16-24',
+	'24+' = '24+y'
 }
+
+export function getNumYearsExperienceLabel(
+	v: SurveyNumYearsExperience
+): string {
+	const labels: Record<SurveyNumYearsExperience, string> = {
+		[SurveyNumYearsExperience['0-1']]: '0 - 1 rok',
+		[SurveyNumYearsExperience['2-4']]: '2 - 4 lata',
+		[SurveyNumYearsExperience['5-9']]: '5 - 9 lat',
+		[SurveyNumYearsExperience['10-14']]: '10 - 14 lat',
+		[SurveyNumYearsExperience['15-24']]: '15 - 24 lata',
+		[SurveyNumYearsExperience['24+']]: 'ponad 24 lata'
+	};
+
+	return labels[v];
+}
+
 export let isSurveyNumOfExperience = getIsEnum(SurveyNumYearsExperience);
 
 export enum OfficeSize {

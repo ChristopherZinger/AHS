@@ -36,23 +36,26 @@
 			0: {
 				heading:
 					'Ankieta o jakości pracy w polskich biurach architektonicznych',
-				body: 'asdfad'
+				body: `<p class="lg:text-2xl my-5">Celem tej ankiety jest identyfikacja problemów, które architekci i architektki doświadczają w polskich pracowniach architektonicznych.</p>
+						<p class="lg:text-2xl my-5">Chcemy naświetlić problemy związane z wynagrodzeniem, przeciążeniem pracą, dyskryminacją i niekompetentnym zarządzaniem biur projektowych.</p>
+						<p class="lg:text-2xl my-5">Zebrane informacje staną się cennym źródłem wiedzy, które pomogą tobie oraz innym architektom podejmować bardziej świadome decyzje podczas aplikowania do biur architektonicznych.</p>
+						<p class="lg:text-2xl my-5">Wszystkie recenzje bedziesz mógł znaleść na portalu cieżar-architektury.pl z początkiem roku 2024.</p>`
 			},
 			1: {
-				heading: 'Jakie biuro warjacie?',
-				body: 'asdfad'
+				heading: 'Dane pracowni architektonicznej',
+				body: `Ankieta dotyczy konkretnej pracowni dla której proacowałeś/łaś jako architekt.`
 			},
 			2: {
 				heading: 'Czerwone flagi',
-				body: `Zaznacz jakie niemiłe sytuacje spotkały cie w <b>${data.office?.officeName}</b>`
+				body: `<p class="lg:text-2xl my-5">Zaznacz problemy z napotkane podczas pracy w <b>${data.office?.officeName}</b>. Czerwone flagi to problemy z jakimi napotykasz sie w biurze architektonicznym ale o którch nie koniecznie wiesz przed podjęciem pracy.</p>`
 			},
 			3: {
-				heading: 'Twoja historia w:',
-				body: `Napisz o swoim doświadczeniu w <b>${data.office?.officeName}<b>`
+				heading: `Twoja opinia o pracowni - ${data.office?.officeName}`,
+				body: `<p class="lg:text-2xl my-5">Opowiedz jake były twoje doświadczenia podczas pracy w tej pracowni.</p>`
 			},
 			4: {
-				heading: 'Twoj profil',
-				body: 'Czas powidzieć coś o sobie'
+				heading: 'O tobie.',
+				body: ''
 			}
 		};
 
@@ -65,7 +68,7 @@
 	{#if !formServerErrorMsg}
 		{#if headingInfo}
 			<h1 class="text-4xl font-bold my-10">{headingInfo.heading}</h1>
-			<p>{@html headingInfo.body}</p>
+			<div>{@html headingInfo.body}</div>
 		{/if}
 
 		<SurveyFormWrapper

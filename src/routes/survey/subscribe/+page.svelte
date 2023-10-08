@@ -17,8 +17,8 @@
 <div class="app-section__narrow">
 	<h1 class="text-4xl font-bold my-10">Subskrybuj</h1>
 	<p>
-		Checesz dowiedzieć się jakich biur unikać? Zapisz się na listę a
-		powiadomimy cię kiedy portal ruszy w życie
+		Chcesz wiedzieć do których parcowni lepiej nie aplikować? Zapisz się na
+		naszą listę, a poinformujemy cię, gdy portal zostanie uruchomiony.
 	</p>
 
 	<form

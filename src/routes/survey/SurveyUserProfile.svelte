@@ -9,7 +9,8 @@
 		isSurveyAgeOptons,
 		isSurveyEducation,
 		isSurveyNumOfExperience,
-		type SurveyData
+		type SurveyData,
+		getNumYearsExperienceLabel
 	} from '../../lib/utils/surveyTypes';
 	import Radio from '$lib/components/inputs/Radio.svelte';
 	import { getEducationDegreeLabel } from '$lib/components/labels/EducationLabel.svelte';
@@ -47,12 +48,16 @@
 </script>
 
 <div>
-	<label for="numYearsExperience">Ile masz lat doświadczenia?</label>
+	<label for="numYearsExperience"
+		>Jaki jest twój staż w zawodzie architekta?</label
+	>
 	<Select
 		name="numYearsExperience"
 		placeholder="np 2-5 lat"
 		searchable={false}
-		items={Object.values(SurveyNumYearsExperience)}
+		items={Object.values(SurveyNumYearsExperience).map((v) =>
+			getNumYearsExperienceLabel(v)
+		)}
 		on:input={({ detail }) => {
 			const value = detail?.value;
 			if (isSurveyNumOfExperience(value)) {
@@ -64,7 +69,7 @@
 </div>
 
 <div>
-	<label for="age">Wiek</label>
+	<label for="age">Twój wiek:</label>
 	<Select
 		name="age"
 		placeholder="np. 30-35 lat"
@@ -81,7 +86,7 @@
 </div>
 
 <div>
-	<label for="age">Edukacja</label>
+	<label for="age">Wykształcenie:</label>
 	<Select
 		name="education"
 		placeholder="np. Magister"
@@ -100,13 +105,14 @@
 	/>
 </div>
 
-<div class="flex gap-2">
+<div class="flex gap-2 items-center">
 	<Checkbox
-		label="Posiadasz uprawnienia?"
+		label="Posiadasz uprawnienia architektoniczne?"
 		name="isLicensed"
 		bind:value={isLicensed}
 	/>
-	<span>{isLicensed ? 'Tak' : 'Nie'}</span>
+	<span>{isLicensed === undefined ? '-' : isLicensed ? 'Tak' : 'Nie'}</span
+	>
 </div>
 
 <div>

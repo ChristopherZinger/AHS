@@ -8,9 +8,10 @@
 	export let initialStory: string = '';
 </script>
 
-<JumpingLabel label="Tytul" forHTML="title">
+<JumpingLabel label="W kilku słowach:" forHTML="title">
 	<InputText
 		name="title"
+		placeholder={`np.  “W biurze panuje okropna atmosfera!” albo “Pracowałam na ciekawymi projektami”`}
 		onChange={setTitle}
 		type="text"
 		value={initialTitle}
@@ -19,14 +20,15 @@
 </JumpingLabel>
 
 <div>
-	<label for="story">Story:</label>
+	<label for="story">Rozwiń swoją opinię:</label>
 	<textarea
+		class="bg-slate-100 w-full p-4 my-2 rounded-xl"
 		name="story"
 		id=""
 		cols="30"
 		rows="10"
-		class="w-full"
 		value={initialStory}
+		placeholder="Możesz opisać: atmosferę pracy, stosunek do pracownika, możliwości rozwoju zawodowego, problemy związane z wynagrodzeniem, dyskryminacją itp."
 		on:input={({ currentTarget }) => {
 			setStory(currentTarget.value);
 		}}
