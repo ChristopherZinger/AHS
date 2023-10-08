@@ -1,9 +1,11 @@
-import { prisma } from '$lib/prisma';
+import { prisma } from '$lib/server/prisma';
 import { error, json } from '@sveltejs/kit';
-import { set } from 'lodash';
+import lodash from 'lodash';
 import { z } from 'zod';
 import { OFFICE_QUERY_PARAMS } from './fetchOffices';
 import { EntityType } from '@prisma/client';
+
+const { set } = lodash;
 
 const queryParamsSchema = z.object<
 	Record<OFFICE_QUERY_PARAMS, z.ZodTypeAny>

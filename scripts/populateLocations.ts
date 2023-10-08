@@ -1,7 +1,7 @@
 import { EntityType } from '@prisma/client';
-import { prisma } from '../src/lib/prisma';
 import slugify from 'slugify';
 import { nanoid } from 'nanoid';
+import { prisma } from '../src/lib/server/prisma';
 
 import {
 	getCitiesFromFile,

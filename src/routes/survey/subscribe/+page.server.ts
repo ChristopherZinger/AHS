@@ -1,4 +1,3 @@
-import { getPrismaClient, usePrisma } from '$lib/prisma.js';
 import {
 	createAnonymousSessionRecord,
 	getAnonymousSessionCookiePayload,
@@ -8,10 +7,10 @@ import { error } from '@sveltejs/kit';
 import { z } from 'zod';
 import { ServerErrorName } from '$lib/utils/appError.js';
 import { AppServerError } from '$lib/server/AppServerErrorUtils.js';
+import { prisma } from '$lib/server/prisma.js';
 
 export const actions = {
 	'register-subscriber': async function ({ request, cookies }) {
-		const prisma = getPrismaClient();
 		try {
 			let sessionCookie = await getAnonymousSessionCookiePayload(cookies);
 			if (!sessionCookie) {

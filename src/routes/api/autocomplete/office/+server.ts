@@ -1,8 +1,10 @@
-import { prisma } from '$lib/prisma';
+import { prisma } from '$lib/server/prisma';
 import { json, error } from '@sveltejs/kit';
-import { set, uniqBy } from 'lodash';
+import lodash from 'lodash';
 import { z } from 'zod';
 import { OFFICE_AUTOCOMPLETE_QUERY_PARAMS } from '../fetchAutocompleteOffice';
+
+const { set, uniqBy } = lodash;
 
 const queryParamsSchema = z.object<
 	Record<OFFICE_AUTOCOMPLETE_QUERY_PARAMS, z.ZodTypeAny>

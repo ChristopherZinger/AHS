@@ -1,4 +1,3 @@
-import { getPrismaClient } from '$lib/prisma.js';
 import {
 	clearAnonymousSessionCookie,
 	createAnonymousSessionRecord,
@@ -22,9 +21,9 @@ import {
 	SurveyAgeOption
 } from '../../lib/utils/surveyTypes.js';
 import { ServerErrorName } from '$lib/utils/appError.js';
+import { prisma } from '$lib/server/prisma.js';
 
 export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
-	const prisma = getPrismaClient();
 	try {
 		const anonymousSessionCookie = await getAnonymousSessionCookiePayload(
 			cookies
@@ -98,14 +97,13 @@ export async function load({ cookies }): Promise<{ survey: SurveyForm }> {
 		if (e instanceof error) {
 			throw e;
 		} else {
-			throw new Error('unknown_error');
+			throw new Error(e);
 		}
 	}
 }
 
 export const actions = {
 	'update-survey-office': async function ({ cookies, request }) {
-		const prisma = getPrismaClient();
 		try {
 			const [sessionCookie, surveyCookie, form] = await Promise.all([
 				getAnonymousSessionCookiePayload(cookies),

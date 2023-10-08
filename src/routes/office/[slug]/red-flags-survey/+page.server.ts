@@ -1,8 +1,10 @@
-import { prisma } from '$lib/prisma';
+import { prisma } from '$lib/server/prisma';
 import { RedFlag } from '@prisma/client';
 import { error, redirect } from '@sveltejs/kit';
-import { uniq } from 'lodash';
+import lodash from 'lodash';
 import { z } from 'zod';
+
+const { uniq } = lodash;
 
 /** @type {import('./$types').PageServerLoad} */
 export const load: PageServerLoad = async ({ params }) => {
