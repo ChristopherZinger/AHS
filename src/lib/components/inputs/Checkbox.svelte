@@ -4,17 +4,23 @@
 	export let value = false;
 </script>
 
-<label
-	for={name}
-	class="flex gap-2 items-center cursor-pointer"
-	class:font-medium={value}
-	class:underline={value}
+<div
+	class:bg-red-400={value}
+	class:text-white={value}
+	class="rounded p-1 duration-75 "
 >
-	<div class="app-checkbox" class:isSelected={value} />
-	{label}
-</label>
+	<label
+		for={name}
+		class="flex gap-2  cursor-pointer"
+		class:font-medium={value}
+		class:underline={value}
+	>
+		<div class="app-checkbox" class:isSelected={value} />
+		{label}
+	</label>
 
-<input type="checkbox" {name} id={name} bind:checked={value} hidden />
+	<input type="checkbox" {name} id={name} bind:checked={value} hidden />
+</div>
 
 <style>
 	label {
@@ -30,6 +36,7 @@
 		border: 2px solid gray;
 		box-sizing: border-box;
 		position: relative;
+		margin-top: 4px;
 	}
 
 	.app-checkbox.isSelected {

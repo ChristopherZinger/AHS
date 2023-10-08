@@ -14,6 +14,6 @@
 	}}
 	class="relative"
 >
-	<label class="left-0" for={forHTML}>{label}</label>
+	<label class="left-0" for={forHTML}>{@html label}</label>
 	<slot />
 </div>
