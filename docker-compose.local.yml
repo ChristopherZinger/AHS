@@ -13,5 +13,16 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  webapp:
+    image: chriswebdev1/ahs-webapp:latest
+    container_name: ahs_webapp
+    hostname: ${APP_HOST}
+    ports:
+      - '3000:3000'
+    environment:
+      - 'JWT_HASH=${JWT_HASH}'
+      - 'DATABASE_URL=${DATABASE_URL}'
+      - 'ORIGIN=${ORIGIN}'
+
 volumes:
   db-data:
