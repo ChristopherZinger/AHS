@@ -10,7 +10,9 @@ COPY ./package.json /home/webapp
 
 COPY ./package-lock.json /home/webapp
 
-COPY ./prisma/schema.prisma /home/webapp/schema.prisma
+COPY ./prisma/migrations /home/webapp/prisma/migrations
+
+COPY ./prisma/schema.prisma /home/webapp/prisma/schema.prisma
 
 WORKDIR /home/webapp
 
