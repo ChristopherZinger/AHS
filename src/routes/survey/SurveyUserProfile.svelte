@@ -39,7 +39,7 @@
 			value: SurveySexOption.MALE
 		},
 		{
-			label: 'Osoba niebinarna',
+			label: 'Żadne z powyższych',
 			value: SurveySexOption.NONBINARY
 		}
 	];
