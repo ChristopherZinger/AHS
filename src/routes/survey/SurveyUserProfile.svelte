@@ -55,9 +55,10 @@
 		name="numYearsExperience"
 		placeholder="np 2-5 lat"
 		searchable={false}
-		items={Object.values(SurveyNumYearsExperience).map((v) =>
-			getNumYearsExperienceLabel(v)
-		)}
+		items={Object.values(SurveyNumYearsExperience).map((v) => ({
+			label: getNumYearsExperienceLabel(v),
+			value: v
+		}))}
 		on:input={({ detail }) => {
 			const value = detail?.value;
 			if (isSurveyNumOfExperience(value)) {
@@ -74,7 +75,10 @@
 		name="age"
 		placeholder="np. 30-35 lat"
 		searchable={false}
-		items={Object.values(SurveyAgeOption)}
+		items={Object.values(SurveyAgeOption).map((v) => ({
+			value: v,
+			label: v
+		}))}
 		on:input={({ detail }) => {
 			const value = detail?.value;
 			if (isSurveyAgeOptons(value)) {
