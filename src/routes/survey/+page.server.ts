@@ -135,10 +135,12 @@ export const actions = {
 
 			const parsingResult = z
 				.object({
-					office: z.object({
-						officeName: z.string().min(1),
-						city: z.string().min(1)
-					}),
+					office: z
+						.object({
+							officeName: z.string().min(1),
+							city: z.string().min(1)
+						})
+						.optional(),
 					flags: z.record(z.string(), z.boolean()),
 					story: z
 						.object({
