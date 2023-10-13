@@ -135,18 +135,15 @@ export const actions = {
 
 			const parsingResult = z
 				.object({
-					office: z
-						.object({
-							officeName: z.string().min(1),
-							city: z.string().min(1)
-							// numOfEmployes: z.nativeEnum(OfficeSize)
-						})
-						.optional(),
+					office: z.object({
+						officeName: z.string().min(1),
+						city: z.string().min(1)
+					}),
 					flags: z.record(z.string(), z.boolean()),
 					story: z
 						.object({
-							title: z.string().min(1),
-							body: z.string().min(1)
+							title: z.string().optional(),
+							body: z.string().optional()
 						})
 						.optional(),
 					profile: z
