@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let label: string;
+	export let label: string | undefined;
 	export let forHTML: string;
 
 	$: isMouseOver = false;
@@ -14,6 +14,10 @@
 	}}
 	class="relative"
 >
-	<label class="left-0" for={forHTML}>{@html label}</label>
+	<label class="left-0" for={forHTML}>
+		<slot name="label">
+			{label || ''}
+		</slot>
+	</label>
 	<slot />
 </div>
