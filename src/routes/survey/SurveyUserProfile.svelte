@@ -15,11 +15,13 @@
 	import Radio from '$lib/components/inputs/Radio.svelte';
 	import { getEducationDegreeLabel } from '$lib/components/labels/EducationLabel.svelte';
 
-	export let setAge: (v: SurveyAgeOption) => void;
-	export let setEducation: (v: SurveyEducation) => void;
+	export let setAge: (v: SurveyAgeOption | undefined) => void;
+	export let setEducation: (v: SurveyEducation | undefined) => void;
 	export let setSex: (v: SurveySexOption | undefined) => void;
 	export let setIsLicensed: (v: boolean) => void;
-	export let setNumYearsExperience: (v: SurveyNumYearsExperience) => void;
+	export let setNumYearsExperience: (
+		v: SurveyNumYearsExperience | undefined
+	) => void;
 	export let initialData: undefined | SurveyData['profile'];
 
 	let isLicensed = initialData?.isLicensed || false;
@@ -55,6 +57,9 @@
 		name="numYearsExperience"
 		placeholder="np 2-5 lat"
 		searchable={false}
+		on:clear={() => {
+			setNumYearsExperience(undefined);
+		}}
 		items={Object.values(SurveyNumYearsExperience).map((v) => ({
 			label: getNumYearsExperienceLabel(v),
 			value: v
@@ -79,6 +84,9 @@
 			value: v,
 			label: v
 		}))}
+		on:clear={() => {
+			setAge(undefined);
+		}}
 		on:input={({ detail }) => {
 			const value = detail?.value;
 			if (isSurveyAgeOptons(value)) {
@@ -99,6 +107,9 @@
 			label: getEducationDegreeLabel(key),
 			value: key
 		}))}
+		on:clear={() => {
+			setEducation(undefined);
+		}}
 		on:input={({ detail }) => {
 			const value = detail?.value;
 			if (isSurveyEducation(value)) {
