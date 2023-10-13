@@ -16,8 +16,6 @@
 			'brak podwyżek, bonusów lub premii',
 		[APP_RED_FLAG.UNPAID_OR_DEDUCTED_EXPENSES]:
 			'potrącanie lub niezwracanie kosztów związanych z pracą',
-		[APP_RED_FLAG.UNCLEAR_SALARY_CALCULATION]:
-			'niejasne warunki obliczania wysokości wynagrodzenia',
 		[APP_RED_FLAG.TRASH_CONTRACTS]:
 			'umowy śmieciowe lub oferowanie pracy na czarno',
 
@@ -81,14 +79,12 @@
 		[APP_RED_FLAG.FAVORITISM]: 'faworyzowanie wybranych pracowników',
 		[APP_RED_FLAG.ABUSE_MOBBING]: 'mobbing, nękanie',
 		[APP_RED_FLAG.STRESS_PRESSURE]: 'wysoki poziom stresu',
+		[APP_RED_FLAG.INCOMPETENT_TEAM]: 'kompetentny zespół',
 
 		// -----------------------------------------------------------------------------------
 		// TIME and WORKLOAD
 		[APP_RED_FLAG.UNREALISTIC_DEADLINES]: 'nierealistyczne terminy',
-		[APP_RED_FLAG.CASUAL_OVERTIME]:
-			'nieregularne nadgodziny (poniżej 5h w tygodniu)',
-		[APP_RED_FLAG.SYSTEMATIC_OVERTIME]:
-			'regularne nadgodziny (ponad 5h w tygodniu)',
+		[APP_RED_FLAG.SYSTEMATIC_OVERTIME]: 'regularne nadgodziny',
 		[APP_RED_FLAG.WORK_ON_WEEKEND_AND_HOLIDAYS]:
 			'przypadki wymagania pracy w weekendy lub święta',
 		[APP_RED_FLAG.DENIED_TIME_OFF]: 'odmowa wakacji albo dni wolnych',
