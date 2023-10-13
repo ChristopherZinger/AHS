@@ -24,8 +24,7 @@
 	) => void;
 	export let initialData: undefined | SurveyData['profile'];
 
-	let isLicensed = initialData?.isLicensed || false;
-	$: setIsLicensed(isLicensed);
+	let isLicensed = initialData?.isLicensed;
 
 	const radioOptions: {
 		value: SurveySexOption;
@@ -125,6 +124,9 @@
 		label="Posiadasz uprawnienia architektoniczne?"
 		name="isLicensed"
 		bind:value={isLicensed}
+		onChange={(v) => {
+			setIsLicensed(v);
+		}}
 	/>
 	<span>{isLicensed === undefined ? '-' : isLicensed ? 'Tak' : 'Nie'}</span
 	>
