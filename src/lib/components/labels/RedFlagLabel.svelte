@@ -25,11 +25,13 @@
 		// Projects - Job satisfaction
 		[APP_RED_FLAG.BORING_PROJECTS]: 'nudne, nie inspirujące projekty',
 		[APP_RED_FLAG.INSIGNIFICANT_MONOTONOUS_TASKS]:
-			'redukcja obowiązków do jednego, monotonnego, nie istotnego zadania jak np. retuszowanie wizualizacji',
+			'redukcja obowiązków do kilku monotonnych, nie istotnych zadań',
 		[APP_RED_FLAG.TASKS_DONT_MATCH_JOB_DESCRIPTION]:
 			'obarczanie obowiązkami nie związanymi z zawodem architekta',
 		[APP_RED_FLAG.CHEAPEST_SOLUTIONS_AND_BASIC_DESIGN]:
 			'nastawienie na tanie, powtarzalne lub niskiej jakości rozwiązania projektowe',
+		[APP_RED_FLAG.NO_VARIETY_IN_RESPONSIBILITIES]:
+			'brak różnorodności w obowiązkach, typach projektów lub etapach projektowych',
 
 		// -----------------------------------------------------------------------------------
 		// Career
@@ -38,8 +40,6 @@
 		[APP_RED_FLAG.GLASS_CEILING]:
 			'brak możliwości awansu na wyższe stanowisko',
 		[APP_RED_FLAG.LACK_OF_MENTORING]:
-			'brak mentoringu lub okazji nauki od bardziej doświadczonych architektów',
-		[APP_RED_FLAG.NO_VARIETY_IN_RESPONSIBILITIES]:
 			'brak mentoringu lub okazji nauki od bardziej doświadczonych architektów',
 		[APP_RED_FLAG.NO_PERSONAL_DEVELOPMENT_PLAN_OR_EDUCATION_BUDGET]:
 			'brak inwestycji w szkolenia dla pracowników',
@@ -57,14 +57,15 @@
 		[APP_RED_FLAG.OLD_HARDWARE_OUTDATED_SOFTWARE]:
 			'brakujące lub przestarzałe narzędzia pracy np. komputery, monitory, plotery etc',
 		[APP_RED_FLAG.BAD_WORKSTATION_BAD_OFFICE]:
-			'złe warunki biurowe: temperatura, oświetlenie, hałas, ergonomia, bezpieczeństwo i higiena',
+			'złe warunki biurowe: temperatura, oświetlenie, hałas, ergonomia, bezpieczeństwo lub higiena',
 		[APP_RED_FLAG.MISSING_BASIC_OFFICE_SUPPLIES]:
 			'brak materiałów biurowych, materiałów do rysowania lub budowania modeli',
 
 		// -----------------------------------------------------------------------------------
 		// MANAGEMENT & BUISNESS
-		[APP_RED_FLAG.MICROMANAGEMENT]: 'mikrozarządzanie ( micromanagement )',
-		[APP_RED_FLAG.INCOMPETENT_MANAGEMENT]: 'niekompetentny zarząd',
+		[APP_RED_FLAG.MICROMANAGEMENT]: 'mikrozarządzanie (micromanagement)',
+		[APP_RED_FLAG.INCOMPETENT_MANAGEMENT]:
+			' niekompetentne zarządzanie/szefostwo',
 		[APP_RED_FLAG.INABILITY_TO_GET_PROFITABLE_ASSIGNMENTS]:
 			'nieudolność w znajdowaniu dobrych, zyskownych zleceń lub klientów',
 		[APP_RED_FLAG.FINANCIAL_PROBLEMS]: 'problemy finansowe firmy',
@@ -90,15 +91,14 @@
 			'regularne nadgodziny (ponad 5h w tygodniu)',
 		[APP_RED_FLAG.WORK_ON_WEEKEND_AND_HOLIDAYS]:
 			'przypadki wymagania pracy w weekendy lub święta',
-		[APP_RED_FLAG.DENIED_TIME_OFF]:
-			'odmowa wzięcia wakacji albo dni wolych',
+		[APP_RED_FLAG.DENIED_TIME_OFF]: 'odmowa wakacji albo dni wolnych',
 		[APP_RED_FLAG.OVERWHELMING_RESPONSIBILITY]:
 			'obciążanie pracowników nadmierną odpowiedzialnością i konsekwencjami',
 
 		// -----------------------------------------------------------------------------------
 		// DISCRIMINATION
-		[APP_RED_FLAG.ABLEISM]: 'dyskryminacja niepełnosprawnych',
-		[APP_RED_FLAG.AGISM]: 'dyskryminacja ze względu na wiek',
+		[APP_RED_FLAG.ABLEISM]: 'dyskryminacja niepełnosprawnych (ableizm)',
+		[APP_RED_FLAG.AGISM]: 'dyskryminacja ze względu na wiek (ageizm)',
 		[APP_RED_FLAG.HOMOPHOBIA]: 'homofobia',
 		[APP_RED_FLAG.NEPOTISM]: 'nepotyzm',
 		[APP_RED_FLAG.RACISM]: 'rasizm',

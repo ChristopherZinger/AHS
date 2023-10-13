@@ -8,10 +8,10 @@
 		[RedFlagSectionName.SALARY]: 'Wynagrodzenie',
 		[RedFlagSectionName.JOB_SATISFACTION]:
 			'Projekty i satysfakcja zawodowa',
-		[RedFlagSectionName.TOOLS]: 'Narzędzia',
+		[RedFlagSectionName.TOOLS]: 'Narzędzia i warunki pracy',
 		[RedFlagSectionName.TIME_MANAGEMENT_AND_WORKLOAD]:
 			'Zarządzanie czasem i nakład pracy',
-		[RedFlagSectionName.VIBE]: 'Atmosfera'
+		[RedFlagSectionName.VIBE]: 'Atmosfera pracy'
 	};
 
 	export function getRedFlagSectionNameLabel(

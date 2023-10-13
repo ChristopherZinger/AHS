@@ -50,7 +50,7 @@
 
 <div>
 	<label for="numYearsExperience"
-		>Jaki jest twój staż w zawodzie architekta?</label
+		>Jaki jest Twój staż w zawodzie architekta?</label
 	>
 	<Select
 		name="numYearsExperience"
