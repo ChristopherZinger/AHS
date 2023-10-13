@@ -10,7 +10,6 @@
 	export let initialCity: string;
 	export let onClearErrors: (field: string | number) => void;
 
-	let officeName = initialOfficeName;
 	function _onCityChange(value: string) {
 		onCityChange(value);
 		if (inputErrors.city) {
@@ -18,10 +17,10 @@
 		}
 	}
 
+	let officeName = initialOfficeName;
 	function _onOfficeNameChange(value: string) {
-		const _officeName = value.replace('<', ' ').replace('>', ' ');
-		officeName = _officeName;
-		onOfficeNameChange(_officeName);
+		officeName = value.replaceAll('<', ' ').replaceAll('>', ' ');
+		onOfficeNameChange(officeName);
 		if (inputErrors.officeName) {
 			onClearErrors('officeName');
 		}
@@ -34,20 +33,21 @@
 		onChange={_onOfficeNameChange}
 		id="officeName"
 		name="officeName"
-		value={initialOfficeName}
+		value={officeName}
 		placeholder={`np. "APA Janusz i Architekci"`}
+		maxLength={150}
 	/>
 	<InputErrors msgs={inputErrors.officeName || []} />
 </JumpingLabel>
 
-<JumpingLabel
-	label={`W jakim miescie znajduje się ${
-		officeName
-			? `<b><pre class="inline">${officeName}</pre></b>`
-			: ' to biuro'
-	}?`}
-	forHTML="city"
->
+<JumpingLabel label={undefined} forHTML="city">
+	<div slot="label">
+		{#if !officeName}
+			W jakim mieście znajduje się to biuro?
+		{:else}
+			{'W jakim mieście znajduje się '}<b>{officeName}</b>?
+		{/if}
+	</div>
 	<InputText
 		type="text"
 		onChange={_onCityChange}
@@ -55,6 +55,7 @@
 		name="city"
 		value={initialCity}
 		placeholder={`np. "Warszawa"`}
+		maxLength={150}
 	/>
 	<InputErrors msgs={inputErrors.city || []} />
 </JumpingLabel>
