@@ -139,7 +139,6 @@ export const actions = {
 						.object({
 							officeName: z.string().min(1),
 							city: z.string().min(1)
-							// numOfEmployes: z.nativeEnum(OfficeSize)
 						})
 						.optional(),
 					flags: z.record(z.string(), z.boolean()),
