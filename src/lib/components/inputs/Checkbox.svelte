@@ -2,6 +2,7 @@
 	export let label: string;
 	export let name: string;
 	export let value = false;
+	export let onChange: (v: boolean) => void = () => {};
 </script>
 
 <div
@@ -19,7 +20,14 @@
 		{label}
 	</label>
 
-	<input type="checkbox" {name} id={name} bind:checked={value} hidden />
+	<input
+		type="checkbox"
+		on:input={({ currentTarget }) => onChange(currentTarget.checked)}
+		{name}
+		id={name}
+		bind:checked={value}
+		hidden
+	/>
 </div>
 
 <style>
