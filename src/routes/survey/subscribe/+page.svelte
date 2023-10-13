@@ -18,7 +18,7 @@
 	<h1 class="text-4xl font-bold my-10">Subskrybuj</h1>
 	<p>
 		Chcesz wiedzieć do których parcowni lepiej nie aplikować? Zapisz się na
-		naszą listę, a poinformujemy cię, gdy portal zostanie uruchomiony.
+		naszą listę, a poinformujemy Cię, gdy portal zostanie uruchomiony.
 	</p>
 
 	<form

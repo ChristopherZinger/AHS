@@ -35,26 +35,26 @@
 		> = {
 			0: {
 				heading:
-					'Ankieta o jakości pracy w polskich biurach architektonicznych',
+					'Anonimowa ankieta o jakości pracy w polskich biurach architektonicznych',
 				body: `<p class="lg:text-2xl my-5">Celem tej ankiety jest identyfikacja problemów, które architekci i architektki doświadczają w polskich pracowniach architektonicznych.</p>
 						<p class="lg:text-2xl my-5">Chcemy naświetlić problemy związane z wynagrodzeniem, przeciążeniem pracą, dyskryminacją i niekompetentnym zarządzaniem biur projektowych.</p>
-						<p class="lg:text-2xl my-5">Zebrane informacje staną się cennym źródłem wiedzy, które pomogą tobie oraz innym architektom podejmować bardziej świadome decyzje podczas aplikowania do biur architektonicznych.</p>
-						<p class="lg:text-2xl my-5">Wszystkie recenzje bedziesz mógł znaleść na portalu cieżar-architektury.pl z początkiem roku 2024.</p>`
+						<p class="lg:text-2xl my-5"> Zebrane informacje staną się cennym źródłem wiedzy, która pomoże Tobie oraz innym architektom podejmować bardziej świadome decyzje podczas aplikowania do biur architektonicznych.</p>
+						<p class="lg:text-2xl my-5">Wszystkie recenzje będą dostępne wkrótce, na portalu <b>ciezar-architektury.pl.</b></p>`
 			},
 			1: {
 				heading: 'Dane pracowni architektonicznej',
-				body: `Ankieta dotyczy konkretnej pracowni dla której proacowałeś/łaś jako architekt.`
+				body: `Ankieta dotyczy konkretnej pracowni dla której pracowałeś/łaś jako architekt lub projektant.`
 			},
 			2: {
 				heading: 'Czerwone flagi',
-				body: `<p class="lg:text-2xl my-5">Zaznacz problemy z napotkane podczas pracy w <b>${data.office?.officeName}</b>. Czerwone flagi to problemy z jakimi napotykasz sie w biurze architektonicznym ale o którch nie koniecznie wiesz przed podjęciem pracy.</p>`
+				body: `<p class="lg:text-2xl my-5">Zaznacz czerwone flagi (red flags)  napotkane podczas pracy w <b>${data.office?.officeName}</b>. Czerwone flagi to problemy z jakimi spotykasz się w biurze architektonicznym, ale o których niekoniecznie wiesz przed podjęciem pracy.</p>`
 			},
 			3: {
 				heading: `Twoja opinia o pracowni - ${data.office?.officeName}`,
-				body: `<p class="lg:text-2xl my-5">Opowiedz jake były twoje doświadczenia podczas pracy w tej pracowni.</p>`
+				body: `<p class="lg:text-2xl my-5">Opowiedz jake były Twoje doświadczenia podczas pracy w ${data.office?.officeName}.</p>`
 			},
 			4: {
-				heading: 'O tobie.',
+				heading: 'O Tobie',
 				body: ''
 			}
 		};

@@ -11,7 +11,7 @@
 <JumpingLabel label="W kilku słowach:" forHTML="title">
 	<InputText
 		name="title"
-		placeholder={`np.  “W biurze panuje okropna atmosfera!” albo “Pracowałam na ciekawymi projektami”`}
+		placeholder={`np. “W biurze panuje okropna atmosfera!” albo “Pracowałam nad ciekawymi projektami”`}
 		onChange={setTitle}
 		type="text"
 		value={initialTitle}

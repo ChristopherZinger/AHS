@@ -3,9 +3,9 @@
 		[SurveyEducation.HIGHSCHOOL]: 'Brak wyższego wykształcenia',
 		[SurveyEducation.TECHNICAL_SCHOOL]: 'Wykształcenie zawodowe',
 		[SurveyEducation.BACHELOR]: 'Licencjat / Inżynier',
-		[SurveyEducation.MASTER]: 'Tytył magistra',
-		[SurveyEducation.PHD]: 'Tytuł doktora',
-		[SurveyEducation.PROFESSOR]: 'Tytuł profesora'
+		[SurveyEducation.MASTER]: 'Magister / Magister Architekt',
+		[SurveyEducation.PHD]: 'Doktorat  ( phd )',
+		[SurveyEducation.PROFESSOR]: 'Profesor'
 	};
 
 	export function getEducationDegreeLabel(
