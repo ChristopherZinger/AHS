@@ -16,6 +16,7 @@
 		type="text"
 		value={initialTitle}
 		id="title"
+		maxLength={150}
 	/>
 </JumpingLabel>
 
@@ -27,6 +28,7 @@
 		id=""
 		cols="30"
 		rows="10"
+		maxlength="3000"
 		value={initialStory}
 		placeholder="Możesz opisać: atmosferę pracy, stosunek do pracownika, możliwości rozwoju zawodowego, problemy związane z wynagrodzeniem, dyskryminacją itp."
 		on:input={({ currentTarget }) => {

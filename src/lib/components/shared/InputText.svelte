@@ -5,6 +5,7 @@
 	export let value = '';
 	export let onChange: (v: string) => void;
 	export let placeholder: string = '';
+	export let maxLength: number = 250;
 </script>
 
 <input
@@ -19,6 +20,7 @@
 	{value}
 	on:input={({ currentTarget: { value } }) => onChange(value)}
 	{placeholder}
+	maxlength={maxLength}
 />
 
 <style>
