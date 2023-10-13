@@ -145,8 +145,8 @@ export const actions = {
 					flags: z.record(z.string(), z.boolean()),
 					story: z
 						.object({
-							title: z.string().min(1),
-							body: z.string().min(1)
+							title: z.string().optional(),
+							body: z.string().optional()
 						})
 						.optional(),
 					profile: z
