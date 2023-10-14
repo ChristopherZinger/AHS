@@ -6,6 +6,8 @@ RUN npm install pm2 -g
 
 COPY ./build /home/webapp
 
+COPY ./static /home/webapp
+
 COPY ./package.json /home/webapp
 
 COPY ./package-lock.json /home/webapp
