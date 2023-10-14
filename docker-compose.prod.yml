@@ -11,19 +11,19 @@ services:
       - 'POSTGRES_PASSWORD=${DB_PASSWORD}'
       - 'POSTGRES_USER=${DB_USER}'
     volumes:
-      - ahs-db-data-staging:/var/lib/postgresql/data
+      - ahs-db-data-production:/var/lib/postgresql/data
 
   webapp:
-    image: chriswebdev1/ahs_webapp:staging
-    container_name: ahs_webapp_staging
+    image: chriswebdev1/ahs_webapp:production
+    container_name: ahs_webapp_production
     restart: always
     hostname: ${APP_HOST}
     ports:
-      - '3002:3000'
+      - '3001:3000'
     environment:
       - 'JWT_HASH=${JWT_HASH}'
       - 'DATABASE_URL=${DATABASE_URL}'
       - 'ORIGIN=${ORIGIN}'
 
 volumes:
-  ahs-db-data-staging:
+  ahs-db-data-production:

@@ -1,9 +1,9 @@
 name: Deploy
-run-name: Deploy staging
+run-name: Deploy production
 on:
   push:
     branches:
-      - master
+      - production-cicd
 jobs:
   build-webapp-docker-image-and-publish-to-docker-hub:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/ahs_webapp:staging
+          tags: ${{ secrets.DOCKER_USER }}/ahs_webapp:production
 
   update-webapp-image-on-server:
     needs: [build-webapp-docker-image-and-publish-to-docker-hub]
@@ -47,11 +47,11 @@ jobs:
       - name: Checkout project directory
         uses: actions/checkout@v3
 
-      - name: Copy docker-compose.staging.yml to remote
+      - name: Copy docker-compose.production.yml to remote
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: docker-compose.staging.yml
-          remote: /var/www/ahs_staging/docker-compose.staging.yml
+          local: docker-compose.production.yml
+          remote: /var/www/ahs_production/docker-compose.production.yml
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           password: ${{ secrets.HOST_PASSWORD }}
@@ -62,12 +62,12 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd /var/www/ahs_staging
+            cd /var/www/ahs_production
             docker login
-            docker compose -f docker-compose.staging.yml down
-            docker pull chriswebdev1/ahs_webapp:staging
-            docker compose -f docker-compose.staging.yml up -d
-            docker exec ahs_webapp_staging npx prisma migrate deploy
+            docker compose -f docker-compose.production.yml down
+            docker pull chriswebdev1/ahs_webapp:production
+            docker compose -f docker-compose.production.yml up -d
+            docker exec ahs_webapp_production npx prisma migrate deploy
             exit
           host: ${{ secrets.HOST_IP }}
           user: ${{ secrets.HOST_USER }}
