@@ -3,7 +3,7 @@ run-name: Deploy production
 on:
   push:
     branches:
-      - production-cicd
+      - release
 jobs:
   build-webapp-docker-image-and-publish-to-docker-hub:
     runs-on: ubuntu-latest
