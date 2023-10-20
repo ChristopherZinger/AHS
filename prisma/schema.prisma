@@ -35,6 +35,8 @@ model Survey {
   data                Json
   anonymousSession    AnonymousSession  @relation(fields: [anonymousSessionId], references: [id]) 
   anonymousSessionId  String
+  isCompleted         Boolean           @default(false)
+  currentStep         Int               @default(0)
 }
 
 model Subscriber {
