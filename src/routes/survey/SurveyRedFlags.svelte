@@ -3,9 +3,8 @@
 	import { getRedFlagNameLabel } from '$lib/components/labels/RedFlagLabel.svelte';
 	import { getRedFlagSectionNameLabel } from '$lib/components/labels/RedFlagSectionLabel.svelte';
 	import { redFlagSectionsInOrder } from '$lib/utils/redFlagUtils';
-	import type { SurveyData } from '../../lib/utils/surveyTypes';
 
-	export let data: SurveyData;
+	export let flagsToBoolean: Record<string, boolean>;
 </script>
 
 <div class="flex flex-col gap-10">
@@ -19,7 +18,7 @@
 					<Checkbox
 						name={flag}
 						label={getRedFlagNameLabel(flag)}
-						bind:value={data.flags[flag]}
+						bind:value={flagsToBoolean[flag]}
 					/>
 				{/each}
 			</div>

@@ -5,22 +5,22 @@ import { getParsedJwtFromCookie } from './cookiesUtils';
 import { setCookieWithExpTimeInSec } from '../authCookiesUtils';
 import type { AnonymousSession } from '@prisma/client';
 
-type AnonymousSessionCookie = {
+export type AnonymousSessionCookiePayload = {
 	id: string;
 	createdAt: Date;
 	expirationDate: Date;
 };
-const anonymousSessionCookieSchema = z.object({
+const anonymousSessionCookiePayloadSchema = z.object({
 	id: z.string().min(1),
 	createdAt: z.coerce.date(),
 	expirationDate: z.coerce.date()
 });
 export async function getAnonymousSessionCookiePayload(
 	cookies: Cookies
-): Promise<AnonymousSessionCookie | null> {
+): Promise<AnonymousSessionCookiePayload | null> {
 	return await getParsedJwtFromCookie(
 		expectAnonymousSessionCookieNameFromEnv(),
-		anonymousSessionCookieSchema,
+		anonymousSessionCookiePayloadSchema,
 		cookies
 	);
 }
@@ -33,7 +33,7 @@ export function clearAnonymousSessionCookie(cookies: Cookies) {
 }
 
 export function setAnonymousSessionCookie(
-	data: AnonymousSessionCookie,
+	data: AnonymousSessionCookiePayload,
 	cookies: Cookies
 ) {
 	setCookieWithExpTimeInSec(
