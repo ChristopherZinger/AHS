@@ -2,16 +2,13 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/shared/Button.svelte';
 	import type { SurveyForm } from '$lib/utils/surveyTypes';
+	import type { ActionErrorResult } from './SurveyForm.svelte';
 
 	export let currentStep: number;
 	export let isLoading: boolean;
 	export let isDisabled: boolean;
 	export let onSubmitSuccess: (v: SurveyForm) => void;
-	export let onSubmitError: (e: {
-		type: 'error';
-		status?: number | undefined;
-		error: any;
-	}) => void;
+	export let onSubmitError: (e: ActionErrorResult) => void;
 
 	const stepToButtonText: Record<number, string> = {
 		0: 'Start',
