@@ -7,23 +7,28 @@
 	export let group: string | number | undefined;
 </script>
 
-{#each options as option}
-	<label
-		for={`${name}-${option.value}`}
-		class="flex gap-2 items-center cursor-pointer"
-	>
-		<div class="app-checkbox" class:isSelected={group === option.value} />
-		{option.label}
-		<input
-			type="radio"
-			{name}
-			id={`${name}-${option.value}`}
-			bind:group
-			value={option.value}
-			hidden
-		/>
-	</label>
-{/each}
+<div class="flex flex-col gap-2">
+	{#each options as option}
+		<label
+			for={`${name}-${option.value}`}
+			class="flex gap-2 items-center cursor-pointer"
+		>
+			<div
+				class="app-checkbox"
+				class:isSelected={group === option.value}
+			/>
+			{option.label}
+			<input
+				type="radio"
+				{name}
+				id={`${name}-${option.value}`}
+				bind:group
+				value={option.value}
+				hidden
+			/>
+		</label>
+	{/each}
+</div>
 
 <style>
 	label {
