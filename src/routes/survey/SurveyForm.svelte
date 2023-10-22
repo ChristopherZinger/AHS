@@ -1,3 +1,11 @@
+<script context="module" lang="ts">
+	export type ActionErrorResult = {
+		type: 'error';
+		status?: number | undefined;
+		error: any;
+	};
+</script>
+
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { SurveyForm } from '$lib/utils/surveyTypes';
@@ -6,11 +14,7 @@
 	export let actionName: string;
 	export let currentStep: number;
 	export let onSubmitSuccess: (v: SurveyForm) => void;
-	export let onSubmitError: (e: {
-		type: 'error';
-		status?: number | undefined;
-		error: any;
-	}) => void;
+	export let onSubmitError: (e: ActionErrorResult) => void;
 
 	let isLoading = false;
 </script>
