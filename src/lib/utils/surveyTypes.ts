@@ -5,12 +5,15 @@ export type SurveyForm = {
 	data: SurveyData;
 	createdAt: Date;
 	anonymousSessionId: string;
+	currentStep: number;
+	isCompleted: boolean;
 };
 
 export enum SurveySexOption {
 	MALE = 'Male',
 	FEMALE = 'Female',
-	NONBINARY = 'Nonbinary'
+	NONBINARY = 'Nonbinary',
+	SECRET = 'secret'
 }
 export let isSurveySexOptions = getIsEnum(SurveySexOption);
 
@@ -41,8 +44,8 @@ export enum SurveyNumYearsExperience {
 	'2-4' = '2-4',
 	'5-9' = '5-9',
 	'10-14' = '10-14',
-	'15-24' = '16-24',
-	'24+' = '24+y'
+	'15-24' = '15-24',
+	'24+' = '24<'
 }
 
 export function getNumYearsExperienceLabel(
@@ -89,10 +92,8 @@ export type SurveyData = {
 		isLicensed?: boolean;
 		education?: SurveyEducation;
 	};
-	currentStep: number;
 };
 
 export const EMPTY_SURVEY_BLUEPRINT: SurveyData = {
-	flags: {},
-	currentStep: 0
+	flags: {}
 };

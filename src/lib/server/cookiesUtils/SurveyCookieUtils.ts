@@ -1,10 +1,10 @@
 import type { Cookies } from '@sveltejs/kit';
-import { z, type Schema } from 'zod';
+import { z } from 'zod';
 import { expectSurveySessionCookieNameFromEnv } from '../envUtils';
 import { getParsedJwtFromCookie } from './cookiesUtils';
 import { setCookieWithExpTimeInSec } from '../authCookiesUtils';
 
-type SurveyCookie = {
+export type SurveyCookie = {
 	id: string;
 	anonymousSessionId: string;
 	createdAt: Date;

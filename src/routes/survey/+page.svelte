@@ -1,95 +1,104 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import SurveyFormWrapper from './SurveyFormWrapper.svelte';
-	import type {
-		SurveyData,
-		SurveyForm
-	} from '../../lib/utils/surveyTypes';
+	import type { SurveyForm } from '../../lib/utils/surveyTypes';
 	import Button from '$lib/components/shared/Button.svelte';
 	import { ServerErrorName } from '$lib/utils/appError';
+	import SurveyOfficePage from './SurveyOfficePage.svelte';
+	import SurveyAboutSurveyPage from './SurveyAboutSurveyPage.svelte';
+	import SurveyRedFlagsPage from './SurveyRedFlagsPage.svelte';
+	import SurveyStoryPage from './SurveyStoryPage.svelte';
+	import SurveyUserProfilePage from './SurveyUserProfilePage.svelte';
+	import { fetchClearAnonymousSessionCookie } from '../api/clear-anonymous-session-cookie/fetchClearAnonymousSessionCookie';
+	import { fetchClearSurveyCookie } from '../api/clear-survey-cookie/fetchClearSurveyCookie';
+	import type { ActionErrorResult } from './SurveyForm.svelte';
+	import type { Survey } from '@prisma/client';
 
-	export let data: {
-		survey: SurveyForm;
-	};
+	export let data: SurveyForm;
 
-	function handleCompletedSurvey(step: number) {
-		if (step > 4) {
-			goto('/survey/subscribe');
-		}
+	$: if (data.isCompleted) {
+		goto('/survey/subscribe');
 	}
-	$: handleCompletedSurvey(currentStep);
-	$: currentStep = data.survey.data.currentStep;
 
 	let formServerErrorMsg: string | undefined;
 
-	function getHeaderForCurrentStep(
-		step: number,
-		data: SurveyData
-	): {
-		heading: string;
-		body: string;
-	} {
-		const headersInOrderOfSteps: Record<
-			number,
-			{ heading: string; body: string }
-		> = {
-			0: {
-				heading:
-					'Anonimowa ankieta o jakości pracy w polskich biurach architektonicznych',
-				body: `<p class="lg:text-2xl my-5">Celem tej ankiety jest identyfikacja problemów, które architekci i architektki doświadczają w polskich pracowniach architektonicznych.</p>
-						<p class="lg:text-2xl my-5">Chcemy naświetlić problemy związane z wynagrodzeniem, przeciążeniem pracą, dyskryminacją i niekompetentnym zarządzaniem biur projektowych.</p>
-						<p class="lg:text-2xl my-5"> Zebrane informacje staną się cennym źródłem wiedzy, która pomoże Tobie oraz innym architektom podejmować bardziej świadome decyzje podczas aplikowania do biur architektonicznych.</p>
-						<p class="lg:text-2xl my-5">Wszystkie recenzje będą dostępne wkrótce, na portalu <b>ciezar-architektury.pl.</b></p>`
-			},
-			1: {
-				heading: 'Dane pracowni architektonicznej',
-				body: `Ankieta dotyczy konkretnej pracowni dla której pracowałeś/łaś jako architekt lub projektant.`
-			},
-			2: {
-				heading: 'Czerwone flagi',
-				body: `<p class="lg:text-2xl my-5">Zaznacz czerwone flagi (red flags)  napotkane podczas pracy w <b>${data.office?.officeName}</b>. Czerwone flagi to problemy z jakimi spotykasz się w biurze architektonicznym, ale o których niekoniecznie wiesz przed podjęciem pracy.</p>`
-			},
-			3: {
-				heading: `Twoja opinia o pracowni - ${data.office?.officeName}`,
-				body: `<p class="lg:text-2xl my-5">Opowiedz jake były Twoje doświadczenia podczas pracy w ${data.office?.officeName}.</p>`
-			},
-			4: {
-				heading: 'O Tobie',
-				body: ''
-			}
-		};
-
-		return headersInOrderOfSteps[step];
+	function onSubmitError(err: ActionErrorResult) {
+		formServerErrorMsg = err.error.message;
 	}
-	$: headingInfo = getHeaderForCurrentStep(currentStep, data.survey.data);
+
+	function onSubmitSuccess(v: SurveyForm) {
+		data = v;
+	}
 </script>
 
 <div class="app-section__narrow">
 	{#if !formServerErrorMsg}
-		{#if headingInfo}
-			<h1 class="text-4xl font-bold my-10">{headingInfo.heading}</h1>
-			<div>{@html headingInfo.body}</div>
+		{#if data.currentStep === 0}
+			<SurveyAboutSurveyPage
+				{onSubmitSuccess}
+				{onSubmitError}
+				currentStep={data.currentStep}
+			/>
+		{:else if data.currentStep === 1}
+			<SurveyOfficePage
+				{onSubmitSuccess}
+				{onSubmitError}
+				currentStep={data.currentStep}
+				initialCityName={data.data.office?.city || ''}
+				initialOfficeName={data.data.office?.officeName || ''}
+			/>
+		{:else if data.currentStep === 2}
+			<SurveyRedFlagsPage
+				{onSubmitSuccess}
+				{onSubmitError}
+				currentStep={data.currentStep}
+				initialFlags={data.data.flags}
+				officeName={data.data.office?.officeName || ''}
+			/>
+		{:else if data.currentStep === 3}
+			<SurveyStoryPage
+				{onSubmitSuccess}
+				{onSubmitError}
+				currentStep={data.currentStep}
+				officeName={data.data.office?.officeName || ''}
+				initialStory={data.data?.story?.body || ''}
+				initialTitle={data.data?.story?.title || ''}
+			/>
+		{:else if data.currentStep === 4}
+			<SurveyUserProfilePage
+				{onSubmitSuccess}
+				{onSubmitError}
+				currentStep={data.currentStep}
+				initialData={data.data.profile}
+			/>
 		{/if}
-
-		<SurveyFormWrapper
-			onFormServerError={(msg) => {
-				formServerErrorMsg = msg;
-			}}
-			{currentStep}
-			bind:data={data.survey.data}
-		/>
-	{:else}
-		<h1 class="text-4xl font-bold my-10">
-			{#if [ServerErrorName.MISSING_OR_INVALID_ANONYMOUS_SESSION_COOKIE, ServerErrorName.MISSING_OR_INVALID_SURVEY_COOKIE].includes(formServerErrorMsg)}
-				Sesja wygasła.
-			{:else}
-				Ups! Coś poszło nie tak.
-			{/if}
-		</h1>
-		<p class="my-10">Kliknij przycisk poniżej aby rozpocząć ponownie.</p>
+	{:else if formServerErrorMsg === ServerErrorName.BAD_INPUT}
+		<h1 class="text-4xl font-bold my-10">Nieprawidłowa wartość.</h1>
+		<p class="my-10">Spróbuj ponownie.</p>
 		<div class="flex justify-center lg:justify-start">
 			<Button
 				onClick={() => {
+					window.location.reload();
+				}}
+			>
+				Odśwież
+			</Button>
+		</div>
+	{:else}
+		<h1 class="text-4xl font-bold my-10">Ups! Coś poszło nie tak :(</h1>
+		<p class="my-10">Kliknij przycisk poniżej aby rozpocząć ponownie.</p>
+		<div class="flex justify-center lg:justify-start">
+			<Button
+				onClick={async () => {
+					try {
+						await fetchClearAnonymousSessionCookie();
+					} catch (err) {
+						console.error(err);
+					}
+					try {
+						await fetchClearSurveyCookie();
+					} catch (err) {
+						console.error(err);
+					}
 					window.location.reload();
 				}}
 			>
