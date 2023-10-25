@@ -121,7 +121,7 @@ async function expectAnonymousSessionCookiePayload(
 	return sessionCookie;
 }
 
-const LAST_STEP_INDEX = 5;
+const LAST_STEP_INDEX = 12;
 
 async function expectSurveyCookiePayload(
 	cookies: Cookies

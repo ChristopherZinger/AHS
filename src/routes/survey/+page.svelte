@@ -46,7 +46,7 @@
 				initialCityName={data.data.office?.city || ''}
 				initialOfficeName={data.data.office?.officeName || ''}
 			/>
-		{:else if data.currentStep === 2}
+		{:else if data.currentStep > 1 && data.currentStep < 10}
 			<SurveyRedFlagsPage
 				{onSubmitSuccess}
 				{onSubmitError}
@@ -54,7 +54,7 @@
 				initialFlags={data.data.flags}
 				officeName={data.data.office?.officeName || ''}
 			/>
-		{:else if data.currentStep === 3}
+		{:else if data.currentStep === 10}
 			<SurveyStoryPage
 				{onSubmitSuccess}
 				{onSubmitError}
@@ -63,7 +63,7 @@
 				initialStory={data.data?.story?.body || ''}
 				initialTitle={data.data?.story?.title || ''}
 			/>
-		{:else if data.currentStep === 4}
+		{:else if data.currentStep === 11}
 			<SurveyUserProfilePage
 				{onSubmitSuccess}
 				{onSubmitError}

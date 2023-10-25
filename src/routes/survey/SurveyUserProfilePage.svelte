@@ -10,8 +10,6 @@
 	export let currentStep: number;
 	export let initialData: SurveyData['profile'] | undefined;
 	export let onSubmitError: (e: ActionErrorResult) => void;
-
-	let isLoading = false;
 </script>
 
 <h1 class="text-4xl font-bold my-10">O Tobie</h1>

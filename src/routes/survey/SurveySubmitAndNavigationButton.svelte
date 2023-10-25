@@ -12,10 +12,17 @@
 
 	const stepToButtonText: Record<number, string> = {
 		0: 'Start',
-		1: 'Dalej', // office info
-		2: 'Dalej', // red flags
-		3: 'Dalej', // story
-		4: 'Zapisz' // profile
+		1: 'Dalej',
+		2: 'Dalej',
+		3: 'Dalej',
+		4: 'Dalej',
+		5: 'Dalej',
+		6: 'Dalej',
+		7: 'Dalej',
+		8: 'Dalej',
+		9: 'Dalej',
+		10: 'Dalej',
+		11: 'Zapisz'
 	};
 
 	$: _isDisabled = isLoading || isDisabled;
