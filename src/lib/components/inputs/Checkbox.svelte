@@ -5,11 +5,7 @@
 	export let onChange: (v: boolean) => void = () => {};
 </script>
 
-<div
-	class:bg-red-400={value}
-	class:text-white={value}
-	class="rounded p-1 duration-75 "
->
+<div>
 	<label
 		for={name}
 		class="flex gap-2  cursor-pointer"
