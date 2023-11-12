@@ -2,11 +2,6 @@
 	import './styles.css';
 	import TopNav from '$lib/components/nav/TopNav.svelte';
 	import MobileSideNav from '$lib/components/nav/MobileSideNav.svelte';
-	import { appUser, type AppUser } from '$lib/stores/auth';
-
-	export let data: { user: null | AppUser };
-
-	appUser.set(data.user);
 
 	$: isMobileMenuOpen = false;
 	const setIsMobileMenuOpen = (v: boolean) => {
