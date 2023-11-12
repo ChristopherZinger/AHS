@@ -4,8 +4,7 @@
 	import CommentForm from './CommentForm.svelte';
 	import { appUser } from '$lib/stores/auth';
 	import OfficePageTitle from '$lib/components/OfficePageTitle.svelte';
-	// import { redFlagToLabel } from '$lib/utils/redFlagUtils';
-	import type { RedFlag } from '@prisma/client';
+	import type { AppRedFlag } from '$lib/utils/dbEnums';
 
 	export let data: {
 		office: {
@@ -16,7 +15,7 @@
 				countryAlpha2: string;
 			};
 			redFlagCounters: {
-				redFlagName: RedFlag;
+				redFlagName: AppRedFlag;
 				counter: number;
 			}[];
 		};
