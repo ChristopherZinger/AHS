@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/prisma';
-import { RedFlag } from '@prisma/client';
+import { AppRedFlag } from '$lib/utils/dbEnums.js';
 import { error, redirect } from '@sveltejs/kit';
 import lodash from 'lodash';
 import { z } from 'zod';
@@ -7,7 +7,7 @@ import { z } from 'zod';
 const { uniq } = lodash;
 
 /** @type {import('./$types').PageServerLoad} */
-export const load: PageServerLoad = async ({ params }) => {
+export const load = async ({ params }) => {
 	throw redirect(307, '/survey');
 	const { slug } = params;
 
@@ -55,11 +55,11 @@ export const actions = {
 
 		const officeSlug = params.slug;
 
-		const isRedFlag = (flag: unknown): flag is RedFlag => {
-			return Object.values(RedFlag).includes(flag as any);
+		const isRedFlag = (flag: unknown): flag is AppRedFlag => {
+			return Object.values(AppRedFlag).includes(flag as any);
 		};
 
-		const flags: RedFlag[] = [];
+		const flags: AppRedFlag[] = [];
 		const data = await request.formData();
 		data.forEach((_, flag) => {
 			if (isRedFlag(flag)) {

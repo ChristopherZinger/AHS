@@ -24,7 +24,7 @@ import {
 } from '../../lib/utils/surveyTypes.js';
 import { ServerErrorName } from '$lib/utils/appError.js';
 import { prisma } from '$lib/server/prisma.js';
-import { APP_RED_FLAG } from '$lib/utils/dbEnums.js';
+import { AppRedFlag } from '$lib/utils/dbEnums.js';
 
 export async function load({ cookies }): Promise<SurveyForm> {
 	try {
@@ -303,7 +303,7 @@ export const actions = {
 
 			const rawForm = await request.formData();
 			const flagsToBoolean: Record<string, boolean> = {};
-			Object.values(APP_RED_FLAG).forEach((flagKey) => {
+			Object.values(AppRedFlag).forEach((flagKey) => {
 				const flagValue = z
 					.literal('on')
 					.safeParse(rawForm.get(flagKey)).success;
