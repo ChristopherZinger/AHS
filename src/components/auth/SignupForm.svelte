@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getHomeUrl, getLoginUrl } from '$lib/utils/appUrls';
+	import { getLoginUrl } from '$lib/utils/appUrls';
 	import Button from '$lib/components/shared/Button.svelte';
 	import InputText from '$lib/components/shared/InputText.svelte';
 	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
@@ -7,9 +7,8 @@
 	import InputErrors from '$lib/components/inputs/InputErrors.svelte';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
-	import { goto } from '$app/navigation';
-	import { enhance } from '$app/forms';
-	import { appUser } from '$lib/stores/auth';
+	import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+	import { fetchCreateAppUser } from '../../routes/api/user/fetchCreateAppUser';
 
 	type SignupFormData = {
 		email: string;
@@ -17,8 +16,6 @@
 		passwordRepeat: string;
 	};
 
-	// ! this is only for stupid labels to jump up
-	// TODO remove jumping label thing all together later
 	const values: SignupFormData = {
 		email: '',
 		password: '',
@@ -40,67 +37,41 @@
 	const setUnknownError = () =>
 		(inputErrors.email = ['Oops! something went wrong, try again later']);
 
-	async function beforeSubmit(
-		formData: {
-			email: unknown;
-			password: unknown;
-			passwordRepeat: unknown;
-		},
-		cancelSubmission: () => void
-	) {
+	async function beforeSubmit(formData: {
+		email: unknown;
+		password: unknown;
+		passwordRepeat: unknown;
+	}) {
 		inputErrors = {};
-		isLoading = true;
 		try {
 			await validate(formData, schema);
 		} catch (err) {
 			err instanceof yup.ValidationError
 				? (inputErrors = <typeof inputErrors>parseValidationError(err))
 				: setUnknownError();
+		}
+	}
 
-			cancelSubmission();
+	async function onSubmit() {
+		isLoading = true;
+		await beforeSubmit(values);
+		try {
+			const { user } = await createUserWithEmailAndPassword(
+				getAuth(),
+				values.email,
+				values.password
+			);
+			await fetchCreateAppUser(user.uid);
+		} catch (error) {
+			setUnknownError();
+			console.error(error);
+		} finally {
 			isLoading = false;
 		}
 	}
 </script>
 
-<form
-	method="POST"
-	class="flex flex-col gap-y-12"
-	action="?/signup"
-	use:enhance={async ({ data, cancel }) => {
-		const email = data.get('email');
-		const password = data.get('password');
-		const passwordRepeat = data.get('repeat-password');
-
-		await beforeSubmit(
-			{
-				email,
-				password,
-				passwordRepeat
-			},
-			cancel
-		);
-
-		return async ({ result }) => {
-			isLoading = false;
-
-			if (
-				result.type === 'success' &&
-				result.data &&
-				result.data.user !== null
-			) {
-				appUser.set({
-					email: result.data.user.email,
-					id: result.data.id,
-					role: result.data.role
-				});
-				goto(getHomeUrl());
-			} else {
-				setUnknownError();
-			}
-		};
-	}}
->
+<div class="flex flex-col gap-y-12">
 	<JumpingLabel label="*Email" forHTML="email">
 		<InputText
 			type={'text'}
@@ -143,7 +114,7 @@
 	<div class="flex justify-center mt-8">
 		<div>
 			<Button
-				type="submit"
+				onClick={onSubmit}
 				{isLoading}
 				disabled={isLoading ||
 					!!Object.values(inputErrors).some((arr) => arr.length)}
@@ -156,4 +127,4 @@
 			</div>
 		</div>
 	</div>
-</form>
+</div>
