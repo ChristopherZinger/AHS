@@ -24,6 +24,7 @@ services:
       - 'JWT_HASH=${JWT_HASH}'
       - 'DATABASE_URL=${DATABASE_URL}'
       - 'ORIGIN=${ORIGIN}'
+      - 'GOOGLE_APPLICATION_CREDENTIALS'=${GOOGLE_APPLICATION_CREDENTIALS}
 
 volumes:
   ahs-db-data-staging:
