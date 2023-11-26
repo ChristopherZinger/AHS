@@ -48,9 +48,7 @@ model Subscriber {
 
 model User {
   id                  String        @id @default(uuid())
-  email               String        @unique
-  hashedPassword      String
-  role                USER_ROLE     
+  firestoreAuthUid    String        @unique
   profile Profile?
 }
 
