@@ -1,10 +1,8 @@
-import type { USER_ROLE } from '@prisma/client';
 import { writable } from 'svelte/store';
 
 export type AppUser = {
-	email: string;
-	id: string;
-	role: USER_ROLE;
+	email: string | null;
+	firebaseUserUid: string;
 };
 
 const _appUser = writable<AppUser | null | undefined>(undefined);

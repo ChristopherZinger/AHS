@@ -6,22 +6,34 @@
 	import {
 		initializeAuth,
 		getAuth,
-		onAuthStateChanged
+		onIdTokenChanged,
+		browserLocalPersistence
 	} from 'firebase/auth';
 	import { onMount } from 'svelte';
 	import { initializeApp } from 'firebase/app';
-	import * as fbConfig from '../../firebase.config.json';
+	import fbConfig from '../../firebase.config.json';
+	import { FIREBASE_AUTH_COOKIE_NAME } from '$lib/utils/firebase-utils';
 
 	onMount(() => {
 		const app = initializeApp(fbConfig);
-		initializeAuth(app);
+		initializeAuth(app, {
+			persistence: browserLocalPersistence
+		});
+		const auth = getAuth();
 
-		onAuthStateChanged(getAuth(), (u) => {
+		onIdTokenChanged(auth, async (user) => {
+			const idToken = await user?.getIdToken();
+			document.cookie = idToken
+				? `${FIREBASE_AUTH_COOKIE_NAME}=${idToken}; path=/; secure;`
+				: `${FIREBASE_AUTH_COOKIE_NAME}=; path=/; secure; expires=${new Date(
+						'1-1-2000'
+				  ).toUTCString()}`;
+
 			appUser.set(
-				u
+				user
 					? {
-							email: u.email,
-							id: u.uid
+							email: user.email,
+							firebaseUserUid: user.uid
 					  }
 					: null
 			);
@@ -37,14 +49,10 @@
 <div class="app">
 	<main>
 		<header class="mx-3">
-			<!-- <TopNav
-				onNavBtnClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-				{isMobileMenuOpen}
-			/> -->
 			<TopNav />
 		</header>
 
-		<MobileSideNav isOpen={isMobileMenuOpen} {setIsMobileMenuOpen} />
+		<!-- <MobileSideNav isOpen={isMobileMenuOpen} {setIsMobileMenuOpen} /> -->
 
 		<div class="mx-3">
 			<slot />
