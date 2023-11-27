@@ -1,6 +1,7 @@
 <script lang="ts">
 	import NavLogo from './NavLogo.svelte';
 	import { getHomeUrl } from '$lib/utils/appUrls';
+	import TopNavLeftSide from './TopNavLeftSide.svelte';
 
 	// export let onNavBtnClick: () => void;
 	// export let isMobileMenuOpen: boolean;
@@ -11,7 +12,7 @@
 		<li><a href={getHomeUrl()}><NavLogo /></a></li>
 	</ul>
 
-	<!-- <TopNavLeftSide /> -->
+	<TopNavLeftSide />
 
 	<!-- phone main menu button -->
 	<!-- <ul class="lg:hidden cursor-pointer">
