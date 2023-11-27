@@ -3,7 +3,6 @@ import { getApps } from 'firebase-admin/app';
 import admin from 'firebase-admin';
 
 export function getFirebaseAdmin() {
-	console.log(getApps().length, getApps());
 	if (!getApps().length) {
 		initializeApp();
 	}

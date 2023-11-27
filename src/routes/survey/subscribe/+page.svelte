@@ -29,7 +29,6 @@
 				if (result.type === 'success') {
 					goto('/survey/thanks');
 				} else if (result.type === 'error') {
-					console.log(result.error);
 					if (result.error.message === ServerErrorName.BAD_INPUT) {
 						errors = ['Niepoprawny email.'];
 					} else {
