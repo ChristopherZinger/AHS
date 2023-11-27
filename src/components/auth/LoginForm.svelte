@@ -5,93 +5,59 @@
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
 	import InputErrors from '$lib/components/inputs/InputErrors.svelte';
-	import { goto } from '$app/navigation';
 	import { getHomeUrl, getResetPasswordUrl } from '$lib/utils/appUrls';
 	import Button from '$lib/components/shared/Button.svelte';
-	import { enhance } from '$app/forms';
-	import { appUser } from '$lib/stores/auth';
+	import { getAuth, signInWithEmailAndPassword } from '@firebase/auth';
+	import { goto } from '$app/navigation';
 
-	// ! this is just for jumping labels and should be removed
 	const values = {
 		email: '',
 		password: ''
 	};
-	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
-	let isLoading = false;
-
 	const schema = yup.object({
 		email: yup.string().email().required(),
 		password: yup.string().min(MIN_PASSWORD_LENGTH).required()
 	});
 
-	const setUnknownError = () =>
-		(inputErrors.email = ['Oops! something went wrong, try again later']);
+	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
+	let isLoading = false;
 
-	async function beforeSubmit(
-		data: {
-			email: unknown;
-			password: unknown;
-		},
-		cancelSubmission: () => void
-	) {
+	function setUnknownError() {
+		inputErrors.email = ['Oops! something went wrong, try again later'];
+	}
+
+	async function beforeSubmit(data: {
+		email: unknown;
+		password: unknown;
+	}) {
 		inputErrors = {};
-		isLoading = true;
-		try {
-			await validate(data, schema);
-		} catch (err) {
+		await validate(data, schema).catch((err) => {
 			err instanceof yup.ValidationError
 				? (inputErrors = parseValidationError(err))
 				: setUnknownError();
-			isLoading = false;
-			cancelSubmission();
+		});
+	}
+
+	function onSubmit() {
+		beforeSubmit(values);
+		if (Object.values(inputErrors).length) {
+			return;
 		}
+		isLoading = true;
+		signInWithEmailAndPassword(getAuth(), values.email, values.password)
+			.then(() => {
+				goto(getHomeUrl());
+			})
+			.catch(() => {
+				setUnknownError();
+			})
+			.finally(() => {
+				isLoading = false;
+			});
 	}
 </script>
 
-<form
-	class="flex flex-col gap-y-12"
-	method="POST"
-	action="?/login"
-	use:enhance={async ({ data, cancel }) => {
-		const email = data.get('email');
-		const password = data.get('password');
-
-		await beforeSubmit(
-			{
-				email,
-				password
-			},
-			cancel
-		);
-
-		return async ({ result }) => {
-			isLoading = false;
-			if (
-				result.type === 'success' &&
-				result.data &&
-				result.data.user.email === 'string'
-			) {
-				appUser.set({
-					email: result.data.user.email,
-					id: result.data.id,
-					role: result.data.role
-				});
-				goto(getHomeUrl());
-			} else if (result.type === 'error') {
-				if (
-					['wrong_password', 'no_user_with_this_email'].includes(
-						result.error.message
-					)
-				) {
-					inputErrors.password = ['wrong password or email'];
-					inputErrors.email = ['wrong password or email'];
-				} else {
-					setUnknownError();
-				}
-			}
-		};
-	}}
->
+<div class="flex flex-col gap-y-12">
 	<JumpingLabel label="*Email" forHTML="email">
 		<InputText
 			type={'text'}
@@ -121,7 +87,7 @@
 	<div class="flex justify-center mt-8">
 		<div>
 			<Button
-				type="submit"
+				onClick={onSubmit}
 				{isLoading}
 				disabled={isLoading ||
 					!!Object.values(inputErrors).some((arr) => arr.length)}
@@ -135,4 +101,4 @@
 			</div>
 		</div>
 	</div>
-</form>
+</div>
