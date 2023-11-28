@@ -19,11 +19,15 @@
 		password: yup.string().min(MIN_PASSWORD_LENGTH).required()
 	});
 
-	let inputErrors: Partial<Record<keyof typeof values, string[]>> = {};
+	let inputErrors: Partial<
+		Record<keyof typeof values, string[]> & { submitError: string[] }
+	> = {};
 	let isLoading = false;
 
 	function setUnknownError() {
-		inputErrors.email = ['Oops! something went wrong, try again later'];
+		inputErrors.submitError = [
+			'Oops! something went wrong, try again later'
+		];
 	}
 
 	async function beforeSubmit(data: {
@@ -31,29 +35,49 @@
 		password: unknown;
 	}) {
 		inputErrors = {};
-		await validate(data, schema).catch((err) => {
-			err instanceof yup.ValidationError
-				? (inputErrors = parseValidationError(err))
+		try {
+			await validate(data, schema);
+		} catch (error) {
+			error instanceof yup.ValidationError
+				? (inputErrors = parseValidationError(error))
 				: setUnknownError();
-		});
+		}
 	}
 
-	function onSubmit() {
+	async function onSubmit() {
 		beforeSubmit(values);
 		if (Object.values(inputErrors).length) {
 			return;
 		}
 		isLoading = true;
-		signInWithEmailAndPassword(getAuth(), values.email, values.password)
-			.then(() => {
-				goto(getHomeUrl());
-			})
-			.catch(() => {
-				setUnknownError();
-			})
-			.finally(() => {
-				isLoading = false;
-			});
+		try {
+			await signInWithEmailAndPassword(
+				getAuth(),
+				values.email,
+				values.password
+			);
+			goto(getHomeUrl());
+		} catch (e) {
+			switch ((e as unknown as any).code) {
+				case 'auth/wrong-password':
+					inputErrors.submitError = ['Wrong password.'];
+					break;
+				case 'auth/too-many-requests':
+					inputErrors.submitError = ['To many requests. Try again later.'];
+					break;
+				case 'auth/user-not-found':
+					inputErrors.submitError = [
+						'Password/Email combination not matching.'
+					];
+					break;
+
+				default:
+					setUnknownError();
+					break;
+			}
+		} finally {
+			isLoading = false;
+		}
 	}
 </script>
 
@@ -66,6 +90,7 @@
 			onChange={(v) => {
 				values.email = v;
 				inputErrors.email = [];
+				inputErrors.submitError = [];
 			}}
 		/>
 		<InputErrors msgs={inputErrors.email || []} />
@@ -79,10 +104,15 @@
 			onChange={(v) => {
 				values.password = v;
 				inputErrors.password = [];
+				inputErrors.submitError = [];
 			}}
 		/>
 		<InputErrors msgs={inputErrors.password || []} />
 	</JumpingLabel>
+
+	{#if inputErrors.submitError?.length}
+		<InputErrors msgs={inputErrors.submitError || []} />
+	{/if}
 
 	<div class="flex justify-center mt-8">
 		<div>
