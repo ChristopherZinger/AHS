@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InputText from '$lib/components/shared/InputText.svelte';
-	import JumpingLabel from '$lib/components/shared/JumpingLabel.svelte';
 	import * as yup from 'yup';
 	import { MIN_PASSWORD_LENGTH } from '$lib/constants';
 	import { parseValidationError, validate } from '$lib/utils/form-utils';
@@ -82,7 +81,8 @@
 </script>
 
 <div class="flex flex-col gap-y-12">
-	<JumpingLabel label="*Email" forHTML="email">
+	<div>
+		<label for="email">*Email</label>
 		<InputText
 			type={'text'}
 			name="email"
@@ -94,9 +94,10 @@
 			}}
 		/>
 		<InputErrors msgs={inputErrors.email || []} />
-	</JumpingLabel>
+	</div>
 
-	<JumpingLabel label="*Password" forHTML="password">
+	<div>
+		<label for="password">*Password</label>
 		<InputText
 			type={'password'}
 			name="password"
@@ -108,7 +109,7 @@
 			}}
 		/>
 		<InputErrors msgs={inputErrors.password || []} />
-	</JumpingLabel>
+	</div>
 
 	{#if inputErrors.submitError?.length}
 		<InputErrors msgs={inputErrors.submitError || []} />
