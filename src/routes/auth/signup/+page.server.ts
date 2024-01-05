@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
 export async function load() {
-	throw redirect(307, '/survey');
-			}
+	// TODO create backend config and check if signup is available
+	// throw redirect(307, '/survey');
+}
